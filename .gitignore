@@ -1,4 +1,4 @@
-_STORE
+.DS_STORE
 
 /dist/
 bazel-*
