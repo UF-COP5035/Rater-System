@@ -1,9 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MdButtonModule, MdCardModule, MdMenuModule, MdToolbarModule, MdIconModule,MdInputModule  } from '@angular/material';
+import { AppComponent } from './app.component';
+import { MdButtonModule, MdCardModule, MdMenuModule, MdToolbarModule, MdIconModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule, Routes }   from '@angular/router';
 
 // Import the Http Module and our Data Service
 import { HttpModule } from '@angular/http';
@@ -13,8 +12,9 @@ import { TeacherService } from './teacher-detail/teacher.service';
 import { AppComponent } from './app.component';
 
 const appRoutes: Routes = [
-  
-  { path: '',
+
+  {
+    path: '',
     redirectTo: '/',
     pathMatch: 'full'
   },
@@ -32,23 +32,20 @@ const appRoutes: Routes = [
     SurveyComponent
   ],
   imports: [
-      RouterModule.forRoot(
-        appRoutes,
-        { enableTracing: true } // <-- debugging purposes only
-      ),
+    RouterModule.forRoot(
+      appRoutes,
+      { enableTracing: true } // <-- debugging purposes only
+    ),
     BrowserModule,
-    HttpModule    ,          // <-Add HttpModule'
+    HttpModule,          // <-Add HttpModule'
     BrowserAnimationsModule, // <- Add Angular Animation
-    MdButtonModule,         // <- Add Angular Material 
+    MdButtonModule,         // <- Add Angular Material
     MdMenuModule,
     MdCardModule,
-    FormsModule,
     MdToolbarModule,
-    MdInputModule,
-    MdIconModule   
-
+    MdIconModule
   ],
-  providers: [DataService, TeacherService ], // <-Add DataService
+  providers: [DataService, TeacherService], // <-Add DataService
   bootstrap: [AppComponent]
 })
 export class AppModule { }
