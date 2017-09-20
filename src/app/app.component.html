@@ -1,24 +1,6 @@
 <!--The content below is only a placeholder and can be replaced.-->
+<h1>Our MongoDB is Working!</h1>
 
-<md-toolbar color="primary">
-  
-      
-      <span class="spacer"></span>
-      <button md-button [mdMenuTriggerFor]="appMenu"><md-icon>menu</md-icon> </button>
-      <span >Gator Rater</span>
-  </md-toolbar>
-  
-  <md-menu #appMenu="mdMenu">
-    <button md-menu-item> Help </button>
-    <button md-menu-item> Admin </button>
-  </md-menu>
-  <md-card>
-    
-          <md-card-title>
-              Welcome to Gator Rater 
-          </md-card-title>
-      <md-card-content>
-          <button md-icon-button>Forms</button>
-      </md-card-content>
-      
-  </md-card>
+<ul>
+  <li *ngFor="let user of users">{{ user.name }}</li>
+</ul>
