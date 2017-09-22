@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+<<<<<<< HEAD
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { Teacher } from '../teacher-detail/teacher';
 import { TeacherService } from '../teacher-detail/teacher.service';
+=======
+>>>>>>> Added student, teacher, and survey components
 
 @Component({
   selector: 'app-survey',
@@ -11,6 +14,7 @@ import { TeacherService } from '../teacher-detail/teacher.service';
   styleUrls: ['./survey.component.css']
 })
 export class SurveyComponent implements OnInit {
+<<<<<<< HEAD
 // Gathering Teacher information
 
 teachers: Teacher[] = [];
@@ -26,6 +30,12 @@ teachers: Teacher[] = [];
   }
   goBack(): void {
     this.location.back();
+=======
+
+  constructor() { }
+
+  ngOnInit() {
+>>>>>>> Added student, teacher, and survey components
   }
 
 }

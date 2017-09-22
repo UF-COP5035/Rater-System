@@ -1,35 +1,21 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { MdButtonModule, MdCardModule, MdMenuModule, MdToolbarModule, MdIconModule } from '@angular/material';
+import { FormsModule } from '@angular/forms';
+import { MdButtonModule, MdCardModule, MdMenuModule, MdToolbarModule, MdIconModule, MdInputModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Import the Http Module and our Data Service
 import { HttpModule } from '@angular/http';
 import { DataService } from './data.service';
 import { SurveyComponent } from './survey/survey.component';
-import { TeacherService } from './teacher-detail/teacher.service';
-import { AppComponent } from './app.component';
-
-const appRoutes: Routes = [
-
-  {
-    path: '',
-    redirectTo: '/',
-    pathMatch: 'full'
-  },
-  {
-    path: 'survey',
-    component: SurveyComponent,
-    data: { title: 'Survey' }
-  }
-];
-
+import { TeacherDetailComponent } from './teacher-detail/teacher-detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SurveyComponent
+    SurveyComponent,
+    TeacherDetailComponent
   ],
   imports: [
     RouterModule.forRoot(
@@ -42,10 +28,12 @@ const appRoutes: Routes = [
     MdButtonModule,         // <- Add Angular Material
     MdMenuModule,
     MdCardModule,
+    FormsModule,
     MdToolbarModule,
+    MdInputModule,
     MdIconModule
   ],
-  providers: [DataService, TeacherService], // <-Add DataService
+  providers: [DataService], // <-Add DataService
   bootstrap: [AppComponent]
 })
 export class AppModule { }
