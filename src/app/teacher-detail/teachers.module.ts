@@ -5,7 +5,7 @@ import { FormsModule }    from '@angular/forms';
 import { TeacherDetailComponent }  from './teacher-detail.component';
 
 import { TeacherRoutingModule } from './teacher-routing.module';
-import { TeacherComponentComponent } from './teacher-component/teacher-component.component';
+
 
 @NgModule({
   imports: [
@@ -15,10 +15,8 @@ import { TeacherComponentComponent } from './teacher-component/teacher-component
   ],
   declarations: [
 
-    TeacherDetailComponent,
-
-    TeacherComponentComponent
-  ],
+    TeacherDetailComponent
+ ],
  
 })
 export class TeachersModule {}
