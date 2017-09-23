@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { TeacherDetailComponent } from './teacher-detail.component';
 import { TeacherRoutingModule } from './teacher-routing.module';
 
-
+// Module for Teacher Component
 @NgModule({
   imports: [
     CommonModule,
