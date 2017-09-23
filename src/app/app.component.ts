@@ -12,6 +12,7 @@ const STUDENTS: Student[] = [
   { id: 13, firstName: 'Jim', lastName: 'Bob' },
 ];
 
+// Would like to continue to make this into the routing component
 
 @Component({
   selector: 'app-root',
@@ -24,9 +25,9 @@ export class AppComponent implements OnInit {
   selectedTeacher: Teacher;
  
  
-  constructor(private teacherService: TeacherService) { }
+  constructor(private teacherService: TeacherService) { } //Getting Teachers
  
-  getTeachers(): void {
+  getTeachers(): void { // 
     this.teacherService.getTeachers().then(teachers => this.teachers = teachers);
   }
  
