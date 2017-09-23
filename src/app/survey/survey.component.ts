@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./survey.component.css']
 })
 export class SurveyComponent implements OnInit {
-
+// Would like to put the survey form here
   constructor() { }
 
   ngOnInit() {
