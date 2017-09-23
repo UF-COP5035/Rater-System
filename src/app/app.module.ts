@@ -9,13 +9,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
 import { DataService } from './data.service';
 import { SurveyComponent } from './survey/survey.component';
-import { TeacherDetailComponent } from './teacher-detail/teacher-detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SurveyComponent,
-    TeacherDetailComponent
+    SurveyComponent
   ],
   imports: [
     RouterModule.forRoot(
