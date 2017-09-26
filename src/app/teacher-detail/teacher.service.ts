@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Teacher} from './teacher';
+import { Teacher } from './teacher';
 import { TEACHERS } from './mock-teachers';
 
 
