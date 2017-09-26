@@ -9,7 +9,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { DataService } from './data.service';
 import { SurveyComponent } from './survey/survey.component';
-import { TeacherDetailComponent } from './teacher-detail/teacher-detail.component';
 import { TeacherService } from './teacher-detail/teacher.service';
 import { AppComponent } from './app.component';
 
@@ -31,8 +30,7 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    SurveyComponent,
-    TeacherDetailComponent
+    SurveyComponent
   ],
   imports: [
     RouterModule.forRoot(
