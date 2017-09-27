@@ -4,8 +4,14 @@ const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require('mongodb').ObjectID;
 
 // Connect
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').load();
+}
+console.log(process.env);
+var mongo_connection = process.env.MONGODB_DEV_URI;
+console.log(mongo_connection);
 const connection = (closure) => {
-    return MongoClient.connect('mongodb://localhost:27017/mean', (err, db) => {
+    return MongoClient.connect(mongo_connection, (err, db) => {
         if (err) return console.log(err);
 
         closure(db);
