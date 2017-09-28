@@ -8,7 +8,7 @@ npm install && ng build
 node server
 ```
 ```
-# NOTE: For this to work, an file `.env` must be located in the root directory of the project.  This should be in the following format 
+# NOTE: For this to work, an file `.env` must be located in the root directory of the project.  The entry in this file should be in the following format: 
 
 MONGODB_DEV_URI=mongodb://<dbuser>:<dbpassword>@<dblocation><dbport>/<dbname>
 ```
