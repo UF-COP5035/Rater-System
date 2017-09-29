@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { MdFormFieldModule } from '@angular/material';
 import { Location } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Teacher } from '../teacher-detail/teacher';
 import { TeacherService } from '../teacher-detail/teacher.service';
@@ -11,18 +13,18 @@ import { TeacherService } from '../teacher-detail/teacher.service';
   styleUrls: ['./survey.component.css']
 })
 export class SurveyComponent implements OnInit {
-// Gathering Teacher information
+  // Gathering Teacher information
 
-teachers: Teacher[] = [];
+  teachers: Teacher[] = [];
 
   constructor(private teacherService: TeacherService,
-              private route: ActivatedRoute,
-              private location: Location
+    private route: ActivatedRoute,
+    private location: Location
   ) { }
 
   ngOnInit(): void {
     this.teacherService.getTeachers()
-    .then(teachers => this.teachers = teachers.slice(1,5));
+      .then(teachers => this.teachers = teachers.slice(1, 5));
   }
   goBack(): void {
     this.location.back();

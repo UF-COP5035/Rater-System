@@ -1,10 +1,11 @@
 import { Component, Input, OnInit, } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 // Import the DataService
 import { DataService } from './data.service';
 import { Student } from './student';
 import { Teacher } from './teacher-detail/teacher';
-import { TeacherService } from './teacher-detail/teacher.service'
+import { TeacherService } from './teacher-detail/teacher.service';
 
 
 // Would like to continue to make this into the routing component
@@ -20,7 +21,9 @@ export class AppComponent implements OnInit {
   selectedTeacher: Teacher;
 
 
-  constructor(private teacherService: TeacherService) { } //Getting Teachers
+  constructor(title: Title, private teacherService: TeacherService) {
+    title.setTitle('Gator Grader');
+  } // Getting Teachers
 
   getTeachers(): void { //
     this.teacherService.getTeachers().then(teachers => this.teachers = teachers);
