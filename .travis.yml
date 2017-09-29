@@ -1,8 +1,16 @@
 #.travis.yml
 
+dist: trusty
+sudo: false
+
 language: node_js
 node_js:
   - "6.9"
+
+
+cache:
+  directories:
+     - ./node_modules
 
 branches:
   only:
@@ -15,6 +23,10 @@ before_script:
 
 script:
   - ng build --prod
+  # Use Chromium instead of Chrome.
+  - export CHROME_BIN=chromium-browser
+  - xvfb-run -a npm run test -- --single-run --no-progress --browser=ChromeNoSandbox
+  - xvfb-run -a npm run e2e -- --no-progress --config=protractor-ci.conf.js
 
 after_success:
   # - firebase deploy --token $FIREBASE_TOKEN
