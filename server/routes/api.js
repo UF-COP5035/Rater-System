@@ -48,74 +48,84 @@ router.get('/users', (req, res) => {
     });
 });
 
+// Get Students
 router.get('/Students', (req, res) => {
-  connection((db) => {
-  db.collection('Students')
-    .find()
-    .toArray()
-    .then((users) => {
-    response.data = users;
-  res.json(response);
-})
-.catch((err) => {
-    sendError(err, res);
+    connection((db) => {
+        db.collection('Students')
+            .find()
+            .toArray()
+            .then((Students) => {
+                response.data = Students;
+                res.json(response);
+            })
+            .catch((err) => {
+                sendError(err, res);
+            });
+    });
 });
-});
-});
-router.get('/Reviews', (req, res) => {
-  connection((db) => {
-  db.collection('Reviews')
-    .find()
-    .toArray()
-    .then((users) => {
-    response.data = users;
-  res.json(response);
-})
-.catch((err) => {
-    sendError(err, res);
-});
-});
-});
-router.get('/Classes', (req, res) => {
-  connection((db) => {
-  db.collection('Classes')
-    .find()
-    .toArray()
-    .then((users) => {
-    response.data = users;
-  res.json(response);
-})
-.catch((err) => {
-    sendError(err, res);
-});
-});
-});
+
+// Get Teachers
 router.get('/Teachers', (req, res) => {
-  connection((db) => {
-  db.collection('Teachers')
-    .find()
-    .toArray()
-    .then((users) => {
-    response.data = users;
-  res.json(response);
-})
-.catch((err) => {
-    sendError(err, res);
+    connection((db) => {
+        db.collection('Teachers')
+            .find()
+            .toArray()
+            .then((Teachers) => {
+                response.data = Teachers;
+                res.json(response);
+            })
+            .catch((err) => {
+                sendError(err, res);
+            });
+    });
 });
+
+// Get Classes
+router.get('/Classes', (req, res) => {
+    connection((db) => {
+        db.collection('Classes')
+            .find()
+            .toArray()
+            .then((Classes) => {
+                response.data = Classes;
+                res.json(response);
+            })
+            .catch((err) => {
+                sendError(err, res);
+            });
+    });
 });
+
+// Get Reviews
+router.get('/Reviews', (req, res) => {
+    connection((db) => {
+        db.collection('Reviews')
+              .find()
+              .toArray()
+              .then((Reviews) => {
+                  response.data = Reviews;
+                  res.json(response);
+              })
+              .catch((err) => {
+                  sendError(err, res);
+              });
+    });
 });
-router.get('/Administors', (req, res) => {
-  connection((db) => {
-  db.collection('Administors')
-    .find()
-    .toArray()
-    .then((users) => {
-    response.data = users;
-  res.json(response);
-})
-.catch((err) => {
-    sendError(err, res);
+
+// Get Administrators
+router.get('/Administrators', (req, res) => {
+    connection((db) => {
+        db.collection('Administrators')
+              .find()
+              .toArray()
+              .then((Administrators) => {
+                  response.data = Administrators;
+                  res.json(response);
+              })
+              .catch((err) => {
+                  sendError(err, res);
+              });
+    });
 });
-});
-});
+
 module.exports = router;
