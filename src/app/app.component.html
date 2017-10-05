@@ -1,6 +1,38 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<h1>Our MongoDB is Working!</h1>
+<h1>Gator Grader</h1>
+<md-toolbar color="primary">
+  <span class="spacer"></span>
+  <button md-button [mdMenuTriggerFor]="appMenu"><md-icon>menu</md-icon> </button>
+  <span>Gator Grader</span>
+</md-toolbar>
 
-<ul>
-  <li *ngFor="let user of users">{{ user.name }}</li>
-</ul>
+<md-menu #appMenu="mdMenu">
+  <button md-menu-item> Help </button>
+  <button md-menu-item> Admin </button>
+</md-menu>
+<div class="Main-Card" layout-align="center ">
+  <md-card>
+
+    <md-card-title>
+      Welcome to Gator Grader
+    </md-card-title>
+    <md-card-subtitle>
+      The BEST way to have your voice heard!
+    </md-card-subtitle>
+
+    <md-card-content>
+      <nav>
+
+        <a md-raised-button color="primary" routerLink="/survey" routerLinkActive="active">Grade Your Teacher</a>
+      </nav>
+
+      <router-outlet></router-outlet>
+
+
+
+
+
+    </md-card-content>
+
+  </md-card>
+</div>
