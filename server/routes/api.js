@@ -68,7 +68,7 @@ router.get('/Students', (req, res) => {
 router.get('/Students/:id', (req, res) => {
     connection((db) => {
         db.collection('Students')
-              .find({"username":req.params.id})
+              .find({"_id":ObjectID(req.params.id)})
               .toArray()
               .then((StudentsID) => {
                     response.data = StudentsID;
@@ -100,7 +100,7 @@ router.get('/Teachers', (req, res) => {
 router.get('/Teachers/:id', (req, res) => {
     connection((db) => {
         db.collection('Teachers')
-              .find({"username":req.params.id})
+              .find({"_id":ObjectID(req.params.id)})
               .toArray()
               .then((TeachersID) => {
                   response.data = TeachersID;
@@ -133,7 +133,7 @@ router.get('/Classes', (req, res) => {
 router.get('/Classes/:id', (req, res) => {
     connection((db) => {
         db.collection('Classes')
-              .find({"coursename":req.params.id})
+              .find({"_id":ObjectID(req.params.id)})
               .toArray()
               .then((ClassesID) => {
                   response.data = ClassesID;
@@ -166,7 +166,7 @@ router.get('/Reviews', (req, res) => {
 router.get('/Reviews/:id', (req, res) => {
     connection((db) => {
         db.collection('Reviews')
-              .find({"coursename":req.params.id})
+              .find({"_id":ObjectID(req.params.id)})
               .toArray()
               .then((ReviewsID) => {
                   response.data = ReviewsID;
@@ -199,7 +199,7 @@ router.get('/Administrators', (req, res) => {
 router.get('/Administrators/:id', (req, res) => {
     connection((db) => {
         db.collection('Administrators')
-            .find({"username":req.params.id})
+            .find({"_id":ObjectID(req.params.id)})
             .toArray()
             .then((AdministratorsID) => {
                 response.data = AdministratorsID;
