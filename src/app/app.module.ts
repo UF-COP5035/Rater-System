@@ -11,26 +11,38 @@ import { DataService } from './data.service';
 import { SurveyComponent } from './survey/survey.component';
 import { TeacherService } from './teacher-detail/teacher.service';
 import { AppComponent } from './app.component';
+import { StudentDashboardComponent } from './student-dashboard/student-dashboard.component';
+import { TeacherDashboardComponent } from './teacher-dashboard/teacher-dashboard.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { LoginComponent } from './login/login.component';
 
 const appRoutes: Routes = [
-
-  {
-    path: '',
-    redirectTo: '/',
-    pathMatch: 'full'
-  },
+  { path: 'student-dashboard', component: StudentDashboardComponent},
+  { path: 'teacher-dashboard', component: TeacherDashboardComponent},
+  { path: 'admin-dashboard', component: AdminDashboardComponent}, 
   {
     path: 'survey',
     component: SurveyComponent,
     data: { title: 'Survey' }
+  },
+  { path: 'login', component: LoginComponent},
+  {
+    path: '',
+    redirectTo: '/',
+    pathMatch: 'full'
   }
+ 
 ];
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    SurveyComponent
+    SurveyComponent,
+    StudentDashboardComponent,
+    TeacherDashboardComponent,
+    AdminDashboardComponent,
+    LoginComponent
   ],
   imports: [
     RouterModule.forRoot(
