@@ -7,42 +7,45 @@ import { RouterModule, Routes } from '@angular/router';
 
 // Import the Http Module and our Data Service
 import { HttpModule } from '@angular/http';
-import { DataService } from './data.service';
-import { SurveyComponent } from './survey/survey.component';
-import { TeacherService } from './teacher-detail/teacher.service';
 import { AppComponent } from './app.component';
 import { StudentDashboardComponent } from './student-dashboard/student-dashboard.component';
 import { TeacherDashboardComponent } from './teacher-dashboard/teacher-dashboard.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { LoginComponent } from './login/login.component';
+import { ReviewComponent } from './review/review.component';
+import { ReviewService } from './review/review.service';
+import { CourseService } from './course/course.service';
+import { StudentService } from './student/student.service';
+import { TeacherService } from './teacher/teacher.service';
+import { AdministratorService } from './administrator/administrator.service';
 
 const appRoutes: Routes = [
-  { path: 'student-dashboard', component: StudentDashboardComponent},
-  { path: 'teacher-dashboard', component: TeacherDashboardComponent},
-  { path: 'admin-dashboard', component: AdminDashboardComponent}, 
+  { path: 'student-dashboard', component: StudentDashboardComponent },
+  { path: 'teacher-dashboard', component: TeacherDashboardComponent },
+  { path: 'admin-dashboard', component: AdminDashboardComponent },
   {
-    path: 'survey',
-    component: SurveyComponent,
-    data: { title: 'Survey' }
+    path: 'review',
+    component: ReviewComponent,
+    data: { title: 'Review' }
   },
-  { path: 'login', component: LoginComponent},
+  { path: 'login', component: LoginComponent },
   {
     path: '',
     redirectTo: '/',
     pathMatch: 'full'
   }
- 
+
 ];
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    SurveyComponent,
     StudentDashboardComponent,
     TeacherDashboardComponent,
     AdminDashboardComponent,
-    LoginComponent
+    LoginComponent,
+    ReviewComponent
   ],
   imports: [
     RouterModule.forRoot(
@@ -61,7 +64,13 @@ const appRoutes: Routes = [
     MdIconModule
 
   ],
-  providers: [DataService, TeacherService], // <-Add DataService
+  providers: [
+    ReviewService,
+    CourseService,
+    StudentService,
+    TeacherService,
+    AdministratorService
+  ], // <-Add Services
   bootstrap: [AppComponent]
 })
 export class AppModule { }
