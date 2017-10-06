@@ -64,6 +64,22 @@ router.get('/Students', (req, res) => {
     });
 });
 
+// Get Students ID
+router.get('/Students/:id', (req, res) => {
+    connection((db) => {
+        db.collection('Students')
+              .find({"_id":ObjectID(req.params.id)})
+              .toArray()
+              .then((StudentsID) => {
+                    response.data = StudentsID;
+                    res.json(response);
+              })
+        .catch((err) => {
+              sendError(err, res);
+              });
+    });
+});
+
 // Get Teachers
 router.get('/Teachers', (req, res) => {
     connection((db) => {
@@ -79,6 +95,23 @@ router.get('/Teachers', (req, res) => {
             });
     });
 });
+
+// Get Teachers ID
+router.get('/Teachers/:id', (req, res) => {
+    connection((db) => {
+        db.collection('Teachers')
+              .find({"_id":ObjectID(req.params.id)})
+              .toArray()
+              .then((TeachersID) => {
+                  response.data = TeachersID;
+                  res.json(response);
+              })
+              .catch((err) => {
+                  sendError(err, res);
+              });
+    });
+});
+
 
 // Get Classes
 router.get('/Classes', (req, res) => {
@@ -96,6 +129,23 @@ router.get('/Classes', (req, res) => {
     });
 });
 
+// Get ClassesID
+router.get('/Classes/:id', (req, res) => {
+    connection((db) => {
+        db.collection('Classes')
+              .find({"_id":ObjectID(req.params.id)})
+              .toArray()
+              .then((ClassesID) => {
+                  response.data = ClassesID;
+                  res.json(response);
+              })
+              .catch((err) => {
+                  sendError(err, res);
+              });
+    });
+});
+
+
 // Get Reviews
 router.get('/Reviews', (req, res) => {
     connection((db) => {
@@ -112,6 +162,23 @@ router.get('/Reviews', (req, res) => {
     });
 });
 
+// Get ReviewsID
+router.get('/Reviews/:id', (req, res) => {
+    connection((db) => {
+        db.collection('Reviews')
+              .find({"_id":ObjectID(req.params.id)})
+              .toArray()
+              .then((ReviewsID) => {
+                  response.data = ReviewsID;
+                  res.json(response);
+              })
+              .catch((err) => {
+                  sendError(err, res);
+              });
+    });
+});
+
+
 // Get Administrators
 router.get('/Administrators', (req, res) => {
     connection((db) => {
@@ -127,5 +194,23 @@ router.get('/Administrators', (req, res) => {
               });
     });
 });
+
+// Get AdministratorsID
+router.get('/Administrators/:id', (req, res) => {
+    connection((db) => {
+        db.collection('Administrators')
+            .find({"_id":ObjectID(req.params.id)})
+            .toArray()
+            .then((AdministratorsID) => {
+                response.data = AdministratorsID;
+                res.json(response);
+            })
+            .catch((err) => {
+                sendError(err, res);
+            });
+    });
+});
+
+
 
 module.exports = router;
