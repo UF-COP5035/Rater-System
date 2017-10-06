@@ -3,7 +3,7 @@
     max-width: 500px;
     width: 100%;
   }
-  
+
   .example-full-width {
     width: 100%;
   }
@@ -12,11 +12,11 @@
     display: inline-flex;
     flex-direction: column;
   }
-  
+
   .example-radio-button {
     margin: 5px;
   }
-  
+
   .example-selected-value {
     margin: 15px 0;
   }
