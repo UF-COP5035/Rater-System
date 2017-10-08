@@ -6,9 +6,9 @@ import { CourseService } from './course.service';
 import { Course } from './course';
 
 export const COURSES: Course[] = [
-  { _id: 1, courseName: "AAA1234", student_ids: [1, 2, 3], teacher_id: 1 },
-  { _id: 2, courseName: "BBB5678", student_ids: [1, 2, 3], teacher_id: 2 },
-  { _id: 3, courseName: "CCC0910", student_ids: [1, 2, 3], teacher_id: 3 },
+  { _id: 1, courseCode: 'AAA1234', courseName: 'Test Course1' },
+  { _id: 2, courseCode: 'BBB5678', courseName: 'Test Course2' },
+  { _id: 3, courseCode: 'CCC0910', courseName: 'Test Course3' },
 ];
 
 let mock_response_type;

@@ -97,14 +97,14 @@ router.get('/Teachers/:id', (req, res) => {
 });
 
 
-// Get Classes
-router.get('/Classes', (req, res) => {
+// Get Courses
+router.get('/Courses', (req, res) => {
     connection((db) => {
-        db.collection('Classes')
+        db.collection('Courses')
             .find()
             .toArray()
-            .then((Classes) => {
-                response.data = Classes;
+            .then((Courses) => {
+                response.data = Courses;
                 res.json(response);
             })
             .catch((err) => {
@@ -113,14 +113,14 @@ router.get('/Classes', (req, res) => {
     });
 });
 
-// Get ClassesID
-router.get('/Classes/:id', (req, res) => {
+// Get CoursesID
+router.get('/Courses/:id', (req, res) => {
     connection((db) => {
-        db.collection('Classes')
+        db.collection('Courses')
             .find({ "_id": ObjectID(req.params.id) })
             .toArray()
-            .then((ClassesID) => {
-                response.data = ClassesID;
+            .then((CoursesID) => {
+                response.data = CoursesID;
                 res.json(response);
             })
             .catch((err) => {
