@@ -6,11 +6,11 @@ import { TeacherService } from './teacher.service';
 import { Teacher } from './teacher';
 
 export const TEACHERS: Teacher[] = [
-  { _id: 1, username: 'testuser1', course_ids: [1, 2, 3], review_ids: [1, 2, 3], student_ids: [1, 2, 3] },
-  { _id: 2, username: 'testuser2', course_ids: [6, 4, 15], review_ids: [4, 5, 6], student_ids: [1, 2, 3] },
-  { _id: 3, username: 'testuser3', course_ids: [5, 14, 13], review_ids: [7, 8, 9], student_ids: [1, 2, 3] },
-  { _id: 4, username: 'testuser4', course_ids: [12, 8, 7], review_ids: [10, 11, 12], student_ids: [1, 2, 3] },
-  { _id: 5, username: 'testuser5', course_ids: [10, 9, 11], review_ids: [13, 14, 15], student_ids: [1, 2, 3] },
+  { _id: 1, username: 'test_teacher1', fullname: 'Test Teacher1' },
+  { _id: 2, username: 'test_teacher2', fullname: 'Test Teacher2' },
+  { _id: 3, username: 'test_teacher3', fullname: 'Test Teacher3' },
+  { _id: 4, username: 'test_teacher4', fullname: 'Test Teacher4' },
+  { _id: 5, username: 'test_teacher5', fullname: 'Test Teacher5' },
 ];
 
 let mock_response_type;
