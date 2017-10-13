@@ -28,6 +28,13 @@ export class AdministratorService {
       .then(response => response.json().data as Administrator)
       .catch(this.handleError);
   }
+  getAdministratorUsername(username: string): Promise<Administrator> {
+    const url = `${this.administratorsUrl}/${username}`;
+    return this.http.get(url)
+      .toPromise()
+      .then(response => response.json().data as Administrator)
+      .catch(this.handleError);
+  }
 
   private handleError(error: any): Promise<any> {
     console.error('Unable to retrieve administrators', error);
