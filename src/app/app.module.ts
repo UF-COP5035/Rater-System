@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MdButtonModule, MdCardModule, MdMenuModule, MdToolbarModule, MdIconModule, MdInputModule } from '@angular/material';
+import { MatCardModule, MatMenuModule, MatToolbarModule, MatIconModule, MatInputModule, MatButtonModule, MatFormFieldModule, MatSelectModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -19,6 +19,7 @@ import { StudentService } from './student/student.service';
 import { TeacherService } from './teacher/teacher.service';
 import { AdministratorService } from './administrator/administrator.service';
 
+
 const appRoutes: Routes = [
   { path: 'student-dashboard', component: StudentDashboardComponent },
   { path: 'teacher-dashboard', component: TeacherDashboardComponent },
@@ -31,7 +32,7 @@ const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   {
     path: '',
-    redirectTo: '/',
+    redirectTo: '/login',
     pathMatch: 'full'
   }
 
@@ -55,13 +56,15 @@ const appRoutes: Routes = [
     BrowserModule,
     HttpModule,          // <-Add HttpModule'
     BrowserAnimationsModule, // <- Add Angular Animation
-    MdButtonModule,         // <- Add Angular Material
-    MdMenuModule,
-    MdCardModule,
+    MatButtonModule,         // <- Add Angular Material
+    MatMenuModule,
+    MatCardModule,
     FormsModule,
-    MdToolbarModule,
-    MdInputModule,
-    MdIconModule
+    MatToolbarModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatIconModule, 
+    MatSelectModule
 
   ],
   providers: [
