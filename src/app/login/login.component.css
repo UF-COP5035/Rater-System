@@ -12,10 +12,19 @@
     margin: 10px auto;
   }
   
-
-
   .spacer {
     -webkit-box-flex: 1;
     -ms-flex: 1 1 auto;
     flex: 1 1 auto;
 }
+
+
+<<<<<<< HEAD
+  .spacer {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+}
+=======
+  
+>>>>>>> 835e55c529cea5b5188407e3c00e11dbbeabf2ce
