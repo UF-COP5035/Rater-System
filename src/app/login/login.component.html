@@ -1,3 +1,35 @@
-<p>
-  login works!
-</p>
+<div class = "loginForm" layout="row" layout-align="center center">
+    
+              <mat-card class= "loginCard">
+                <mat-toolbar color="">
+                  <div class="mat-toolbar-tools">
+                    <h2><span>Login Form</span></h2>
+                  </div>
+                </mat-toolbar>
+                <mat-card-content > 
+                   <mat-form-field>
+                       <mat-select #userType placeholder="User">
+                           <mat-option value="student">Student</mat-option>
+                           <mat-option value="teacher">Teacher</mat-option>
+                           <mat-option value="admin">Administrator</mat-option>
+                       </mat-select>    
+                   </mat-form-field>     
+                   <mat-form-field>
+                       <input matInput #username placeholder="Username">
+                   </mat-form-field>
+                   <mat-form-field>
+                       <input matInput  placeholder="Enter password" [type]="hide ? 'password' : 'text'">
+                       <mat-icon matSuffix (click)="hide = !hide"> {{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+
+                   </mat-form-field>    
+                   <div>
+                    <span class="spacer"></span>
+                    <button mat-raised-button color="accent" (click)="login(userType.value,username.value)">Login</button>
+                   </div>
+                </mat-card-content>
+               
+              </mat-card>
+              
+            <!-- Angular Material Dependencies-->
+</div>
+ 

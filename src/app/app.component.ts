@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
+
+
 // Import the Services
 import { Student } from './student/student';
 import { Teacher } from './teacher/teacher';

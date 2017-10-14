@@ -1,6 +1,10 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, async } from '@angular/core/testing';
-import { MdMenuModule } from '@angular/material';
+import {
+  MatCardModule, MatMenuModule, MatToolbarModule,
+  MatIconModule, MatInputModule, MatButtonModule,
+  MatFormFieldModule, MatSelectModule
+} from '@angular/material';
 import { provideRoutes, Routes, RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
@@ -14,7 +18,7 @@ const config: Routes = [
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [MdMenuModule, RouterModule, RouterTestingModule],
+      imports: [MatMenuModule, RouterModule, RouterTestingModule],
       providers: [provideRoutes(config)],
       declarations: [
         AppComponent
