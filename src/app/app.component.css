@@ -1,0 +1,28 @@
+body {
+    margin: 0;
+    min-height: 100vh;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    background-image: url(./background.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-color: #464646;
+
+    
+
+}
+
+.spacer {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+}
+
+
+.mainPage{
+   
+}
