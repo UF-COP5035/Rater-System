@@ -1,7 +1,12 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 import { HttpModule, Http, Response, ResponseOptions, XHRBackend } from '@angular/http';
-import { MatCardModule, MatMenuModule, MatToolbarModule, MatIconModule, MatInputModule, MatButtonModule, MatFormFieldModule, MatSelectModule } from '@angular/material';
+import {
+  MatCardModule, MatMenuModule,
+  MatToolbarModule, MatIconModule,
+  MatInputModule, MatButtonModule,
+  MatFormFieldModule, MatSelectModule
+} from '@angular/material';
 
 import { ReviewService } from './review.service';
 import { Review, ReviewQuestion } from './review';
