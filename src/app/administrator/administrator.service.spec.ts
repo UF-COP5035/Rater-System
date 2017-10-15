@@ -59,7 +59,6 @@ describe('AdministratorService', () => {
             ]
         });
     });
-<<<<<<< HEAD
 
     it('should be created', inject([AdministratorService], (service: AdministratorService) => {
         expect(service).toBeTruthy();
@@ -242,67 +241,6 @@ describe('AdministratorService', () => {
                 expect(res).toBeDefined();
             });
         }));
-=======
-
-    it('should be created', inject([AdministratorService, XHRBackend], (service: AdministratorService, mockBackend) => {
-
-        const mockResponseGetAll = {
-            data: ADMINISTRATORS
-        };
-
-        const mockResponseGetOne = {
-            data: ADMINISTRATORS[0]
-        };
-
-        mockBackend.connections.subscribe((connection) => {
-
-            if (mock_response_type === 1) {
-                connection.mockRespond(new Response(new ResponseOptions({
-                    body: JSON.stringify(mockResponseGetAll)
-                })));
-            } else {
-                connection.mockRespond(new Response(new ResponseOptions({
-                    body: JSON.stringify(mockResponseGetOne)
-                })));
-            }
-
-        });
-
-        expect(service).toBeTruthy();
-    }));
-
-    describe('getAdministrator()', () => {
-
-        it('should return an Observable<Administrator>',
-            inject([AdministratorService, XHRBackend], (administratorService, mockBackend) => {
-
-                mock_response_type = 0;
-
-                administratorService.getAdministrator(ADMINISTRATORS[0]._id).then((administrator) => {
-                    expect(administrator).toEqual(ADMINISTRATORS[0]);
-                });
-
-            }));
-    });
-
-    describe('getAdministrators()', () => {
-
-        it('should return an Observable<Array<Administrator>>',
-            inject([AdministratorService, XHRBackend], (administratorService, mockBackend) => {
-
-                mock_response_type = 1;
-
-                administratorService.getAdministrators().then((administrators) => {
-                    expect(administrators.length).toBe(ADMINISTRATORS.length);
-                    let i = 0;
-                    ADMINISTRATORS.forEach(mock_administrator => {
-                        expect(administrators[i]).toEqual(mock_administrator);
-                        i++;
-                    });
-                });
-
-            }));
->>>>>>> Update services for improved queries (#88)
     });
 
     describe('deleteAdministrator()', () => {
