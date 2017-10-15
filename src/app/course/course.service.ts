@@ -14,6 +14,7 @@ export class CourseService {
 
   constructor(private http: Http) { }
 
+  // get("/api/courses")
   getCourses(): Promise<Course[]> {
     return this.http.get(this.coursesUrl)
       .toPromise()
@@ -21,11 +22,37 @@ export class CourseService {
       .catch(this.handleError);
   }
 
-  getCourse(id: number): Promise<Course> {
+  // get("/api/courses/:id")
+  getCourse(id: string): Promise<Course> {
     const url = `${this.coursesUrl}/${id}`;
     return this.http.get(url)
       .toPromise()
       .then(response => response.json().data as Course)
+      .catch(this.handleError);
+  }
+
+  // post("/api/courses")
+  createCourse(newCourse: Course): Promise<Course> {
+    return this.http.post(this.coursesUrl, newCourse)
+      .toPromise()
+      .then(response => response.json().data as Course)
+      .catch(this.handleError);
+  }
+
+  // delete("/api/courses/:id")
+  deleteCourse(delCourseId: String): Promise<String> {
+    return this.http.delete(this.coursesUrl + '/' + delCourseId)
+      .toPromise()
+      .then(response => response.json() as String)
+      .catch(this.handleError);
+  }
+
+  // put("/api/courses/:id")
+  updateCourse(putCourse: Course): Promise<Course> {
+    const putUrl = this.coursesUrl + '/' + putCourse._id;
+    return this.http.put(putUrl, putCourse)
+      .toPromise()
+      .then(response => response.json() as Course)
       .catch(this.handleError);
   }
 
