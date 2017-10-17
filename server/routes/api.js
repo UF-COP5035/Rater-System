@@ -32,14 +32,21 @@ let response = {
     message: null
 };
 
-// Get Students
-router.get('/Students', (req, res) => {
+
+// STUDENT API ROUTES BELOW
+
+/*  '/api/students'
+ *      GET: Finds all students
+ *      POST: Creates a new student
+ */
+
+router.get('/students', (req, res) => {
     connection((db) => {
         db.collection('Students')
             .find()
             .toArray()
-            .then((Students) => {
-                response.data = Students;
+            .then((students) => {
+                response.data = students;
                 res.json(response);
             })
             .catch((err) => {
@@ -48,14 +55,17 @@ router.get('/Students', (req, res) => {
     });
 });
 
-// Get Students ID
-router.get('/Students/:id', (req, res) => {
+router.post('/students', (req, res) => {
+    var newStudent = req.body;
+    if (!req.body.username || !req.body.fullname) {
+        sendError("Invalid user input must provide a username and fullname.", res)
+    }
+
     connection((db) => {
         db.collection('Students')
-            .find({ "_id": ObjectID(req.params.id) })
-            .toArray()
-            .then((StudentsID) => {
-                response.data = StudentsID;
+            .insertOne(newStudent)
+            .then((student) => {
+                response.data = student;
                 res.json(response);
             })
             .catch((err) => {
@@ -64,14 +74,90 @@ router.get('/Students/:id', (req, res) => {
     });
 });
 
-// Get Teachers
-router.get('/Teachers', (req, res) => {
+/*  '/api/students/:id'
+ *      GET: Find student by id
+ *      PUT: update student by id
+ *      DELETE: deletes student by id
+ */
+
+router.get('/students/:id', (req, res) => {
+    connection((db) => {
+        db.collection('Students')
+            .findOne({ _id: ObjectID(req.params.id) })
+            .then((student) => {
+                response.data = student;
+                res.json(response);
+            })
+            .catch((err) => {
+                sendError(err, res);
+            });
+    });
+});
+
+router.put('/students/:id', (req, res) => {
+    var updateDoc = req.body;
+    delete updateDoc._id;
+    connection((db) => {
+        db.collection('Students')
+            .updateOne({ _id: ObjectID(req.params.id) }, updateDoc)
+            .then((student) => {
+                updateDoc._id = ObjectID(req.params.id);
+                response.data = updateDoc;
+                res.json(response);
+            })
+            .catch((err) => {
+                sendError(err, res);
+            });
+    });
+});
+
+router.delete('/students/:id', (req, res) => {
+    connection((db) => {
+        db.collection('Students')
+            .deleteOne({ _id: ObjectID(req.params.id) })
+            .then((student) => {
+                response.data = req.params.id;
+                res.json(response);
+            })
+            .catch((err) => {
+                sendError(err, res);
+            });
+    });
+});
+
+/*  '/api/students/user/:username'
+ *      GET: Find student by username
+ */
+
+router.get('/students/user/:username', (req, res) => {
+    connection((db) => {
+        db.collection('Students')
+            .findOne({ username: req.params.username })
+            .then((student) => {
+                response.data = student;
+                res.json(response);
+            })
+            .catch((err) => {
+                sendError(err, res);
+            });
+    });
+});
+
+
+// TEACHER API ROUTES BELOW
+
+/*  '/api/teachers'
+ *      GET: Finds all teachers
+ *      POST: Creates a new teacher
+ */
+
+router.get('/teachers', (req, res) => {
     connection((db) => {
         db.collection('Teachers')
             .find()
             .toArray()
-            .then((Teachers) => {
-                response.data = Teachers;
+            .then((teachers) => {
+                response.data = teachers;
                 res.json(response);
             })
             .catch((err) => {
@@ -80,14 +166,86 @@ router.get('/Teachers', (req, res) => {
     });
 });
 
-// Get Teachers ID
-router.get('/Teachers/:id', (req, res) => {
+router.post('/teachers', (req, res) => {
+    var newTeacher = req.body;
+    if (!req.body.username || !req.body.fullname) {
+        sendError("Invalid user input must provide a username and fullname.", res)
+    }
+
     connection((db) => {
         db.collection('Teachers')
-            .find({ "_id": ObjectID(req.params.id) })
-            .toArray()
-            .then((TeachersID) => {
-                response.data = TeachersID;
+            .insertOne(newTeacher)
+            .then((teacher) => {
+                response.data = teacher;
+                res.json(response);
+            })
+            .catch((err) => {
+                sendError(err, res);
+            });
+    });
+});
+
+/*  '/api/teachers/:id'
+ *      GET: Find teacher by id
+ *      PUT: update teacher by id
+ *      DELETE: deletes teacher by id
+ */
+
+router.get('/teachers/:id', (req, res) => {
+    connection((db) => {
+        db.collection('Teachers')
+            .findOne({ _id: ObjectID(req.params.id) })
+            .then((teacher) => {
+                response.data = teacher;
+                res.json(response);
+            })
+            .catch((err) => {
+                sendError(err, res);
+            });
+    });
+});
+
+router.put('/teachers/:id', (req, res) => {
+    var updateDoc = req.body;
+    delete updateDoc._id;
+    connection((db) => {
+        db.collection('Teachers')
+            .updateOne({ _id: ObjectID(req.params.id) }, updateDoc)
+            .then((teacher) => {
+                updateDoc._id = ObjectID(req.params.id);
+                response.data = updateDoc;
+                res.json(response);
+            })
+            .catch((err) => {
+                sendError(err, res);
+            });
+    });
+});
+
+router.delete('/teachers/:id', (req, res) => {
+    connection((db) => {
+        db.collection('Teachers')
+            .deleteOne({ _id: ObjectID(req.params.id) })
+            .then((teacher) => {
+                response.data = req.params.id;
+                res.json(response);
+            })
+            .catch((err) => {
+                sendError(err, res);
+            });
+    });
+});
+
+/*  '/api/teachers/user/:username'
+ *      GET: Find teacher by username
+ */
+
+router.get('/teachers/user/:username', (req, res) => {
+    connection((db) => {
+        db.collection('Teachers')
+            .findOne({ username: req.params.username })
+            .then((teacher) => {
+                response.data = teacher;
                 res.json(response);
             })
             .catch((err) => {
@@ -97,14 +255,132 @@ router.get('/Teachers/:id', (req, res) => {
 });
 
 
-// Get Courses
-router.get('/Courses', (req, res) => {
+// ADMINISTRATORS API ROUTES BELOW
+
+/*  '/api/administrators'
+ *      GET: Finds all administrators
+ *      POST: Creates a new administrator
+ */
+
+router.get('/administrators', (req, res) => {
+    connection((db) => {
+        db.collection('Administrators')
+            .find()
+            .toArray()
+            .then((administrators) => {
+                response.data = administrators;
+                res.json(response);
+            })
+            .catch((err) => {
+                sendError(err, res);
+            });
+    });
+});
+
+router.post('/administrators', (req, res) => {
+    var newAdministrator = req.body;
+    if (!req.body.username || !req.body.fullname) {
+        sendError("Invalid user input must provide a username and fullname.", res)
+    }
+
+    connection((db) => {
+        db.collection('Administrators')
+            .insertOne(newAdministrator)
+            .then((administrator) => {
+                response.data = administrator;
+                res.json(response);
+            })
+            .catch((err) => {
+                sendError(err, res);
+            });
+    });
+});
+
+/*  '/api/administrators/:id'
+ *      GET: Find administrator by id
+ *      PUT: update administrator by id
+ *      DELETE: deletes administrator by id
+ */
+
+router.get('/administrators/:id', (req, res) => {
+    connection((db) => {
+        db.collection('Administrators')
+            .findOne({ _id: ObjectID(req.params.id) })
+            .then((administrator) => {
+                response.data = administrator;
+                res.json(response);
+            })
+            .catch((err) => {
+                sendError(err, res);
+            });
+    });
+});
+
+router.put('/administrators/:id', (req, res) => {
+    var updateDoc = req.body;
+    delete updateDoc._id;
+    connection((db) => {
+        db.collection('Administrators')
+            .updateOne({ _id: ObjectID(req.params.id) }, updateDoc)
+            .then((administrator) => {
+                updateDoc._id = ObjectID(req.params.id);
+                response.data = updateDoc;
+                res.json(response);
+            })
+            .catch((err) => {
+                sendError(err, res);
+            });
+    });
+});
+
+router.delete('/administrators/:id', (req, res) => {
+    connection((db) => {
+        db.collection('Administrators')
+            .deleteOne({ _id: ObjectID(req.params.id) })
+            .then((administrator) => {
+                response.data = req.params.id;
+                res.json(response);
+            })
+            .catch((err) => {
+                sendError(err, res);
+            });
+    });
+});
+
+/*  '/api/administrators/user/:username'
+ *      GET: Find administrator by username
+ */
+
+router.get('/administrators/user/:username', (req, res) => {
+    connection((db) => {
+        db.collection('Administrators')
+            .findOne({ username: req.params.username })
+            .then((administrator) => {
+                response.data = administrator;
+                res.json(response);
+            })
+            .catch((err) => {
+                sendError(err, res);
+            });
+    });
+});
+
+
+
+// COURSE API ROUTES BELOW
+
+/*  '/api/courses'
+ *      GET: Finds all courses
+ *      POST: Creates a new course
+ */
+
+router.get('/courses', (req, res) => {
     connection((db) => {
         db.collection('Courses')
             .find()
             .toArray()
-            .then((Courses) => {
-                response.data = Courses;
+            .then((courses) => {
+                response.data = courses;
                 res.json(response);
             })
             .catch((err) => {
@@ -113,14 +389,68 @@ router.get('/Courses', (req, res) => {
     });
 });
 
-// Get CoursesID
-router.get('/Courses/:id', (req, res) => {
+router.post('/courses', (req, res) => {
+    var newCourse = req.body;
+    if (!req.body.courseName || !req.body.courseCode) {
+        sendError("Invalid user input must provide a courseName and courseCode.", res)
+    }
+
     connection((db) => {
         db.collection('Courses')
-            .find({ "_id": ObjectID(req.params.id) })
-            .toArray()
-            .then((CoursesID) => {
-                response.data = CoursesID;
+            .insertOne(newCourse)
+            .then((course) => {
+                response.data = course;
+                res.json(response);
+            })
+            .catch((err) => {
+                sendError(err, res);
+            });
+    });
+});
+
+/*  '/api/courses/:id'
+ *      GET: Find course by id
+ *      PUT: update course by id
+ *      DELETE: deletes course by id
+ */
+
+router.get('/courses/:id', (req, res) => {
+    connection((db) => {
+        db.collection('Courses')
+            .findOne({ _id: ObjectID(req.params.id) })
+            .then((course) => {
+                response.data = course;
+                res.json(response);
+            })
+            .catch((err) => {
+                sendError(err, res);
+            });
+    });
+});
+
+router.put('/courses/:id', (req, res) => {
+    var updateDoc = req.body;
+    delete updateDoc._id;
+    connection((db) => {
+        db.collection('Courses')
+            .updateOne({ _id: ObjectID(req.params.id) }, updateDoc)
+            .then((course) => {
+                updateDoc._id = ObjectID(req.params.id);
+                response.data = updateDoc;
+                res.json(response);
+            })
+            .catch((err) => {
+                sendError(err, res);
+            });
+    });
+});
+
+router.delete('/courses/:id', (req, res) => {
+    connection((db) => {
+        db.collection('Courses')
+            .deleteOne({ _id: ObjectID(req.params.id) })
+            .then((course) => {
+                response.data = req.params.id;
                 res.json(response);
             })
             .catch((err) => {
@@ -130,14 +460,20 @@ router.get('/Courses/:id', (req, res) => {
 });
 
 
-// Get Reviews
-router.get('/Reviews', (req, res) => {
+// REVIEW API ROUTES BELOW
+
+/*  '/api/reviews'
+ *      GET: Finds all reviews
+ *      POST: Creates a new review
+ */
+
+router.get('/reviews', (req, res) => {
     connection((db) => {
         db.collection('Reviews')
             .find()
             .toArray()
-            .then((Reviews) => {
-                response.data = Reviews;
+            .then((reviews) => {
+                response.data = reviews;
                 res.json(response);
             })
             .catch((err) => {
@@ -146,14 +482,17 @@ router.get('/Reviews', (req, res) => {
     });
 });
 
-// Get ReviewsID
-router.get('/Reviews/:id', (req, res) => {
+router.post('/reviews', (req, res) => {
+    var newReview = req.body;
+    if (!req.body.student_id || !req.body.teacher_id || !req.body.course_id) {
+        sendError("Invalid user input must provide a student_id teacher_id and course_id.", res)
+    }
+
     connection((db) => {
         db.collection('Reviews')
-            .find({ "_id": ObjectID(req.params.id) })
-            .toArray()
-            .then((ReviewsID) => {
-                response.data = ReviewsID;
+            .insertOne(newReview)
+            .then((review) => {
+                response.data = review;
                 res.json(response);
             })
             .catch((err) => {
@@ -162,15 +501,18 @@ router.get('/Reviews/:id', (req, res) => {
     });
 });
 
+/*  '/api/reviews/:id'
+ *      GET: Find review by id
+ *      PUT: update review by id
+ *      DELETE: deletes review by id
+ */
 
-// Get Administrators
-router.get('/Administrators', (req, res) => {
+router.get('/reviews/:id', (req, res) => {
     connection((db) => {
-        db.collection('Administrators')
-            .find()
-            .toArray()
-            .then((Administrators) => {
-                response.data = Administrators;
+        db.collection('Reviews')
+            .findOne({ _id: ObjectID(req.params.id) })
+            .then((review) => {
+                response.data = review;
                 res.json(response);
             })
             .catch((err) => {
@@ -179,14 +521,15 @@ router.get('/Administrators', (req, res) => {
     });
 });
 
-// Get AdministratorsID
-router.get('/Administrators/:id', (req, res) => {
+router.put('/reviews/:id', (req, res) => {
+    var updateDoc = req.body;
+    delete updateDoc._id;
     connection((db) => {
-        db.collection('Administrators')
-            .find({ "_id": ObjectID(req.params.id) })
-            .toArray()
-            .then((AdministratorsID) => {
-                response.data = AdministratorsID;
+        db.collection('Reviews')
+            .updateOne({ _id: ObjectID(req.params.id) }, updateDoc)
+            .then((review) => {
+                updateDoc._id = ObjectID(req.params.id);
+                response.data = updateDoc;
                 res.json(response);
             })
             .catch((err) => {
@@ -195,6 +538,18 @@ router.get('/Administrators/:id', (req, res) => {
     });
 });
 
-
+router.delete('/reviews/:id', (req, res) => {
+    connection((db) => {
+        db.collection('Reviews')
+            .deleteOne({ _id: ObjectID(req.params.id) })
+            .then((review) => {
+                response.data = req.params.id;
+                res.json(response);
+            })
+            .catch((err) => {
+                sendError(err, res);
+            });
+    });
+});
 
 module.exports = router;
