@@ -14,6 +14,7 @@ export class ReviewService {
 
   constructor(private http: Http) { }
 
+  // get("/api/reviews")
   getReviews(): Promise<Review[]> {
     return this.http.get(this.reviewsUrl)
       .toPromise()
@@ -21,11 +22,37 @@ export class ReviewService {
       .catch(this.handleError);
   }
 
-  getReview(id: number): Promise<Review> {
+  // get("/api/reviews/:id")
+  getReview(id: string): Promise<Review> {
     const url = `${this.reviewsUrl}/${id}`;
     return this.http.get(url)
       .toPromise()
       .then(response => response.json().data as Review)
+      .catch(this.handleError);
+  }
+
+  // post("/api/reviews")
+  createReview(newReview: Review): Promise<Review> {
+    return this.http.post(this.reviewsUrl, newReview)
+      .toPromise()
+      .then(response => response.json().data as Review)
+      .catch(this.handleError);
+  }
+
+  // delete("/api/reviews/:id")
+  deleteReview(delReviewId: String): Promise<String> {
+    return this.http.delete(this.reviewsUrl + '/' + delReviewId)
+      .toPromise()
+      .then(response => response.json() as String)
+      .catch(this.handleError);
+  }
+
+  // put("/api/reviews/:id")
+  updateReview(putReview: Review): Promise<Review> {
+    const putUrl = this.reviewsUrl + '/' + putReview._id;
+    return this.http.put(putUrl, putReview)
+      .toPromise()
+      .then(response => response.json() as Review)
       .catch(this.handleError);
   }
 
