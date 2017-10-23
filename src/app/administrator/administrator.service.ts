@@ -11,7 +11,6 @@ export class AdministratorService {
   result: any;
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private administratorsUrl = 'api/administrators';  // URL to administrator api
-
   constructor(private http: Http) { }
 
   // get("/api/administrators")
