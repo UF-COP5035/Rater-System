@@ -1,16 +1,33 @@
 <h3> Teacher Review </h3>
 
-<div class="form">
-    <form class="teacher-review">
-        <mat-form-field class="example-full-width">
-            <input placeholder="Teacher Name" value="Mr.Jones" matInput>
-        </mat-form-field>
-        <p>
-            <mat-form-field class="example-full-width">
-                <input placeholder="Teacher Grade" value="A+" matInput>
+<mat-tab-group>
+        <mat-tab label="One">
+            <form class="teacher-review">
+               <mat-form-field class="example-full-width">
+                    <input placeholder="Teacher Name" value="Mr.Jones" matInput>
+              </mat-form-field>
+             <p>
+             <mat-form-field class="example-full-width">
+                  <input placeholder="Teacher Grade" value="A+" matInput>
             </mat-form-field>
-        </p>
-    </form>
-    <button mat-raised-button color="primary" (click)="goBack()">Back</button>
-  
-</div>
+             </p>
+            </form>
+            <button mat-raised-button color="primary" (click)="goBack()">Back</button>
+                 
+        </mat-tab>
+        <mat-tab label="Two">
+                <form class="teacher-review">
+                   <mat-form-field class="example-full-width">
+                        <input placeholder="Teacher Name" value="Mr.Jones" matInput>
+                  </mat-form-field>
+                 <p>
+                 <mat-form-field class="example-full-width">
+                      <input placeholder="Teacher Grade" value="A+" matInput>
+                </mat-form-field>
+                 </p>
+                </form>
+                <button mat-raised-button color="primary" (click)="goBack()">Back</button>
+                     
+            </mat-tab>
+      </mat-tab-group>
+

@@ -11,7 +11,6 @@ export class TeacherService {
   result: any;
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private teachersUrl = 'api/teachers';  // URL to teacher api
-
   constructor(private http: Http) { }
 
   // get("/api/teachers")

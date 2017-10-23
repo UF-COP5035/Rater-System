@@ -1,15 +1,31 @@
-import { TestBed, async, inject } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture, inject } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
-import { HttpModule, Http, Response, ResponseOptions, XHRBackend } from '@angular/http';
+import { HttpModule, Headers, Http, Response, ResponseOptions, XHRBackend } from '@angular/http';
 import {
   MatCardModule, MatMenuModule,
   MatToolbarModule, MatIconModule,
   MatInputModule, MatButtonModule,
-  MatFormFieldModule, MatSelectModule
+  MatFormFieldModule, MatSelectModule,
+  MatTabsModule
 } from '@angular/material';
+
 
 import { ReviewService } from './review.service';
 import { Review, ReviewQuestion } from './review';
+
+
+import { Component, OnInit, Injectable } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute, RouterModule, Routes, Router, ParamMap } from '@angular/router';
+import { APP_BASE_HREF } from '@angular/common';
+
+import { AdministratorService } from '../administrator/administrator.service';
+import { TeacherService } from '../teacher/teacher.service';
+import { StudentService } from '../student/student.service';
+import { Administrator } from '../administrator/administrator';
+import { Teacher } from '../teacher/teacher';
+import { Student } from '../student/student';
+
 
 const REVIEW_CONTENT: ReviewQuestion[] = [
   { question: 'Favorite Color', answer: 'Blue' },
@@ -22,6 +38,7 @@ export const REVIEWS: Review[] = [
   { _id: 2, student_id: 3, teacher_id: 2, course_id: 2, content: REVIEW_CONTENT },
   { _id: 3, student_id: 1, teacher_id: 2, course_id: 2, content: REVIEW_CONTENT },
 ];
+
 
 let mock_response_type;
 

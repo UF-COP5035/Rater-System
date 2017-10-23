@@ -1,5 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatInputModule, MatFormFieldModule } from '@angular/material';
+
+import { MatInputModule, MatFormFieldModule, MatTabsModule } from '@angular/material';
+
 import { ActivatedRoute, RouterModule, Routes } from '@angular/router';
 import { APP_BASE_HREF } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -19,7 +21,9 @@ describe('ReviewComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [BrowserAnimationsModule, MatFormFieldModule, MatInputModule, RouterModule.forRoot(appRoutes), HttpModule],
+
+            imports: [BrowserAnimationsModule, MatFormFieldModule, MatInputModule, MatTabsModule, RouterModule.forRoot(appRoutes), HttpModule],
+
             declarations: [ReviewComponent],
             providers: [TeacherService, { provide: APP_BASE_HREF, useValue: '/' }]
         })
