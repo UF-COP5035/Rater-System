@@ -1,4 +1,4 @@
-import { MatFormFieldModule } from '@angular/material';
+import { MatFormFieldModule, MatTabsModule } from '@angular/material';
 import { Location } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
