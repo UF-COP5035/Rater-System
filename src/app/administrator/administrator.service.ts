@@ -11,9 +11,9 @@ export class AdministratorService {
   result: any;
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private administratorsUrl = 'api/administrators';  // URL to administrator api
-
   constructor(private http: Http) { }
 
+  // get("/api/administrators")
   getAdministrators(): Promise<Administrator[]> {
     return this.http.get(this.administratorsUrl)
       .toPromise()
@@ -21,11 +21,46 @@ export class AdministratorService {
       .catch(this.handleError);
   }
 
-  getAdministrator(id: number): Promise<Administrator> {
+  // get("/api/administrators/:id")
+  getAdministrator(id: string): Promise<Administrator> {
     const url = `${this.administratorsUrl}/${id}`;
     return this.http.get(url)
       .toPromise()
       .then(response => response.json().data as Administrator)
+      .catch(this.handleError);
+  }
+
+  // get("/api/administrators/user/:username")
+  getAdministratorByUsername(username: string): Promise<Administrator> {
+    const url = `${this.administratorsUrl}/user/${username}`;
+    return this.http.get(url)
+      .toPromise()
+      .then(response => response.json().data as Administrator)
+      .catch(this.handleError);
+  }
+
+  // post("/api/administrators")
+  createAdministrator(newAdmin: Administrator): Promise<Administrator> {
+    return this.http.post(this.administratorsUrl, newAdmin)
+      .toPromise()
+      .then(response => response.json().data as Administrator)
+      .catch(this.handleError);
+  }
+
+  // delete("/api/administrators/:id")
+  deleteAdministrator(delAdministratorId: String): Promise<String> {
+    return this.http.delete(this.administratorsUrl + '/' + delAdministratorId)
+      .toPromise()
+      .then(response => response.json() as String)
+      .catch(this.handleError);
+  }
+
+  // put("/api/administrators/:id")
+  updateAdministrator(putAdministrator: Administrator): Promise<Administrator> {
+    const putUrl = this.administratorsUrl + '/' + putAdministrator._id;
+    return this.http.put(putUrl, putAdministrator)
+      .toPromise()
+      .then(response => response.json() as Administrator)
       .catch(this.handleError);
   }
 
