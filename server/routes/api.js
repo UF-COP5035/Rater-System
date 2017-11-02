@@ -7,9 +7,7 @@ const ObjectID = require('mongodb').ObjectID;
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').load();
 }
-console.log(process.env);
 var mongo_connection = process.env.MONGODB_DEV_URI;
-console.log(mongo_connection);
 const connection = (closure) => {
     return MongoClient.connect(mongo_connection, (err, db) => {
         if (err) return console.log(err);
@@ -193,7 +191,6 @@ router.get('/students/:student_id/reviews', (req, res) => {
                     sendError(err, res);
                 }
                 else {
-                    console.log(result);
                     var reviews = [];
                     result.forEach(function (review) {
                         reviews.push({
@@ -396,7 +393,6 @@ router.get('/teachers/:teacher_id/reviews', (req, res) => {
                 else {
                     var reviews = [];
                     result.forEach(function (review) {
-                        console.log(review);
                         reviews.push({
                             course_name: review.course_info[0].course_name,
                             course_code: review.course_info[0].course_code,
