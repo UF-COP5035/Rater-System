@@ -20,3 +20,7 @@
   .example-selected-value {
     margin: 15px 0;
   }
+
+  :host-context() {
+    background-color: #eef;
+  }
