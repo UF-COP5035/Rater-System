@@ -4,43 +4,13 @@ import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { Teacher } from './teacher';
-<<<<<<< HEAD
-=======
 import { Course } from '../course/course';
 import { Review } from '../review/review';
 import { Student } from '../student/student';
->>>>>>> d71f38f0842ba4bbe1a63c369b8cb50d602c7c7b
 
 @Injectable()
 export class TeacherService {
 
-<<<<<<< HEAD
-  result: any;
-  private headers = new Headers({ 'Content-Type': 'application/json' });
-  private teachersUrl = 'api/teachers';  // URL to teacher api
-
-  constructor(private http: Http) { }
-
-  getTeachers(): Promise<Teacher[]> {
-    return this.http.get(this.teachersUrl)
-      .toPromise()
-      .then(response => response.json().data as Teacher[])
-      .catch(this.handleError);
-  }
-
-  getTeacher(id: number): Promise<Teacher> {
-    const url = `${this.teachersUrl}/${id}`;
-    return this.http.get(url)
-      .toPromise()
-      .then(response => response.json().data as Teacher)
-      .catch(this.handleError);
-  }
-
-  private handleError(error: any): Promise<any> {
-    console.error('Unable to retrieve teachers', error);
-    return Promise.reject(error.message || error);
-  }
-=======
     result: any;
     private headers = new Headers({ 'Content-Type': 'application/json' });
     private teachersUrl = 'api/teachers';  // URL to teacher api
@@ -127,6 +97,5 @@ export class TeacherService {
         console.error('Unable to retrieve teachers', error);
         return Promise.reject(error.message || error);
     }
->>>>>>> d71f38f0842ba4bbe1a63c369b8cb50d602c7c7b
 
 }

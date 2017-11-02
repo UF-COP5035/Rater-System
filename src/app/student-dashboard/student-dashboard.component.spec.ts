@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-<<<<<<< HEAD
 import { ActivatedRoute, RouterModule, Routes, Router, ParamMap, provideRoutes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -41,29 +40,4 @@ describe('StudentDashboardComponent', () => {
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('h1').textContent).toContain('Welcome');
   }));
-=======
-
-import { StudentDashboardComponent } from './student-dashboard.component';
-
-describe('StudentDashboardComponent', () => {
-  let component: StudentDashboardComponent;
-  let fixture: ComponentFixture<StudentDashboardComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ StudentDashboardComponent ]
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(StudentDashboardComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should be created', () => {
-    expect(component).toBeTruthy();
-  });
->>>>>>> d71f38f0842ba4bbe1a63c369b8cb50d602c7c7b
 });
