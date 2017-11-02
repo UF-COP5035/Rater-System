@@ -14,6 +14,10 @@ export class ReviewService {
 
   constructor(private http: Http) { }
 
+<<<<<<< HEAD
+=======
+  // get("/api/reviews")
+>>>>>>> d71f38f0842ba4bbe1a63c369b8cb50d602c7c7b
   getReviews(): Promise<Review[]> {
     return this.http.get(this.reviewsUrl)
       .toPromise()
@@ -21,7 +25,12 @@ export class ReviewService {
       .catch(this.handleError);
   }
 
+<<<<<<< HEAD
   getReview(id: number): Promise<Review> {
+=======
+  // get("/api/reviews/:id")
+  getReview(id: string): Promise<Review> {
+>>>>>>> d71f38f0842ba4bbe1a63c369b8cb50d602c7c7b
     const url = `${this.reviewsUrl}/${id}`;
     return this.http.get(url)
       .toPromise()
@@ -29,6 +38,34 @@ export class ReviewService {
       .catch(this.handleError);
   }
 
+<<<<<<< HEAD
+=======
+  // post("/api/reviews")
+  createReview(newReview: Review): Promise<Review> {
+    return this.http.post(this.reviewsUrl, newReview)
+      .toPromise()
+      .then(response => response.json().data as Review)
+      .catch(this.handleError);
+  }
+
+  // delete("/api/reviews/:id")
+  deleteReview(delReviewId: String): Promise<String> {
+    return this.http.delete(this.reviewsUrl + '/' + delReviewId)
+      .toPromise()
+      .then(response => response.json() as String)
+      .catch(this.handleError);
+  }
+
+  // put("/api/reviews/:id")
+  updateReview(putReview: Review): Promise<Review> {
+    const putUrl = this.reviewsUrl + '/' + putReview._id;
+    return this.http.put(putUrl, putReview)
+      .toPromise()
+      .then(response => response.json() as Review)
+      .catch(this.handleError);
+  }
+
+>>>>>>> d71f38f0842ba4bbe1a63c369b8cb50d602c7c7b
   private handleError(error: any): Promise<any> {
     console.error('Unable to retrieve reviews', error);
     return Promise.reject(error.message || error);

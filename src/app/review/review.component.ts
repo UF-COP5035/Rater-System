@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { MatFormFieldModule, MatTabsModule } from '@angular/material';
 import { Location } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -21,6 +22,16 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 
+=======
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { MatFormFieldModule } from '@angular/material';
+import { Location } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { Teacher } from '../teacher/teacher';
+import { TeacherService } from '../teacher/teacher.service';
+>>>>>>> d71f38f0842ba4bbe1a63c369b8cb50d602c7c7b
 
 @Component({
     selector: 'app-review',
