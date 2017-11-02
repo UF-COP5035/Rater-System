@@ -6,11 +6,19 @@ import { StudentService } from './student.service';
 import { Student } from './student';
 
 export const STUDENTS: Student[] = [
+<<<<<<< HEAD
   { _id: 1, username: 'test_student1', fullname: 'Test Student1' },
   { _id: 2, username: 'test_student2', fullname: 'Test Student2' },
   { _id: 3, username: 'test_student3', fullname: 'Test Student3' },
   { _id: 4, username: 'test_student4', fullname: 'Test Student4' },
   { _id: 5, username: 'test_student5', fullname: 'Test Student5' },
+=======
+  { _id: 1, username: 'test_student1', fullname: 'Test Student1', course_ids: ['1', '2', '3'], review_ids: ['1'] },
+  { _id: 2, username: 'test_student2', fullname: 'Test Student2', course_ids: ['1', '2', '3'], review_ids: ['2'] },
+  { _id: 3, username: 'test_student3', fullname: 'Test Student3', course_ids: ['1', '2', '3'], review_ids: ['3'] },
+  { _id: 4, username: 'test_student4', fullname: 'Test Student4', course_ids: ['1', '2', '3'], review_ids: ['4'] },
+  { _id: 5, username: 'test_student5', fullname: 'Test Student5', course_ids: ['1', '2', '3'], review_ids: ['5'] },
+>>>>>>> d71f38f0842ba4bbe1a63c369b8cb50d602c7c7b
 ];
 
 let mock_response_type;

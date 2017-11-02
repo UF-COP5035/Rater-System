@@ -1,10 +1,17 @@
+<<<<<<< HEAD
 import { TestBed, async, ComponentFixture, inject } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 import { HttpModule, Headers, Http, Response, ResponseOptions, XHRBackend } from '@angular/http';
+=======
+import { TestBed, async, inject } from '@angular/core/testing';
+import { MockBackend } from '@angular/http/testing';
+import { HttpModule, Http, Response, ResponseOptions, XHRBackend } from '@angular/http';
+>>>>>>> d71f38f0842ba4bbe1a63c369b8cb50d602c7c7b
 import {
   MatCardModule, MatMenuModule,
   MatToolbarModule, MatIconModule,
   MatInputModule, MatButtonModule,
+<<<<<<< HEAD
   MatFormFieldModule, MatSelectModule,
   MatTabsModule
 } from '@angular/material';
@@ -27,6 +34,14 @@ import { Teacher } from '../teacher/teacher';
 import { Student } from '../student/student';
 
 
+=======
+  MatFormFieldModule, MatSelectModule
+} from '@angular/material';
+
+import { ReviewService } from './review.service';
+import { Review, ReviewQuestion } from './review';
+
+>>>>>>> d71f38f0842ba4bbe1a63c369b8cb50d602c7c7b
 const REVIEW_CONTENT: ReviewQuestion[] = [
   { question: 'Favorite Color', answer: 'Blue' },
   { question: 'Favorite Animal', answer: 'Dog' },
@@ -39,7 +54,10 @@ export const REVIEWS: Review[] = [
   { _id: 3, student_id: 1, teacher_id: 2, course_id: 2, content: REVIEW_CONTENT },
 ];
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> d71f38f0842ba4bbe1a63c369b8cb50d602c7c7b
 let mock_response_type;
 
 describe('ReviewService', () => {
