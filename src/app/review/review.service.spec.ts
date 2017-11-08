@@ -5,7 +5,8 @@ import {
   MatCardModule, MatMenuModule,
   MatToolbarModule, MatIconModule,
   MatInputModule, MatButtonModule,
-  MatFormFieldModule, MatSelectModule
+  MatFormFieldModule, MatSelectModule,
+  MatTabsModule
 } from '@angular/material';
 
 import { ReviewService } from './review.service';
