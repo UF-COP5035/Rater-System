@@ -64,7 +64,7 @@ describe('ReviewService', () => {
     });
 
     describe('getReviews()', () => {
-        it('should get and array of review data', inject([ReviewService, XHRBackend], (reviewService, mockBackend) => {
+        it('should get an array of review data', inject([ReviewService, XHRBackend], (reviewService, mockBackend) => {
             const mockResponse = { data: REVIEWS };
             mockBackend.connections.subscribe(connection => {
                 connection.mockRespond(new Response(new ResponseOptions({

@@ -59,7 +59,7 @@ describe('CourseService', () => {
     });
 
     describe('getCourses()', () => {
-        it('should get and array of course data', inject([CourseService, XHRBackend], (courseService, mockBackend) => {
+        it('should get an array of course data', inject([CourseService, XHRBackend], (courseService, mockBackend) => {
             const mockResponse = { data: COURSES };
             mockBackend.connections.subscribe(connection => {
                 connection.mockRespond(new Response(new ResponseOptions({
@@ -83,7 +83,7 @@ describe('CourseService', () => {
     });
 
     describe('getStudentsByCourse()', () => {
-        it('should get and array of student data', inject([CourseService, XHRBackend], (courseService, mockBackend) => {
+        it('should get an array of student data', inject([CourseService, XHRBackend], (courseService, mockBackend) => {
             const mockResponse = { data: STUDENTS };
             mockBackend.connections.subscribe(connection => {
                 connection.mockRespond(new Response(new ResponseOptions({

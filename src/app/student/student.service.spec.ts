@@ -83,7 +83,7 @@ describe('StudentService', () => {
   });
 
   describe('getStudents()', () => {
-    it('should get and array of student data', inject([StudentService, XHRBackend], (studentService, mockBackend) => {
+    it('should get an array of student data', inject([StudentService, XHRBackend], (studentService, mockBackend) => {
       const mockResponse = { data: STUDENTS };
       mockBackend.connections.subscribe(connection => {
         connection.mockRespond(new Response(new ResponseOptions({
@@ -131,7 +131,7 @@ describe('StudentService', () => {
   });
 
   describe('getCoursesByStudent()', () => {
-    it('should get and array of course data', inject([StudentService, XHRBackend], (studentService, mockBackend) => {
+    it('should get an array of course data', inject([StudentService, XHRBackend], (studentService, mockBackend) => {
       const mockResponse = { data: COURSES };
       mockBackend.connections.subscribe(connection => {
         connection.mockRespond(new Response(new ResponseOptions({
@@ -155,7 +155,7 @@ describe('StudentService', () => {
   });
 
   describe('getReviewsByStudent()', () => {
-    it('should get and array of review data', inject([StudentService, XHRBackend], (studentService, mockBackend) => {
+    it('should get an array of review data', inject([StudentService, XHRBackend], (studentService, mockBackend) => {
       const mockResponse = { data: REVIEWS };
       mockBackend.connections.subscribe(connection => {
         connection.mockRespond(new Response(new ResponseOptions({
@@ -179,7 +179,7 @@ describe('StudentService', () => {
   });
 
   describe('getTeachersByStudent()', () => {
-    it('should get and array of teacher data', inject([StudentService, XHRBackend], (studentService, mockBackend) => {
+    it('should get an array of teacher data', inject([StudentService, XHRBackend], (studentService, mockBackend) => {
       const mockResponse = { data: TEACHERS };
       mockBackend.connections.subscribe(connection => {
         connection.mockRespond(new Response(new ResponseOptions({

@@ -79,7 +79,7 @@ describe('TeacherService', () => {
     });
 
     describe('getTeachers()', () => {
-        it('should get and array of teacher data', inject([TeacherService, XHRBackend], (teacherService, mockBackend) => {
+        it('should get an array of teacher data', inject([TeacherService, XHRBackend], (teacherService, mockBackend) => {
             const mockResponse = { data: TEACHERS };
             mockBackend.connections.subscribe(connection => {
                 connection.mockRespond(new Response(new ResponseOptions({
@@ -127,7 +127,7 @@ describe('TeacherService', () => {
     });
 
     describe('getCoursesByTeacher()', () => {
-        it('should get and array of course data', inject([TeacherService, XHRBackend], (teacherService, mockBackend) => {
+        it('should get an array of course data', inject([TeacherService, XHRBackend], (teacherService, mockBackend) => {
             const mockResponse = { data: COURSES };
             mockBackend.connections.subscribe(connection => {
                 connection.mockRespond(new Response(new ResponseOptions({
@@ -151,7 +151,7 @@ describe('TeacherService', () => {
     });
 
     describe('getReviewsByTeacher()', () => {
-        it('should get and array of review data', inject([TeacherService, XHRBackend], (teacherService, mockBackend) => {
+        it('should get an array of review data', inject([TeacherService, XHRBackend], (teacherService, mockBackend) => {
             const mockResponse = { data: REVIEWS };
             mockBackend.connections.subscribe(connection => {
                 connection.mockRespond(new Response(new ResponseOptions({
@@ -175,7 +175,7 @@ describe('TeacherService', () => {
     });
 
     describe('getStudentsByTeacher()', () => {
-        it('should get and array of student data', inject([TeacherService, XHRBackend], (teacherService, mockBackend) => {
+        it('should get an array of student data', inject([TeacherService, XHRBackend], (teacherService, mockBackend) => {
             const mockResponse = { data: STUDENTS };
             mockBackend.connections.subscribe(connection => {
                 connection.mockRespond(new Response(new ResponseOptions({

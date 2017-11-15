@@ -89,7 +89,7 @@ describe('AdministratorService', () => {
     });
 
     describe('getAdministrators()', () => {
-        it('should get and array of administrator data', inject([AdministratorService, XHRBackend], (administratorService, mockBackend) => {
+        it('should get an array of administrator data', inject([AdministratorService, XHRBackend], (administratorService, mockBackend) => {
             const mockResponse = { data: ADMINISTRATORS };
             mockBackend.connections.subscribe(connection => {
                 connection.mockRespond(new Response(new ResponseOptions({
@@ -137,7 +137,7 @@ describe('AdministratorService', () => {
     });
 
     describe('getCoursesByAdministrator()', () => {
-        it('should get and array of course data', inject([AdministratorService, XHRBackend], (administratorService, mockBackend) => {
+        it('should get an array of course data', inject([AdministratorService, XHRBackend], (administratorService, mockBackend) => {
             const mockResponse = { data: COURSES };
             mockBackend.connections.subscribe(connection => {
                 connection.mockRespond(new Response(new ResponseOptions({
@@ -161,7 +161,7 @@ describe('AdministratorService', () => {
     });
 
     describe('getReviewsByAdministrator()', () => {
-        it('should get and array of review data', inject([AdministratorService, XHRBackend], (administratorService, mockBackend) => {
+        it('should get an array of review data', inject([AdministratorService, XHRBackend], (administratorService, mockBackend) => {
             const mockResponse = { data: REVIEWS };
             mockBackend.connections.subscribe(connection => {
                 connection.mockRespond(new Response(new ResponseOptions({
@@ -185,7 +185,7 @@ describe('AdministratorService', () => {
     });
 
     describe('getStudentsByAdministrator()', () => {
-        it('should get and array of student data', inject([AdministratorService, XHRBackend], (administratorService, mockBackend) => {
+        it('should get an array of student data', inject([AdministratorService, XHRBackend], (administratorService, mockBackend) => {
             const mockResponse = { data: STUDENTS };
             mockBackend.connections.subscribe(connection => {
                 connection.mockRespond(new Response(new ResponseOptions({
@@ -209,7 +209,7 @@ describe('AdministratorService', () => {
     });
 
     describe('getTeachersByAdministrator()', () => {
-        it('should get and array of teacher data', inject([AdministratorService, XHRBackend], (administratorService, mockBackend) => {
+        it('should get an array of teacher data', inject([AdministratorService, XHRBackend], (administratorService, mockBackend) => {
             const mockResponse = { data: TEACHERS };
             mockBackend.connections.subscribe(connection => {
                 connection.mockRespond(new Response(new ResponseOptions({
