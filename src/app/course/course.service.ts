@@ -4,7 +4,6 @@ import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { Course } from './course';
-import { Student } from '../student/student';
 
 @Injectable()
 export class CourseService {
@@ -33,11 +32,11 @@ export class CourseService {
     }
 
     // get("/api/courses/:course_id/students")
-    getStudentsByCourse(course_id: string): Promise<Student[]> {
+    getStudentsByCourse(course_id: string) {
         const url = `${this.coursesUrl}/${course_id}/students`;
         return this.http.get(url)
             .toPromise()
-            .then(response => response.json().data as Student[])
+            .then(response => response.json().data)
             .catch(this.handleError);
     }
 
@@ -68,7 +67,7 @@ export class CourseService {
 
     private handleError(error: any): Promise<any> {
         console.error('Unable to retrieve courses', error);
-        return Promise.reject(error.message || error);
+        return Promise.reject(error);
     }
 
-}
+} /* istanbul ignore next */

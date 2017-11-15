@@ -58,7 +58,7 @@ export class ReviewService {
 
   private handleError(error: any): Promise<any> {
     console.error('Unable to retrieve reviews', error);
-    return Promise.reject(error.message || error);
+    return Promise.reject(error);
   }
 
-}
+} /* istanbul ignore next */
