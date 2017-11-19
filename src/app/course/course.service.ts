@@ -11,7 +11,6 @@ export class CourseService {
     result: any;
     private headers = new Headers({ 'Content-Type': 'application/json' });
     private coursesUrl = 'api/courses';  // URL to course api
-
     constructor(private http: Http) { }
 
     // get("/api/courses")

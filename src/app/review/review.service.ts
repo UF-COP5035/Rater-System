@@ -11,7 +11,6 @@ export class ReviewService {
   result: any;
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private reviewsUrl = 'api/reviews';  // URL to review api
-
   constructor(private http: Http) { }
 
   // get("/api/reviews")
