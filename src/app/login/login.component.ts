@@ -18,37 +18,43 @@ import 'rxjs/add/operator/toPromise';
 
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  hide = true;
-  students: Student[] = [];
-  teachers: Teacher[] = [];
-  administrators: Administrator[] = [];
+    hide = true;
+    student: Student;
+    teachers: Teacher[] = [];
+    administrators: Administrator[] = [];
 
-  constructor(private teacherService: TeacherService,
-    private administratorService: AdministratorService,
-    private studentService: StudentService,
-    private router: Router
-  ) { }
+    constructor(private teacherService: TeacherService,
+        private administratorService: AdministratorService,
+        private studentService: StudentService,
+        private router: Router
+    ) { }
 
-  ngOnInit() {
-  }
-
-  login(userType: string, userName: string) {
-    if (userType === 'student') {
-      this.router.navigate(['/student-dashboard']);
-    } else if (userType === 'teacher') {
-      this.router.navigate(['/teacher-dashboard']);
-    } else if (userType === 'administrator') {
-      this.router.navigate(['/admin-dashboard']);
-    } else {
-      this.router.navigate(['']);
+    ngOnInit() {
     }
 
-  }
+    login(userType: string, userName: string) {
+        if (userType === 'student') {
+            this.studentService.getStudentByUsername(userName)
+                .then((student) => {
+                    this.student = student;
+                    this.router.navigate(['/student-dashboard/', this.student._id]);
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+        } else if (userType === 'teacher') {
+            this.router.navigate(['/teacher-dashboard']);
+        } else if (userType === 'administrator') {
+            this.router.navigate(['/admin-dashboard']);
+        } else {
+            this.router.navigate(['']);
+        }
+    }
 
 
 }
