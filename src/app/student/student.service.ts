@@ -4,9 +4,6 @@ import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { Student } from './student';
-import { Course } from '../course/course';
-import { Review } from '../review/review';
-import { Teacher } from '../teacher/teacher';
 
 @Injectable()
 export class StudentService {
@@ -14,7 +11,6 @@ export class StudentService {
     result: any;
     private headers = new Headers({ 'Content-Type': 'application/json' });
     private studentsUrl = 'api/students';  // URL to students api
-
     constructor(private http: Http) { }
 
     // get("/api/students")
@@ -35,29 +31,29 @@ export class StudentService {
     }
 
     // get("/api/students/:student_id/courses")
-    getCoursesByStudent(student_id: string): Promise<Course[]> {
+    getCoursesByStudent(student_id: string) {
         const url = `${this.studentsUrl}/${student_id}/courses`;
         return this.http.get(url)
             .toPromise()
-            .then(response => response.json().data as Course[])
+            .then(response => response.json().data)
             .catch(this.handleError);
     }
 
     // get("/api/students/:student_id/reviews")
-    getReviewsByStudent(student_id: string): Promise<Review[]> {
+    getReviewsByStudent(student_id: string) {
         const url = `${this.studentsUrl}/${student_id}/reviews`;
         return this.http.get(url)
             .toPromise()
-            .then(response => response.json().data as Review[])
+            .then(response => response.json().data)
             .catch(this.handleError);
     }
 
     // get("/api/students/:student_id/teachers")
-    getTeachersByStudent(student_id: string): Promise<Teacher[]> {
+    getTeachersByStudent(student_id: string) {
         const url = `${this.studentsUrl}/${student_id}/teachers`;
         return this.http.get(url)
             .toPromise()
-            .then(response => response.json().data as Teacher[])
+            .then(response => response.json().data)
             .catch(this.handleError);
     }
 
@@ -97,7 +93,7 @@ export class StudentService {
 
     private handleError(error: any): Promise<any> {
         console.error('Unable to retrieve students', error);
-        return Promise.reject(error.message || error);
+        return Promise.reject(error);
     }
 
-}
+} /* istanbul ignore next */
