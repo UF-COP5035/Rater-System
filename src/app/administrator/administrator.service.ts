@@ -101,7 +101,7 @@ export class AdministratorService {
     }
 
     private handleError(error: any): Promise<any> {
-        console.error('Unable to retrieve administrators', error);
+        console.error('Unsuccessful call to administrators API', error);
         return Promise.reject(error);
     }
 

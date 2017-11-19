@@ -1,6 +1,5 @@
 <h1>Welcome</h1>
 <div *ngIf="student$ | async as student">
-    <h2>Student: {{ student.fullname }}</h2>
+    <h1>Student Name: {{ student.fullname }}</h1>
+    <button mat-button color="primary" (click)="goToSubmitReviews(student._id)">Submit Reviews</button>
 </div>
-<a mat-button color="primary" routerLink="/review" routerLinkActive="active">Submit Reviews</a>
-<router-outlet></router-outlet>

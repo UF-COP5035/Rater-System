@@ -90,7 +90,7 @@ export class TeacherService {
     }
 
     private handleError(error: any): Promise<any> {
-        console.error('Unable to retrieve teachers', error);
+        console.error('Unsuccessful call to teachers API', error);
         return Promise.reject(error);
     }
 

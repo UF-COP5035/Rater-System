@@ -7,12 +7,10 @@ const ObjectID = require('mongodb').ObjectID;
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').load();
 }
-console.log(process.env);
 var mongo_connection = process.env.MONGODB_DEV_URI;
-console.log(mongo_connection);
 const connection = (closure) => {
     return MongoClient.connect(mongo_connection, (err, db) => {
-        if (err) return console.log(err);
+        if (err) return console.error(err);
 
         closure(db);
     });
@@ -95,17 +93,19 @@ router.post('/students', (req, res) => {
  * @url /students/:id
  */
 router.get('/students/:id', (req, res) => {
-    connection((db) => {
-        db.collection('Students')
-            .findOne({ _id: ObjectID(req.params.id) })
-            .then((student) => {
-                response.data = student;
-                res.json(response);
-            })
-            .catch((err) => {
-                sendError(err, res);
-            });
-    });
+    if (ObjectID.isValid(req.params.id)) {
+        connection((db) => {
+            db.collection('Students')
+                .findOne({ _id: ObjectID(req.params.id) })
+                .then((student) => {
+                    response.data = student;
+                    res.json(response);
+                })
+                .catch((err) => {
+                    sendError(err, res);
+                });
+        });
+    }
 });
 
 /**
@@ -120,20 +120,22 @@ router.get('/students/:id', (req, res) => {
  * @param {string =} review_ids
  */
 router.put('/students/:id', (req, res) => {
-    var updateDoc = req.body;
-    delete updateDoc._id;
-    connection((db) => {
-        db.collection('Students')
-            .updateOne({ _id: ObjectID(req.params.id) }, updateDoc)
-            .then((student) => {
-                updateDoc._id = ObjectID(req.params.id);
-                response.data = updateDoc;
-                res.json(response);
-            })
-            .catch((err) => {
-                sendError(err, res);
-            });
-    });
+    if (ObjectID.isValid(req.params.id)) {
+        var updateDoc = req.body;
+        delete updateDoc._id;
+        connection((db) => {
+            db.collection('Students')
+                .updateOne({ _id: ObjectID(req.params.id) }, updateDoc)
+                .then((student) => {
+                    updateDoc._id = ObjectID(req.params.id);
+                    response.data = updateDoc;
+                    res.json(response);
+                })
+                .catch((err) => {
+                    sendError(err, res);
+                });
+        });
+    }
 });
 
 /**
@@ -144,17 +146,19 @@ router.put('/students/:id', (req, res) => {
  * @url /students/:id
  */
 router.delete('/students/:id', (req, res) => {
-    connection((db) => {
-        db.collection('Students')
-            .deleteOne({ _id: ObjectID(req.params.id) })
-            .then((student) => {
-                response.data = req.params.id;
-                res.json(response);
-            })
-            .catch((err) => {
-                sendError(err, res);
-            });
-    });
+    if (ObjectID.isValid(req.params.id)) {
+        connection((db) => {
+            db.collection('Students')
+                .deleteOne({ _id: ObjectID(req.params.id) })
+                .then((student) => {
+                    response.data = req.params.id;
+                    res.json(response);
+                })
+                .catch((err) => {
+                    sendError(err, res);
+                });
+        });
+    }
 });
 
 /**
@@ -186,31 +190,33 @@ router.get('/students/:username/user', (req, res) => {
  * @url /students/:student_id/courses
  */
 router.get('/students/:student_id/courses', (req, res) => {
-    connection((student_db) => {
-        student_db.collection('Students')
-            .aggregate([
-                { $unwind: '$course_ids' },
-                { $lookup: { from: 'Courses', localField: 'course_ids', foreignField: '_id', as: 'course_info' } },
-                { $match: { _id: ObjectID(req.params.student_id) } },
-                { $lookup: { from: 'Teachers', localField: 'course_info.teacher_id', foreignField: '_id', as: 'teacher_info' } },
-            ], function (err, result) {
-                if (err) {
-                    sendError(err, res);
-                }
-                else {
-                    var courses = [];
-                    result.forEach(function (course) {
-                        courses.push({
-                            course_name: course.course_info[0].course_name,
-                            course_code: course.course_info[0].course_code,
-                            teacher_name: course.teacher_info[0].fullname
+    if (ObjectID.isValid(req.params.student_id)) {
+        connection((student_db) => {
+            student_db.collection('Students')
+                .aggregate([
+                    { $unwind: '$course_ids' },
+                    { $lookup: { from: 'Courses', localField: 'course_ids', foreignField: '_id', as: 'course_info' } },
+                    { $match: { _id: ObjectID(req.params.student_id) } },
+                    { $lookup: { from: 'Teachers', localField: 'course_info.teacher_id', foreignField: '_id', as: 'teacher_info' } },
+                ], function (err, result) {
+                    if (err) {
+                        sendError(err, res);
+                    }
+                    else {
+                        var courses = [];
+                        result.forEach(function (course) {
+                            courses.push({
+                                course_name: course.course_info[0].course_name,
+                                course_code: course.course_info[0].course_code,
+                                teacher_name: course.teacher_info[0].fullname
+                            });
                         });
-                    });
-                    response.data = courses;
-                    res.json(response);
-                }
-            });
-    });
+                        response.data = courses;
+                        res.json(response);
+                    }
+                });
+        });
+    }
 });
 
 /**
@@ -221,34 +227,35 @@ router.get('/students/:student_id/courses', (req, res) => {
  * @url /students/:student_id/reviews
  */
 router.get('/students/:student_id/reviews', (req, res) => {
-    connection((student_db) => {
-        student_db.collection('Students')
-            .aggregate([
-                { $unwind: '$review_ids' },
-                { $lookup: { from: 'Reviews', localField: 'review_ids', foreignField: '_id', as: 'review_info' } },
-                { $match: { _id: ObjectID(req.params.student_id) } },
-                { $lookup: { from: 'Courses', localField: 'review_info.course_id', foreignField: '_id', as: 'course_info' } },
-                { $lookup: { from: 'Teachers', localField: 'review_info.teacher_id', foreignField: '_id', as: 'teacher_info' } },
-            ], function (err, result) {
-                if (err) {
-                    sendError(err, res);
-                }
-                else {
-                    console.log(result);
-                    var reviews = [];
-                    result.forEach(function (review) {
-                        reviews.push({
-                            review_content: review.review_info[0].review_content,
-                            course_name: review.course_info[0].course_name,
-                            course_code: review.course_info[0].course_code,
-                            teacher_name: review.teacher_info[0].fullname
+    if (ObjectID.isValid(req.params.student_id)) {
+        connection((student_db) => {
+            student_db.collection('Students')
+                .aggregate([
+                    { $lookup: { from: 'Reviews', localField: '_id', foreignField: 'student_id', as: 'review_info' } },
+                    { $unwind: '$review_info' },
+                    { $match: { _id: ObjectID(req.params.student_id) } },
+                    { $lookup: { from: 'Courses', localField: 'review_info.course_id', foreignField: '_id', as: 'course_info' } },
+                    { $lookup: { from: 'Teachers', localField: 'review_info.teacher_id', foreignField: '_id', as: 'teacher_info' } },
+                ], function (err, result) {
+                    if (err) {
+                        sendError(err, res);
+                    }
+                    else {
+                        var reviews = [];
+                        result.forEach(function (review) {
+                            reviews.push({
+                                review_content: review.review_info.review_content,
+                                course_name: review.course_info[0].course_name,
+                                course_code: review.course_info[0].course_code,
+                                teacher_name: review.teacher_info[0].fullname
+                            });
                         });
-                    });
-                    response.data = reviews;
-                    res.json(response);
-                }
-            });
-    });
+                        response.data = reviews;
+                        res.json(response);
+                    }
+                });
+        });
+    }
 });
 
 
@@ -260,28 +267,30 @@ router.get('/students/:student_id/reviews', (req, res) => {
  * @url /students/:student_id/teachers
  */
 router.get('/students/:student_id/teachers', (req, res) => {
-    connection((student_db) => {
-        student_db.collection('Students')
-            .aggregate([
-                { $lookup: { from: 'Courses', localField: 'course_ids', foreignField: '_id', as: 'course_info' } },
-                { $match: { _id: ObjectID(req.params.student_id) } },
-                { $lookup: { from: 'Teachers', localField: 'course_info.teacher_id', foreignField: '_id', as: 'teacher_info' } }
-            ], function (err, result) {
-                if (err) {
-                    sendError(err, res);
-                }
-                else {
-                    var teachers = [];
-                    result[0].teacher_info.forEach(function (teacher) {
-                        teachers.push({
-                            teacher_name: teacher.fullname,
+    if (ObjectID.isValid(req.params.student_id)) {
+        connection((student_db) => {
+            student_db.collection('Students')
+                .aggregate([
+                    { $lookup: { from: 'Courses', localField: 'course_ids', foreignField: '_id', as: 'course_info' } },
+                    { $match: { _id: ObjectID(req.params.student_id) } },
+                    { $lookup: { from: 'Teachers', localField: 'course_info.teacher_id', foreignField: '_id', as: 'teacher_info' } }
+                ], function (err, result) {
+                    if (err) {
+                        sendError(err, res);
+                    }
+                    else {
+                        var teachers = [];
+                        result[0].teacher_info.forEach(function (teacher) {
+                            teachers.push({
+                                teacher_name: teacher.fullname,
+                            });
                         });
-                    });
-                    response.data = teachers;
-                    res.json(response);
-                }
-            });
-    });
+                        response.data = teachers;
+                        res.json(response);
+                    }
+                });
+        });
+    }
 });
 
 
@@ -345,17 +354,19 @@ router.post('/teachers', (req, res) => {
  * @url /teachers/:id
  */
 router.get('/teachers/:id', (req, res) => {
-    connection((db) => {
-        db.collection('Teachers')
-            .findOne({ _id: ObjectID(req.params.id) })
-            .then((teacher) => {
-                response.data = teacher;
-                res.json(response);
-            })
-            .catch((err) => {
-                sendError(err, res);
-            });
-    });
+    if (ObjectID.isValid(req.params.id)) {
+        connection((db) => {
+            db.collection('Teachers')
+                .findOne({ _id: ObjectID(req.params.id) })
+                .then((teacher) => {
+                    response.data = teacher;
+                    res.json(response);
+                })
+                .catch((err) => {
+                    sendError(err, res);
+                });
+        });
+    }
 });
 
 /**
@@ -368,20 +379,22 @@ router.get('/teachers/:id', (req, res) => {
  * @param {string} fullname
  */
 router.put('/teachers/:id', (req, res) => {
-    var updateDoc = req.body;
-    delete updateDoc._id;
-    connection((db) => {
-        db.collection('Teachers')
-            .updateOne({ _id: ObjectID(req.params.id) }, updateDoc)
-            .then((teacher) => {
-                updateDoc._id = ObjectID(req.params.id);
-                response.data = updateDoc;
-                res.json(response);
-            })
-            .catch((err) => {
-                sendError(err, res);
-            });
-    });
+    if (ObjectID.isValid(req.params.id)) {
+        var updateDoc = req.body;
+        delete updateDoc._id;
+        connection((db) => {
+            db.collection('Teachers')
+                .updateOne({ _id: ObjectID(req.params.id) }, updateDoc)
+                .then((teacher) => {
+                    updateDoc._id = ObjectID(req.params.id);
+                    response.data = updateDoc;
+                    res.json(response);
+                })
+                .catch((err) => {
+                    sendError(err, res);
+                });
+        });
+    }
 });
 
 /**
@@ -392,17 +405,19 @@ router.put('/teachers/:id', (req, res) => {
  * @url /teachers/:id
  */
 router.delete('/teachers/:id', (req, res) => {
-    connection((db) => {
-        db.collection('Teachers')
-            .deleteOne({ _id: ObjectID(req.params.id) })
-            .then((teacher) => {
-                response.data = req.params.id;
-                res.json(response);
-            })
-            .catch((err) => {
-                sendError(err, res);
-            });
-    });
+    if (ObjectID.isValid(req.params.id)) {
+        connection((db) => {
+            db.collection('Teachers')
+                .deleteOne({ _id: ObjectID(req.params.id) })
+                .then((teacher) => {
+                    response.data = req.params.id;
+                    res.json(response);
+                })
+                .catch((err) => {
+                    sendError(err, res);
+                });
+        });
+    }
 });
 
 /**
@@ -434,28 +449,30 @@ router.get('/teachers/:username/user', (req, res) => {
  * @url /teachers/:teacher_id/courses
  */
 router.get('/teachers/:teacher_id/courses', (req, res) => {
-    connection((teacher_db) => {
-        teacher_db.collection('Teachers')
-            .aggregate([
-                { $lookup: { from: 'Courses', localField: '_id', foreignField: 'teacher_id', as: 'course_info' } },
-                { $match: { _id: ObjectID(req.params.teacher_id) } },
-            ], function (err, result) {
-                if (err) {
-                    sendError(err, res);
-                }
-                else {
-                    var courses = [];
-                    result[0].course_info.forEach(function (course) {
-                        courses.push({
-                            course_name: course.course_name,
-                            course_code: course.course_code,
+    if (ObjectID.isValid(req.params.teacher_id)) {
+        connection((teacher_db) => {
+            teacher_db.collection('Teachers')
+                .aggregate([
+                    { $lookup: { from: 'Courses', localField: '_id', foreignField: 'teacher_id', as: 'course_info' } },
+                    { $match: { _id: ObjectID(req.params.teacher_id) } },
+                ], function (err, result) {
+                    if (err) {
+                        sendError(err, res);
+                    }
+                    else {
+                        var courses = [];
+                        result[0].course_info.forEach(function (course) {
+                            courses.push({
+                                course_name: course.course_name,
+                                course_code: course.course_code,
+                            });
                         });
-                    });
-                    response.data = courses;
-                    res.json(response);
-                }
-            });
-    });
+                        response.data = courses;
+                        res.json(response);
+                    }
+                });
+        });
+    }
 });
 
 /**
@@ -466,32 +483,33 @@ router.get('/teachers/:teacher_id/courses', (req, res) => {
  * @url /teachers/:teacher_id/reviews
  */
 router.get('/teachers/:teacher_id/reviews', (req, res) => {
-    connection((teacher_db) => {
-        teacher_db.collection('Teachers')
-            .aggregate([
-                { $lookup: { from: 'Reviews', localField: '_id', foreignField: 'teacher_id', as: 'review_info' } },
-                { $match: { _id: ObjectID(req.params.teacher_id) } },
-                { $unwind: '$review_info' },
-                { $lookup: { from: 'Courses', localField: 'review_info.course_id', foreignField: '_id', as: 'course_info' } }
-            ], function (err, result) {
-                if (err) {
-                    sendError(err, res);
-                }
-                else {
-                    var reviews = [];
-                    result.forEach(function (review) {
-                        console.log(review);
-                        reviews.push({
-                            course_name: review.course_info[0].course_name,
-                            course_code: review.course_info[0].course_code,
-                            review_content: review.review_info.review_content,
+    if (ObjectID.isValid(req.params.teacher_id)) {
+        connection((teacher_db) => {
+            teacher_db.collection('Teachers')
+                .aggregate([
+                    { $lookup: { from: 'Reviews', localField: '_id', foreignField: 'teacher_id', as: 'review_info' } },
+                    { $match: { _id: ObjectID(req.params.teacher_id) } },
+                    { $unwind: '$review_info' },
+                    { $lookup: { from: 'Courses', localField: 'review_info.course_id', foreignField: '_id', as: 'course_info' } }
+                ], function (err, result) {
+                    if (err) {
+                        sendError(err, res);
+                    }
+                    else {
+                        var reviews = [];
+                        result.forEach(function (review) {
+                            reviews.push({
+                                course_name: review.course_info[0].course_name,
+                                course_code: review.course_info[0].course_code,
+                                review_content: review.review_info.review_content,
+                            });
                         });
-                    });
-                    response.data = reviews;
-                    res.json(response);
-                }
-            });
-    });
+                        response.data = reviews;
+                        res.json(response);
+                    }
+                });
+        });
+    }
 });
 
 /**
@@ -502,33 +520,35 @@ router.get('/teachers/:teacher_id/reviews', (req, res) => {
  * @url /teachers/:teacher_id/students
  */
 router.get('/teachers/:teacher_id/students', (req, res) => {
-    connection((teacher_db) => {
-        teacher_db.collection('Teachers')
-            .aggregate([
-                { $lookup: { from: 'Courses', localField: '_id', foreignField: 'teacher_id', as: 'course_info' } },
-                { $match: { _id: ObjectID(req.params.teacher_id) } },
-                { $unwind: '$course_info' },
-                { $lookup: { from: 'Students', localField: 'course_info._id', foreignField: 'course_ids', as: 'student_info' } }
-            ], function (err, result) {
-                if (err) {
-                    sendError(err, res);
-                }
-                else {
-                    var students = [];
-                    result.forEach(function (course) {
-                        course.student_info.forEach(function (student) {
-                            students.push({
-                                course_name: course.course_info.course_name,
-                                course_code: course.course_info.course_code,
-                                student_name: student.fullname,
+    if (ObjectID.isValid(req.params.teacher_id)) {
+        connection((teacher_db) => {
+            teacher_db.collection('Teachers')
+                .aggregate([
+                    { $lookup: { from: 'Courses', localField: '_id', foreignField: 'teacher_id', as: 'course_info' } },
+                    { $match: { _id: ObjectID(req.params.teacher_id) } },
+                    { $unwind: '$course_info' },
+                    { $lookup: { from: 'Students', localField: 'course_info._id', foreignField: 'course_ids', as: 'student_info' } }
+                ], function (err, result) {
+                    if (err) {
+                        sendError(err, res);
+                    }
+                    else {
+                        var students = [];
+                        result.forEach(function (course) {
+                            course.student_info.forEach(function (student) {
+                                students.push({
+                                    course_name: course.course_info.course_name,
+                                    course_code: course.course_info.course_code,
+                                    student_name: student.fullname,
+                                });
                             });
                         });
-                    });
-                    response.data = students;
-                    res.json(response);
-                }
-            });
-    });
+                        response.data = students;
+                        res.json(response);
+                    }
+                });
+        });
+    }
 });
 
 
@@ -594,17 +614,19 @@ router.post('/administrators', (req, res) => {
  * @url /administrators/:id
  */
 router.get('/administrators/:id', (req, res) => {
-    connection((db) => {
-        db.collection('Administrators')
-            .findOne({ _id: ObjectID(req.params.id) })
-            .then((administrator) => {
-                response.data = administrator;
-                res.json(response);
-            })
-            .catch((err) => {
-                sendError(err, res);
-            });
-    });
+    if (ObjectID.isValid(req.params.id)) {
+        connection((db) => {
+            db.collection('Administrators')
+                .findOne({ _id: ObjectID(req.params.id) })
+                .then((administrator) => {
+                    response.data = administrator;
+                    res.json(response);
+                })
+                .catch((err) => {
+                    sendError(err, res);
+                });
+        });
+    }
 });
 
 /**
@@ -618,20 +640,22 @@ router.get('/administrators/:id', (req, res) => {
  * @param {string =} teacher_ids
  */
 router.put('/administrators/:id', (req, res) => {
-    var updateDoc = req.body;
-    delete updateDoc._id;
-    connection((db) => {
-        db.collection('Administrators')
-            .updateOne({ _id: ObjectID(req.params.id) }, updateDoc)
-            .then((administrator) => {
-                updateDoc._id = ObjectID(req.params.id);
-                response.data = updateDoc;
-                res.json(response);
-            })
-            .catch((err) => {
-                sendError(err, res);
-            });
-    });
+    if (ObjectID.isValid(req.params.id)) {
+        var updateDoc = req.body;
+        delete updateDoc._id;
+        connection((db) => {
+            db.collection('Administrators')
+                .updateOne({ _id: ObjectID(req.params.id) }, updateDoc)
+                .then((administrator) => {
+                    updateDoc._id = ObjectID(req.params.id);
+                    response.data = updateDoc;
+                    res.json(response);
+                })
+                .catch((err) => {
+                    sendError(err, res);
+                });
+        });
+    }
 });
 
 /**
@@ -642,17 +666,19 @@ router.put('/administrators/:id', (req, res) => {
  * @url /administrators/:id
  */
 router.delete('/administrators/:id', (req, res) => {
-    connection((db) => {
-        db.collection('Administrators')
-            .deleteOne({ _id: ObjectID(req.params.id) })
-            .then((administrator) => {
-                response.data = req.params.id;
-                res.json(response);
-            })
-            .catch((err) => {
-                sendError(err, res);
-            });
-    });
+    if (ObjectID.isValid(req.params.id)) {
+        connection((db) => {
+            db.collection('Administrators')
+                .deleteOne({ _id: ObjectID(req.params.id) })
+                .then((administrator) => {
+                    response.data = req.params.id;
+                    res.json(response);
+                })
+                .catch((err) => {
+                    sendError(err, res);
+                });
+        });
+    }
 });
 
 /**
@@ -684,32 +710,34 @@ router.get('/administrators/:username/user', (req, res) => {
  * @url /administrators/:administrator_id/courses
  */
 router.get('/administrators/:administrator_id/courses', (req, res) => {
-    connection((admin_db) => {
-        admin_db.collection('Administrators')
-            .aggregate([
-                { $lookup: { from: 'Teachers', localField: 'teacher_ids', foreignField: '_id', as: 'teacher_info' } },
-                { $match: { _id: ObjectID(req.params.administrator_id) } },
-                { $unwind: '$teacher_info' },
-                { $lookup: { from: 'Courses', localField: 'teacher_info._id', foreignField: 'teacher_id', as: 'course_info' } },
-                { $unwind: '$course_info' },
-            ], function (err, result) {
-                if (err) {
-                    sendError(err, res);
-                }
-                else {
-                    var courses = [];
-                    result.forEach(function (course) {
-                        courses.push({
-                            course_name: course.course_info.course_name,
-                            course_code: course.course_info.course_code,
-                            teacher_name: course.teacher_info.fullname,
+    if (ObjectID.isValid(req.params.administrator_id)) {
+        connection((admin_db) => {
+            admin_db.collection('Administrators')
+                .aggregate([
+                    { $lookup: { from: 'Teachers', localField: 'teacher_ids', foreignField: '_id', as: 'teacher_info' } },
+                    { $match: { _id: ObjectID(req.params.administrator_id) } },
+                    { $unwind: '$teacher_info' },
+                    { $lookup: { from: 'Courses', localField: 'teacher_info._id', foreignField: 'teacher_id', as: 'course_info' } },
+                    { $unwind: '$course_info' },
+                ], function (err, result) {
+                    if (err) {
+                        sendError(err, res);
+                    }
+                    else {
+                        var courses = [];
+                        result.forEach(function (course) {
+                            courses.push({
+                                course_name: course.course_info.course_name,
+                                course_code: course.course_info.course_code,
+                                teacher_name: course.teacher_info.fullname,
+                            });
                         });
-                    });
-                    response.data = courses;
-                    res.json(response);
-                }
-            });
-    });
+                        response.data = courses;
+                        res.json(response);
+                    }
+                });
+        });
+    }
 });
 
 /**
@@ -720,34 +748,36 @@ router.get('/administrators/:administrator_id/courses', (req, res) => {
  * @url /administrators/:administrator_id/reviews
  */
 router.get('/administrators/:administrator_id/reviews', (req, res) => {
-    connection((admin_db) => {
-        admin_db.collection('Administrators')
-            .aggregate([
-                { $lookup: { from: 'Teachers', localField: 'teacher_ids', foreignField: '_id', as: 'teacher_info' } },
-                { $match: { _id: ObjectID(req.params.administrator_id) } },
-                { $unwind: '$teacher_info' },
-                { $lookup: { from: 'Reviews', localField: 'teacher_info._id', foreignField: 'teacher_id', as: 'review_info' } },
-                { $unwind: '$review_info' },
-                { $lookup: { from: 'Courses', localField: 'review_info.course_id', foreignField: '_id', as: 'course_info' } },
-            ], function (err, result) {
-                if (err) {
-                    sendError(err, res);
-                }
-                else {
-                    var reviews = [];
-                    result.forEach(function (review) {
-                        reviews.push({
-                            course_name: review.course_info[0].course_name,
-                            course_code: review.course_info[0].course_code,
-                            teacher_name: review.teacher_info.fullname,
-                            review_content: review.review_info.review_content,
+    if (ObjectID.isValid(req.params.administrator_id)) {
+        connection((admin_db) => {
+            admin_db.collection('Administrators')
+                .aggregate([
+                    { $lookup: { from: 'Teachers', localField: 'teacher_ids', foreignField: '_id', as: 'teacher_info' } },
+                    { $match: { _id: ObjectID(req.params.administrator_id) } },
+                    { $unwind: '$teacher_info' },
+                    { $lookup: { from: 'Reviews', localField: 'teacher_info._id', foreignField: 'teacher_id', as: 'review_info' } },
+                    { $unwind: '$review_info' },
+                    { $lookup: { from: 'Courses', localField: 'review_info.course_id', foreignField: '_id', as: 'course_info' } },
+                ], function (err, result) {
+                    if (err) {
+                        sendError(err, res);
+                    }
+                    else {
+                        var reviews = [];
+                        result.forEach(function (review) {
+                            reviews.push({
+                                course_name: review.course_info[0].course_name,
+                                course_code: review.course_info[0].course_code,
+                                teacher_name: review.teacher_info.fullname,
+                                review_content: review.review_info.review_content,
+                            });
                         });
-                    });
-                    response.data = reviews;
-                    res.json(response);
-                }
-            });
-    });
+                        response.data = reviews;
+                        res.json(response);
+                    }
+                });
+        });
+    }
 });
 
 /**
@@ -758,34 +788,36 @@ router.get('/administrators/:administrator_id/reviews', (req, res) => {
  * @url /administrators/:administrator_id/students
  */
 router.get('/administrators/:administrator_id/students', (req, res) => {
-    connection((admin_db) => {
-        admin_db.collection('Administrators')
-            .aggregate([
-                { $lookup: { from: 'Teachers', localField: 'teacher_ids', foreignField: '_id', as: 'teacher_info' } },
-                { $match: { _id: ObjectID(req.params.administrator_id) } },
-                { $unwind: '$teacher_info' },
-                { $lookup: { from: 'Courses', localField: 'teacher_info._id', foreignField: 'teacher_id', as: 'course_info' } },
-                { $unwind: '$course_info' },
-                { $lookup: { from: 'Students', localField: 'course_info._id', foreignField: 'course_ids', as: 'student_info' } },
-                { $unwind: '$student_info' },
-            ], function (err, result) {
-                if (err) {
-                    sendError(err, res);
-                }
-                else {
-                    var students = [];
-                    result.forEach(function (student) {
-                        students.push({
-                            course_name: student.course_info.course_name,
-                            course_code: student.course_info.course_code,
-                            student_name: student.student_info.fullname,
+    if (ObjectID.isValid(req.params.administrator_id)) {
+        connection((admin_db) => {
+            admin_db.collection('Administrators')
+                .aggregate([
+                    { $lookup: { from: 'Teachers', localField: 'teacher_ids', foreignField: '_id', as: 'teacher_info' } },
+                    { $match: { _id: ObjectID(req.params.administrator_id) } },
+                    { $unwind: '$teacher_info' },
+                    { $lookup: { from: 'Courses', localField: 'teacher_info._id', foreignField: 'teacher_id', as: 'course_info' } },
+                    { $unwind: '$course_info' },
+                    { $lookup: { from: 'Students', localField: 'course_info._id', foreignField: 'course_ids', as: 'student_info' } },
+                    { $unwind: '$student_info' },
+                ], function (err, result) {
+                    if (err) {
+                        sendError(err, res);
+                    }
+                    else {
+                        var students = [];
+                        result.forEach(function (student) {
+                            students.push({
+                                course_name: student.course_info.course_name,
+                                course_code: student.course_info.course_code,
+                                student_name: student.student_info.fullname,
+                            });
                         });
-                    });
-                    response.data = students;
-                    res.json(response);
-                }
-            });
-    });
+                        response.data = students;
+                        res.json(response);
+                    }
+                });
+        });
+    }
 });
 
 /**
@@ -796,28 +828,30 @@ router.get('/administrators/:administrator_id/students', (req, res) => {
  * @url /administrators/:administrator_id/teachers
  */
 router.get('/administrators/:administrator_id/teachers', (req, res) => {
-    connection((admin_db) => {
-        admin_db.collection('Administrators')
-            .aggregate([
-                { $lookup: { from: 'Teachers', localField: 'teacher_ids', foreignField: '_id', as: 'teacher_info' } },
-                { $match: { _id: ObjectID(req.params.administrator_id) } },
-                { $unwind: '$teacher_info' },
-            ], function (err, result) {
-                if (err) {
-                    sendError(err, res);
-                }
-                else {
-                    var teachers = [];
-                    result.forEach(function (teacher) {
-                        teachers.push({
-                            teacher_name: teacher.teacher_info.fullname,
+    if (ObjectID.isValid(req.params.administrator_id)) {
+        connection((admin_db) => {
+            admin_db.collection('Administrators')
+                .aggregate([
+                    { $lookup: { from: 'Teachers', localField: 'teacher_ids', foreignField: '_id', as: 'teacher_info' } },
+                    { $match: { _id: ObjectID(req.params.administrator_id) } },
+                    { $unwind: '$teacher_info' },
+                ], function (err, result) {
+                    if (err) {
+                        sendError(err, res);
+                    }
+                    else {
+                        var teachers = [];
+                        result.forEach(function (teacher) {
+                            teachers.push({
+                                teacher_name: teacher.teacher_info.fullname,
+                            });
                         });
-                    });
-                    response.data = teachers;
-                    res.json(response);
-                }
-            });
-    });
+                        response.data = teachers;
+                        res.json(response);
+                    }
+                });
+        });
+    }
 });
 
 // COURSE API ROUTES BELOW
@@ -880,9 +914,32 @@ router.post('/courses', (req, res) => {
  * @url /courses/:id
  */
 router.get('/courses/:id', (req, res) => {
+    if (ObjectID.isValid(req.params.id)) {
+        connection((db) => {
+            db.collection('Courses')
+                .findOne({ _id: ObjectID(req.params.id) })
+                .then((course) => {
+                    response.data = course;
+                    res.json(response);
+                })
+                .catch((err) => {
+                    sendError(err, res);
+                });
+        });
+    }
+});
+
+/**
+ * Get single course by course code
+ *
+ * @section courses
+ * @type get
+ * @url /courses/:code/code
+ */
+router.get('/courses/:code/code', (req, res) => {
     connection((db) => {
         db.collection('Courses')
-            .findOne({ _id: ObjectID(req.params.id) })
+            .findOne({ course_code: req.params.code })
             .then((course) => {
                 response.data = course;
                 res.json(response);
@@ -903,20 +960,22 @@ router.get('/courses/:id', (req, res) => {
  * @param {string} course_code
  */
 router.put('/courses/:id', (req, res) => {
-    var updateDoc = req.body;
-    delete updateDoc._id;
-    connection((db) => {
-        db.collection('Courses')
-            .updateOne({ _id: ObjectID(req.params.id) }, updateDoc)
-            .then((course) => {
-                updateDoc._id = ObjectID(req.params.id);
-                response.data = updateDoc;
-                res.json(response);
-            })
-            .catch((err) => {
-                sendError(err, res);
-            });
-    });
+    if (ObjectID.isValid(req.params.id)) {
+        var updateDoc = req.body;
+        delete updateDoc._id;
+        connection((db) => {
+            db.collection('Courses')
+                .updateOne({ _id: ObjectID(req.params.id) }, updateDoc)
+                .then((course) => {
+                    updateDoc._id = ObjectID(req.params.id);
+                    response.data = updateDoc;
+                    res.json(response);
+                })
+                .catch((err) => {
+                    sendError(err, res);
+                });
+        });
+    }
 });
 
 /**
@@ -927,17 +986,19 @@ router.put('/courses/:id', (req, res) => {
  * @url /courses/:id
  */
 router.delete('/courses/:id', (req, res) => {
-    connection((db) => {
-        db.collection('Courses')
-            .deleteOne({ _id: ObjectID(req.params.id) })
-            .then((course) => {
-                response.data = req.params.id;
-                res.json(response);
-            })
-            .catch((err) => {
-                sendError(err, res);
-            });
-    });
+    if (ObjectID.isValid(req.params.id)) {
+        connection((db) => {
+            db.collection('Courses')
+                .deleteOne({ _id: ObjectID(req.params.id) })
+                .then((course) => {
+                    response.data = req.params.id;
+                    res.json(response);
+                })
+                .catch((err) => {
+                    sendError(err, res);
+                });
+        });
+    }
 });
 
 /**
@@ -948,28 +1009,30 @@ router.delete('/courses/:id', (req, res) => {
  * @url /courses/:course_id/students
  */
 router.get('/courses/:course_id/students', (req, res) => {
-    connection((admin_db) => {
-        admin_db.collection('Courses')
-            .aggregate([
-                { $lookup: { from: 'Students', localField: '_id', foreignField: 'course_ids', as: 'student_info' } },
-                { $match: { _id: ObjectID(req.params.course_id) } },
-                { $unwind: '$student_info' },
-            ], function (err, result) {
-                if (err) {
-                    sendError(err, res);
-                }
-                else {
-                    var students = [];
-                    result.forEach(function (student) {
-                        students.push({
-                            student_name: student.student_info.fullname,
+    if (ObjectID.isValid(req.params.course_id)) {
+        connection((admin_db) => {
+            admin_db.collection('Courses')
+                .aggregate([
+                    { $lookup: { from: 'Students', localField: '_id', foreignField: 'course_ids', as: 'student_info' } },
+                    { $match: { _id: ObjectID(req.params.course_id) } },
+                    { $unwind: '$student_info' },
+                ], function (err, result) {
+                    if (err) {
+                        sendError(err, res);
+                    }
+                    else {
+                        var students = [];
+                        result.forEach(function (student) {
+                            students.push({
+                                student_name: student.student_info.fullname,
+                            });
                         });
-                    });
-                    response.data = students;
-                    res.json(response);
-                }
-            });
-    });
+                        response.data = students;
+                        res.json(response);
+                    }
+                });
+        });
+    }
 });
 
 // REVIEW API ROUTES BELOW
@@ -1008,10 +1071,14 @@ router.get('/reviews', (req, res) => {
  * @param {string =} review_content
  */
 router.post('/reviews', (req, res) => {
-    var newReview = req.body;
     if (!req.body.student_id || !req.body.teacher_id || !req.body.course_id) {
         sendError("Invalid user input must provide a student_id teacher_id and course_id.", res)
     }
+
+    var newReview = req.body;
+    newReview.student_id = ObjectID(req.body.student_id);
+    newReview.teacher_id = ObjectID(req.body.teacher_id);
+    newReview.course_id = ObjectID(req.body.course_id);
 
     connection((db) => {
         db.collection('Reviews')
@@ -1034,17 +1101,19 @@ router.post('/reviews', (req, res) => {
  * @url /reviews/:id
  */
 router.get('/reviews/:id', (req, res) => {
-    connection((db) => {
-        db.collection('Reviews')
-            .findOne({ _id: ObjectID(req.params.id) })
-            .then((review) => {
-                response.data = review;
-                res.json(response);
-            })
-            .catch((err) => {
-                sendError(err, res);
-            });
-    });
+    if (ObjectID.isValid(req.params.id)) {
+        connection((db) => {
+            db.collection('Reviews')
+                .findOne({ _id: ObjectID(req.params.id) })
+                .then((review) => {
+                    response.data = review;
+                    res.json(response);
+                })
+                .catch((err) => {
+                    sendError(err, res);
+                });
+        });
+    }
 });
 
 /**
@@ -1059,20 +1128,22 @@ router.get('/reviews/:id', (req, res) => {
  * @param {string =} review_content
  */
 router.put('/reviews/:id', (req, res) => {
-    var updateDoc = req.body;
-    delete updateDoc._id;
-    connection((db) => {
-        db.collection('Reviews')
-            .updateOne({ _id: ObjectID(req.params.id) }, updateDoc)
-            .then((review) => {
-                updateDoc._id = ObjectID(req.params.id);
-                response.data = updateDoc;
-                res.json(response);
-            })
-            .catch((err) => {
-                sendError(err, res);
-            });
-    });
+    if (ObjectID.isValid(req.params.id)) {
+        var updateDoc = req.body;
+        delete updateDoc._id;
+        connection((db) => {
+            db.collection('Reviews')
+                .updateOne({ _id: ObjectID(req.params.id) }, updateDoc)
+                .then((review) => {
+                    updateDoc._id = ObjectID(req.params.id);
+                    response.data = updateDoc;
+                    res.json(response);
+                })
+                .catch((err) => {
+                    sendError(err, res);
+                });
+        });
+    }
 });
 
 /**
@@ -1083,17 +1154,19 @@ router.put('/reviews/:id', (req, res) => {
  * @url /reviews/:id
  */
 router.delete('/reviews/:id', (req, res) => {
-    connection((db) => {
-        db.collection('Reviews')
-            .deleteOne({ _id: ObjectID(req.params.id) })
-            .then((review) => {
-                response.data = req.params.id;
-                res.json(response);
-            })
-            .catch((err) => {
-                sendError(err, res);
-            });
-    });
+    if (ObjectID.isValid(req.params.id)) {
+        connection((db) => {
+            db.collection('Reviews')
+                .deleteOne({ _id: ObjectID(req.params.id) })
+                .then((review) => {
+                    response.data = req.params.id;
+                    res.json(response);
+                })
+                .catch((err) => {
+                    sendError(err, res);
+                });
+        });
+    }
 });
 
 module.exports = router;

@@ -30,6 +30,15 @@ export class CourseService {
             .catch(this.handleError);
     }
 
+    // get("/api/courses/:code/code")
+    getCourseByCode(code: string): Promise<Course> {
+        const url = `${this.coursesUrl}/${code}/code`;
+        return this.http.get(url)
+            .toPromise()
+            .then(response => response.json().data as Course)
+            .catch(this.handleError);
+    }
+
     // get("/api/courses/:course_id/students")
     getStudentsByCourse(course_id: string) {
         const url = `${this.coursesUrl}/${course_id}/students`;
@@ -65,7 +74,7 @@ export class CourseService {
     }
 
     private handleError(error: any): Promise<any> {
-        console.error('Unable to retrieve courses', error);
+        console.error('Unsuccessful call to courses API', error);
         return Promise.reject(error);
     }
 

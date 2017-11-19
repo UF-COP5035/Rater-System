@@ -136,7 +136,7 @@ export class StudentService {
         return percent;
     }
     private handleError(error: any): Promise<any> {
-        console.error('Unable to retrieve students', error);
+        console.error('Unsuccessful call to students API', error);
         return Promise.reject(error);
     }
 

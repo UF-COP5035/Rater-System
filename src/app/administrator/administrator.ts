@@ -1,12 +1,10 @@
-
 export class Administrator {
-    _id: number;
+    _id: string;
     username: string;
     fullname: string;
-    teacher_ids: number[];
+    teacher_ids: string[];
 
-    constructor(_id: number, fullname: string, username: string, teacher_ids: number[]) {
-        this._id = _id;
+    constructor(fullname: string, username: string, teacher_ids: string[]) {
         this.fullname = fullname;
         this.username = username;
         this.teacher_ids = teacher_ids;

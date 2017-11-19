@@ -7,27 +7,29 @@ import { Observable } from 'rxjs/Observable';
 
 
 @Component({
-  selector: 'app-student-dashboard',
-  templateUrl: './student-dashboard.component.html',
-  styleUrls: ['./student-dashboard.component.css']
+    selector: 'app-student-dashboard',
+    templateUrl: './student-dashboard.component.html',
+    styleUrls: ['./student-dashboard.component.css']
 })
 export class StudentDashboardComponent implements OnInit {
-  student$ : Observable<Student>;
+    student$: Observable<Student>;
 
-  
+    constructor(
+        private route: ActivatedRoute,
+        private router: Router,
+        private service: StudentService
+    ) { }
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private service: StudentService
-  ) {}
+    ngOnInit() {
+        this.student$ = this.route.paramMap
+            .switchMap((params: ParamMap) =>
+                this.service.getStudent(params.get('_id'))
+            );
+    }
 
-  ngOnInit() {
+    goToSubmitReviews(userId: string) {
+        this.router.navigate(['/student-dashboard/review/', userId]);
+    }
 
-    this.student$ = this.route.paramMap
-    .switchMap((params: ParamMap) =>
-      this.service.getStudent(params.get('_id')));
-   }
-    
-  }
+}
 
