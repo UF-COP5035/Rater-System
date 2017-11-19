@@ -11,7 +11,6 @@ export class ReviewService {
   result: any;
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private reviewsUrl = 'api/reviews';  // URL to review api
-
   constructor(private http: Http) { }
 
   // get("/api/reviews")
@@ -58,7 +57,7 @@ export class ReviewService {
 
   private handleError(error: any): Promise<any> {
     console.error('Unable to retrieve reviews', error);
-    return Promise.reject(error.message || error);
+    return Promise.reject(error);
   }
 
-}
+} /* istanbul ignore next */
