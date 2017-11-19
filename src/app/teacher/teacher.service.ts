@@ -4,6 +4,9 @@ import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { Teacher } from './teacher';
+import { Course } from '../course/course';
+import { Review } from '../review/review';
+import { Student } from '../student/student';
 
 @Injectable()
 export class TeacherService {
@@ -41,27 +44,27 @@ export class TeacherService {
     }
 
     // get("/api/teachers/:teacher_id/courses")
-    getCoursesByTeacher(teacher_id: string) {
+    getCoursesByTeachers(teacher_id: string): Promise<Course[]> {
         const url = `${this.teachersUrl}/${teacher_id}/courses`;
         return this.http.get(url)
             .toPromise()
-            .then(response => response.json().data)
+            .then(response => response.json().data as Course[])
             .catch(this.handleError);
     }
     // get("/api/teachers/:teacher_id/reviews")
-    getReviewsByTeacher(teacher_id: string) {
+    getReviewsByTeachers(teacher_id: string): Promise<Review[]> {
         const url = `${this.teachersUrl}/${teacher_id}/reviews`;
         return this.http.get(url)
             .toPromise()
-            .then(response => response.json().data)
+            .then(response => response.json().data as Review[])
             .catch(this.handleError);
     }
     // get("/api/teachers/:teacher_id/students")
-    getStudentsByTeacher(teacher_id: string) {
+    getStudentsByTeachers(teacher_id: string): Promise<Student[]> {
         const url = `${this.teachersUrl}/${teacher_id}/students`;
         return this.http.get(url)
             .toPromise()
-            .then(response => response.json().data)
+            .then(response => response.json().data as Student[])
             .catch(this.handleError);
     }
 
@@ -92,7 +95,7 @@ export class TeacherService {
 
     private handleError(error: any): Promise<any> {
         console.error('Unable to retrieve teachers', error);
-        return Promise.reject(error);
+        return Promise.reject(error.message || error);
     }
 
-} /* istanbul ignore next */
+}

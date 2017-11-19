@@ -4,6 +4,9 @@ import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { Student } from './student';
+import { Course } from '../course/course';
+import { Review } from '../review/review';
+import { Teacher } from '../teacher/teacher';
 
 @Injectable()
 export class StudentService {
@@ -32,29 +35,29 @@ export class StudentService {
     }
 
     // get("/api/students/:student_id/courses")
-    getCoursesByStudent(student_id: string) {
+    getCoursesByStudent(student_id: string): Promise<Course[]> {
         const url = `${this.studentsUrl}/${student_id}/courses`;
         return this.http.get(url)
             .toPromise()
-            .then(response => response.json().data)
+            .then(response => response.json().data as Course[])
             .catch(this.handleError);
     }
 
     // get("/api/students/:student_id/reviews")
-    getReviewsByStudent(student_id: string) {
+    getReviewsByStudent(student_id: string): Promise<Review[]> {
         const url = `${this.studentsUrl}/${student_id}/reviews`;
         return this.http.get(url)
             .toPromise()
-            .then(response => response.json().data)
+            .then(response => response.json().data as Review[])
             .catch(this.handleError);
     }
 
     // get("/api/students/:student_id/teachers")
-    getTeachersByStudent(student_id: string) {
+    getTeachersByStudent(student_id: string): Promise<Teacher[]> {
         const url = `${this.studentsUrl}/${student_id}/teachers`;
         return this.http.get(url)
             .toPromise()
-            .then(response => response.json().data)
+            .then(response => response.json().data as Teacher[])
             .catch(this.handleError);
     }
 
@@ -94,7 +97,7 @@ export class StudentService {
 
     private handleError(error: any): Promise<any> {
         console.error('Unable to retrieve students', error);
-        return Promise.reject(error);
+        return Promise.reject(error.message || error);
     }
 
-} /* istanbul ignore next */
+}

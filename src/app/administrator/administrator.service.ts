@@ -4,6 +4,10 @@ import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { Administrator } from './administrator';
+import { Course } from '../course/course';
+import { Review } from '../review/review';
+import { Student } from '../student/student';
+import { Teacher } from '../teacher/teacher';
 
 @Injectable()
 export class AdministratorService {
@@ -33,7 +37,7 @@ export class AdministratorService {
 
     // get("/api/administrators/user/:username")
     getAdministratorByUsername(username: string): Promise<Administrator> {
-        const url = `${this.administratorsUrl}/${username}/user`;
+        const url = `${this.administratorsUrl}/user/${username}`;
         return this.http.get(url)
             .toPromise()
             .then(response => response.json().data as Administrator)
@@ -41,38 +45,38 @@ export class AdministratorService {
     }
 
     // get("/api/administrators/:administrator_id/courses")
-    getCoursesByAdministrator(administrator_id: string) {
+    getCoursesByAdministrator(administrator_id: string): Promise<Course[]> {
         const url = `${this.administratorsUrl}/${administrator_id}/courses`;
         return this.http.get(url)
             .toPromise()
-            .then(response => response.json().data)
+            .then(response => response.json().data as Course[])
             .catch(this.handleError);
     }
 
     // get("/api/administrators/:administrator_id/reviews")
-    getReviewsByAdministrator(administrator_id: string) {
+    getReviewsByAdministrator(administrator_id: string): Promise<Review[]> {
         const url = `${this.administratorsUrl}/${administrator_id}/reviews`;
         return this.http.get(url)
             .toPromise()
-            .then(response => response.json().data)
+            .then(response => response.json().data as Review[])
             .catch(this.handleError);
     }
 
     // get("/api/administrators/:administrator_id/students")
-    getStudentsByAdministrator(administrator_id: string) {
+    getStudentsByAdministrator(administrator_id: string): Promise<Student[]> {
         const url = `${this.administratorsUrl}/${administrator_id}/students`;
         return this.http.get(url)
             .toPromise()
-            .then(response => response.json().data)
+            .then(response => response.json().data as Student[])
             .catch(this.handleError);
     }
 
     // get("/api/administrators/:administrator_id/teachers")
-    getTeachersByAdministrator(administrator_id: string) {
+    getTeachersByAdministrator(administrator_id: string): Promise<Teacher[]> {
         const url = `${this.administratorsUrl}/${administrator_id}/teachers`;
         return this.http.get(url)
             .toPromise()
-            .then(response => response.json().data)
+            .then(response => response.json().data as Teacher[])
             .catch(this.handleError);
     }
 
@@ -103,7 +107,7 @@ export class AdministratorService {
 
     private handleError(error: any): Promise<any> {
         console.error('Unable to retrieve administrators', error);
-        return Promise.reject(error);
+        return Promise.reject(error.message || error);
     }
 
-} /* istanbul ignore next */
+}
