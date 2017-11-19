@@ -24,7 +24,7 @@ import 'rxjs/add/operator/toPromise';
 })
 export class LoginComponent implements OnInit {
   hide = true;
-  students: Student[] = [];
+  students: Student;
   teachers: Teacher[] = [];
   administrators: Administrator[] = [];
 
@@ -39,16 +39,22 @@ export class LoginComponent implements OnInit {
 
   login(userType: string, userName: string) {
     if (userType === 'student') {
-      this.router.navigate(['/student-dashboard']);
+        this.studentService.getStudentByUsername(userName)
+            .then((student) => {
+                this.students = student;
+                this.router.navigate(['/student-dashboard/', this.students._id]);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
     } else if (userType === 'teacher') {
-      this.router.navigate(['/teacher-dashboard']);
+        this.router.navigate(['/teacher-dashboard']);
     } else if (userType === 'administrator') {
-      this.router.navigate(['/admin-dashboard']);
+        this.router.navigate(['/admin-dashboard']);
     } else {
-      this.router.navigate(['']);
+        this.router.navigate(['']);
     }
-
-  }
+}
 
 
 }

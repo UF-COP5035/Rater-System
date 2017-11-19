@@ -21,7 +21,7 @@ import { AdministratorService } from './administrator/administrator.service';
 
 
 const appRoutes: Routes = [
-  { path: 'student-dashboard', component: StudentDashboardComponent },
+  { path: 'student-dashboard/:_id', component: StudentDashboardComponent },
   { path: 'teacher-dashboard', component: TeacherDashboardComponent },
   { path: 'admin-dashboard', component: AdminDashboardComponent },
   {
