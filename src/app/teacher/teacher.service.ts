@@ -4,9 +4,6 @@ import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { Teacher } from './teacher';
-import { Course } from '../course/course';
-import { Review } from '../review/review';
-import { Student } from '../student/student';
 
 @Injectable()
 export class TeacherService {
@@ -14,7 +11,6 @@ export class TeacherService {
     result: any;
     private headers = new Headers({ 'Content-Type': 'application/json' });
     private teachersUrl = 'api/teachers';  // URL to teacher api
-
     constructor(private http: Http) { }
 
     // get("/api/teachers")
@@ -44,27 +40,27 @@ export class TeacherService {
     }
 
     // get("/api/teachers/:teacher_id/courses")
-    getCoursesByTeachers(teacher_id: string): Promise<Course[]> {
+    getCoursesByTeacher(teacher_id: string) {
         const url = `${this.teachersUrl}/${teacher_id}/courses`;
         return this.http.get(url)
             .toPromise()
-            .then(response => response.json().data as Course[])
+            .then(response => response.json().data)
             .catch(this.handleError);
     }
     // get("/api/teachers/:teacher_id/reviews")
-    getReviewsByTeachers(teacher_id: string): Promise<Review[]> {
+    getReviewsByTeacher(teacher_id: string) {
         const url = `${this.teachersUrl}/${teacher_id}/reviews`;
         return this.http.get(url)
             .toPromise()
-            .then(response => response.json().data as Review[])
+            .then(response => response.json().data)
             .catch(this.handleError);
     }
     // get("/api/teachers/:teacher_id/students")
-    getStudentsByTeachers(teacher_id: string): Promise<Student[]> {
+    getStudentsByTeacher(teacher_id: string) {
         const url = `${this.teachersUrl}/${teacher_id}/students`;
         return this.http.get(url)
             .toPromise()
-            .then(response => response.json().data as Student[])
+            .then(response => response.json().data)
             .catch(this.handleError);
     }
 
@@ -95,7 +91,7 @@ export class TeacherService {
 
     private handleError(error: any): Promise<any> {
         console.error('Unable to retrieve teachers', error);
-        return Promise.reject(error.message || error);
+        return Promise.reject(error);
     }
 
-}
+} /* istanbul ignore next */
