@@ -35,11 +35,13 @@ let response = {
 
 // STUDENT API ROUTES BELOW
 
-/*  '/api/students'
- *      GET: Finds all students
- *      POST: Creates a new student
- */
-
+/**
+* Get a list of all students
+*
+* @section students
+* @type get
+* @url /students
+*/
 router.get('/students', (req, res) => {
     connection((db) => {
         db.collection('Students')
@@ -55,6 +57,17 @@ router.get('/students', (req, res) => {
     });
 });
 
+/**
+ * Create a student
+ *
+ * @section students
+ * @type post
+ * @url /students
+ * @param {string} username
+ * @param {string} fullname
+ * @param {string =} course_ids
+ * @param {string =} review_ids
+ */
 router.post('/students', (req, res) => {
     var newStudent = req.body;
     if (!req.body.username || !req.body.fullname) {
@@ -74,12 +87,13 @@ router.post('/students', (req, res) => {
     });
 });
 
-/*  '/api/students/:id'
- *      GET: Find student by id
- *      PUT: update student by id
- *      DELETE: deletes student by id
+/**
+ * Get single student by id
+ *
+ * @section students
+ * @type get
+ * @url /students/:id
  */
-
 router.get('/students/:id', (req, res) => {
     connection((db) => {
         db.collection('Students')
@@ -94,6 +108,17 @@ router.get('/students/:id', (req, res) => {
     });
 });
 
+/**
+ * Update a student
+ *
+ * @section students
+ * @type put
+ * @url /students/:id
+ * @param {string} username
+ * @param {string} fullname
+ * @param {string =} course_ids
+ * @param {string =} review_ids
+ */
 router.put('/students/:id', (req, res) => {
     var updateDoc = req.body;
     delete updateDoc._id;
@@ -111,6 +136,13 @@ router.put('/students/:id', (req, res) => {
     });
 });
 
+/**
+ * Delete a student
+ *
+ * @section students
+ * @type delete
+ * @url /students/:id
+ */
 router.delete('/students/:id', (req, res) => {
     connection((db) => {
         db.collection('Students')
@@ -125,10 +157,13 @@ router.delete('/students/:id', (req, res) => {
     });
 });
 
-/*  '/api/students/:username/user'
- *      GET: Find student by username
+/**
+ * Get single student by username
+ *
+ * @section students
+ * @type get
+ * @url /students/:username/user
  */
-
 router.get('/students/:username/user', (req, res) => {
     connection((db) => {
         db.collection('Students')
@@ -143,10 +178,13 @@ router.get('/students/:username/user', (req, res) => {
     });
 });
 
-/*  '/api/students/:student_id/courses'
- *      GET: Find courses by student_id
+/**
+ * Get full list of courses by student
+ *
+ * @section students
+ * @type get
+ * @url /students/:student_id/courses
  */
-
 router.get('/students/:student_id/courses', (req, res) => {
     connection((student_db) => {
         student_db.collection('Students')
@@ -175,10 +213,13 @@ router.get('/students/:student_id/courses', (req, res) => {
     });
 });
 
-/*  '/api/students/:student_id/reviews'
- *      GET: Find reviews by student_id
+/**
+ * Get full list of reviews by student
+ *
+ * @section students
+ * @type get
+ * @url /students/:student_id/reviews
  */
-
 router.get('/students/:student_id/reviews', (req, res) => {
     connection((student_db) => {
         student_db.collection('Students')
@@ -210,10 +251,14 @@ router.get('/students/:student_id/reviews', (req, res) => {
     });
 });
 
-/*  '/api/students/:student_id/teachers'
- *      GET: Find teachers by student_id
- */
 
+/**
+ * Get full list of teachers by student
+ *
+ * @section students
+ * @type get
+ * @url /students/:student_id/teachers
+ */
 router.get('/students/:student_id/teachers', (req, res) => {
     connection((student_db) => {
         student_db.collection('Students')
@@ -228,7 +273,9 @@ router.get('/students/:student_id/teachers', (req, res) => {
                 else {
                     var teachers = [];
                     result[0].teacher_info.forEach(function (teacher) {
-                        teachers.push({ fullname: teacher.fullname, username: teacher.username });
+                        teachers.push({
+                            teacher_name: teacher.fullname,
+                        });
                     });
                     response.data = teachers;
                     res.json(response);
@@ -240,11 +287,13 @@ router.get('/students/:student_id/teachers', (req, res) => {
 
 // TEACHER API ROUTES BELOW
 
-/*  '/api/teachers'
- *      GET: Finds all teachers
- *      POST: Creates a new teacher
- */
-
+/**
+* Get a list of all teachers
+*
+* @section teachers
+* @type get
+* @url /teachers
+*/
 router.get('/teachers', (req, res) => {
     connection((db) => {
         db.collection('Teachers')
@@ -260,6 +309,15 @@ router.get('/teachers', (req, res) => {
     });
 });
 
+/**
+ * Create a teacher
+ *
+ * @section teachers
+ * @type post
+ * @url /teachers
+ * @param {string} username
+ * @param {string} fullname
+ */
 router.post('/teachers', (req, res) => {
     var newTeacher = req.body;
     if (!req.body.username || !req.body.fullname) {
@@ -279,12 +337,13 @@ router.post('/teachers', (req, res) => {
     });
 });
 
-/*  '/api/teachers/:id'
- *      GET: Find teacher by id
- *      PUT: update teacher by id
- *      DELETE: deletes teacher by id
+/**
+ * Get single teacher by id
+ *
+ * @section teachers
+ * @type get
+ * @url /teachers/:id
  */
-
 router.get('/teachers/:id', (req, res) => {
     connection((db) => {
         db.collection('Teachers')
@@ -299,6 +358,15 @@ router.get('/teachers/:id', (req, res) => {
     });
 });
 
+/**
+ * Update a teacher
+ *
+ * @section teachers
+ * @type put
+ * @url /teachers/:id
+ * @param {string} username
+ * @param {string} fullname
+ */
 router.put('/teachers/:id', (req, res) => {
     var updateDoc = req.body;
     delete updateDoc._id;
@@ -316,6 +384,13 @@ router.put('/teachers/:id', (req, res) => {
     });
 });
 
+/**
+ * Delete a teacher
+ *
+ * @section teachers
+ * @type delete
+ * @url /teachers/:id
+ */
 router.delete('/teachers/:id', (req, res) => {
     connection((db) => {
         db.collection('Teachers')
@@ -330,10 +405,13 @@ router.delete('/teachers/:id', (req, res) => {
     });
 });
 
-/*  '/api/teachers/:username/user'
- *      GET: Find teacher by username
+/**
+ * Get single teacher by username
+ *
+ * @section teachers
+ * @type get
+ * @url /teachers/:username/user
  */
-
 router.get('/teachers/:username/user', (req, res) => {
     connection((db) => {
         db.collection('Teachers')
@@ -348,10 +426,13 @@ router.get('/teachers/:username/user', (req, res) => {
     });
 });
 
-/*  '/api/teachers/:teacher_id/courses'
- *      GET: Find courses by teacher_id
+/**
+ * Get full list of courses by teacher
+ *
+ * @section teachers
+ * @type get
+ * @url /teachers/:teacher_id/courses
  */
-
 router.get('/teachers/:teacher_id/courses', (req, res) => {
     connection((teacher_db) => {
         teacher_db.collection('Teachers')
@@ -377,10 +458,13 @@ router.get('/teachers/:teacher_id/courses', (req, res) => {
     });
 });
 
-/*  '/api/teachers/:teacher_id/reviews'
- *      GET: Find reviews by teacher_id
+/**
+ * Get full list of reviews by teacher
+ *
+ * @section teachers
+ * @type get
+ * @url /teachers/:teacher_id/reviews
  */
-
 router.get('/teachers/:teacher_id/reviews', (req, res) => {
     connection((teacher_db) => {
         teacher_db.collection('Teachers')
@@ -410,10 +494,13 @@ router.get('/teachers/:teacher_id/reviews', (req, res) => {
     });
 });
 
-/*  '/api/teachers/:teacher_id/students'
- *      GET: Find students by teacher_id
+/**
+ * Get full list of students by teacher
+ *
+ * @section teachers
+ * @type get
+ * @url /teachers/:teacher_id/students
  */
-
 router.get('/teachers/:teacher_id/students', (req, res) => {
     connection((teacher_db) => {
         teacher_db.collection('Teachers')
@@ -447,11 +534,13 @@ router.get('/teachers/:teacher_id/students', (req, res) => {
 
 // ADMINISTRATORS API ROUTES BELOW
 
-/*  '/api/administrators'
- *      GET: Finds all administrators
- *      POST: Creates a new administrator
- */
-
+/**
+* Get a list of all administrators
+*
+* @section administrators
+* @type get
+* @url /administrators
+*/
 router.get('/administrators', (req, res) => {
     connection((db) => {
         db.collection('Administrators')
@@ -467,6 +556,17 @@ router.get('/administrators', (req, res) => {
     });
 });
 
+
+/**
+ * Create a administrator
+ *
+ * @section administrators
+ * @type post
+ * @url /administrators
+ * @param {string} username
+ * @param {string} fullname
+ * @param {string =} teacher_ids
+ */
 router.post('/administrators', (req, res) => {
     var newAdministrator = req.body;
     if (!req.body.username || !req.body.fullname) {
@@ -486,12 +586,13 @@ router.post('/administrators', (req, res) => {
     });
 });
 
-/*  '/api/administrators/:id'
- *      GET: Find administrator by id
- *      PUT: update administrator by id
- *      DELETE: deletes administrator by id
+/**
+ * Get single administrator by id
+ *
+ * @section administrators
+ * @type get
+ * @url /administrators/:id
  */
-
 router.get('/administrators/:id', (req, res) => {
     connection((db) => {
         db.collection('Administrators')
@@ -506,6 +607,16 @@ router.get('/administrators/:id', (req, res) => {
     });
 });
 
+/**
+ * Update a administrator
+ *
+ * @section administrators
+ * @type put
+ * @url /administrators/:id
+ * @param {string} username
+ * @param {string} fullname
+ * @param {string =} teacher_ids
+ */
 router.put('/administrators/:id', (req, res) => {
     var updateDoc = req.body;
     delete updateDoc._id;
@@ -523,6 +634,13 @@ router.put('/administrators/:id', (req, res) => {
     });
 });
 
+/**
+ * Delete a administrator
+ *
+ * @section administrators
+ * @type delete
+ * @url /administrators/:id
+ */
 router.delete('/administrators/:id', (req, res) => {
     connection((db) => {
         db.collection('Administrators')
@@ -537,10 +655,13 @@ router.delete('/administrators/:id', (req, res) => {
     });
 });
 
-/*  '/api/administrators/:username/user'
- *      GET: Find administrator by username
+/**
+ * Get single administrator by username
+ *
+ * @section administrators
+ * @type get
+ * @url /administrators/:username/user
  */
-
 router.get('/administrators/:username/user', (req, res) => {
     connection((db) => {
         db.collection('Administrators')
@@ -555,10 +676,13 @@ router.get('/administrators/:username/user', (req, res) => {
     });
 });
 
-/*  '/api/administrators/:administrator_id/courses'
- *      GET: Find courses by administrator_id
+/**
+ * Get full list of courses by administrator
+ *
+ * @section administrators
+ * @type get
+ * @url /administrators/:administrator_id/courses
  */
-
 router.get('/administrators/:administrator_id/courses', (req, res) => {
     connection((admin_db) => {
         admin_db.collection('Administrators')
@@ -588,10 +712,13 @@ router.get('/administrators/:administrator_id/courses', (req, res) => {
     });
 });
 
-/*  '/api/administrators/:administrator_id/reviews'
- *      GET: Find reviews by administrator_id
+/**
+ * Get full list of reviews by administrator
+ *
+ * @section administrators
+ * @type get
+ * @url /administrators/:administrator_id/reviews
  */
-
 router.get('/administrators/:administrator_id/reviews', (req, res) => {
     connection((admin_db) => {
         admin_db.collection('Administrators')
@@ -623,10 +750,13 @@ router.get('/administrators/:administrator_id/reviews', (req, res) => {
     });
 });
 
-/*  '/api/administrators/:administrator_id/students'
- *      GET: Find students by administrator_id
+/**
+ * Get full list of students by administrator
+ *
+ * @section administrators
+ * @type get
+ * @url /administrators/:administrator_id/students
  */
-
 router.get('/administrators/:administrator_id/students', (req, res) => {
     connection((admin_db) => {
         admin_db.collection('Administrators')
@@ -658,10 +788,13 @@ router.get('/administrators/:administrator_id/students', (req, res) => {
     });
 });
 
-/*  '/api/administrators/:administrator_id/teachers'
- *      GET: Find teachers by administrator_id
+/**
+ * Get full list of teachers by administrator
+ *
+ * @section administrators
+ * @type get
+ * @url /administrators/:administrator_id/teachers
  */
-
 router.get('/administrators/:administrator_id/teachers', (req, res) => {
     connection((admin_db) => {
         admin_db.collection('Administrators')
@@ -689,11 +822,13 @@ router.get('/administrators/:administrator_id/teachers', (req, res) => {
 
 // COURSE API ROUTES BELOW
 
-/*  '/api/courses'
- *      GET: Finds all courses
- *      POST: Creates a new course
- */
-
+/**
+* Get a list of all courses
+*
+* @section courses
+* @type get
+* @url /courses
+*/
 router.get('/courses', (req, res) => {
     connection((db) => {
         db.collection('Courses')
@@ -709,10 +844,19 @@ router.get('/courses', (req, res) => {
     });
 });
 
+/**
+ * Create a course
+ *
+ * @section courses
+ * @type post
+ * @url /courses
+ * @param {string} course_name
+ * @param {string} course_code
+ */
 router.post('/courses', (req, res) => {
     var newCourse = req.body;
-    if (!req.body.courseName || !req.body.courseCode) {
-        sendError("Invalid user input must provide a courseName and courseCode.", res)
+    if (!req.body.course_name || !req.body.course_code) {
+        sendError("Invalid user input must provide a course_name and course_code.", res)
     }
 
     connection((db) => {
@@ -728,12 +872,13 @@ router.post('/courses', (req, res) => {
     });
 });
 
-/*  '/api/courses/:id'
- *      GET: Find course by id
- *      PUT: update course by id
- *      DELETE: deletes course by id
+/**
+ * Get single course by id
+ *
+ * @section courses
+ * @type get
+ * @url /courses/:id
  */
-
 router.get('/courses/:id', (req, res) => {
     connection((db) => {
         db.collection('Courses')
@@ -748,6 +893,15 @@ router.get('/courses/:id', (req, res) => {
     });
 });
 
+/**
+ * Update a course
+ *
+ * @section courses
+ * @type put
+ * @url /courses/:id
+ * @param {string} course_name
+ * @param {string} course_code
+ */
 router.put('/courses/:id', (req, res) => {
     var updateDoc = req.body;
     delete updateDoc._id;
@@ -765,6 +919,13 @@ router.put('/courses/:id', (req, res) => {
     });
 });
 
+/**
+ * Delete a course
+ *
+ * @section courses
+ * @type delete
+ * @url /courses/:id
+ */
 router.delete('/courses/:id', (req, res) => {
     connection((db) => {
         db.collection('Courses')
@@ -779,10 +940,13 @@ router.delete('/courses/:id', (req, res) => {
     });
 });
 
-/*  '/api/courses/:course_id/students'
- *      GET: Find students by course_id
+/**
+ * Get full list of students by course
+ *
+ * @section courses
+ * @type get
+ * @url /courses/:course_id/students
  */
-
 router.get('/courses/:course_id/students', (req, res) => {
     connection((admin_db) => {
         admin_db.collection('Courses')
@@ -810,11 +974,13 @@ router.get('/courses/:course_id/students', (req, res) => {
 
 // REVIEW API ROUTES BELOW
 
-/*  '/api/reviews'
- *      GET: Finds all reviews
- *      POST: Creates a new review
- */
-
+/**
+* Get a list of all reviews
+*
+* @section reviews
+* @type get
+* @url /reviews
+*/
 router.get('/reviews', (req, res) => {
     connection((db) => {
         db.collection('Reviews')
@@ -830,6 +996,17 @@ router.get('/reviews', (req, res) => {
     });
 });
 
+/**
+ * Create a review
+ *
+ * @section reviews
+ * @type post
+ * @url /reviews
+ * @param {string} student_id
+ * @param {string} teacher_id
+ * @param {string} course_id
+ * @param {string =} review_content
+ */
 router.post('/reviews', (req, res) => {
     var newReview = req.body;
     if (!req.body.student_id || !req.body.teacher_id || !req.body.course_id) {
@@ -849,12 +1026,13 @@ router.post('/reviews', (req, res) => {
     });
 });
 
-/*  '/api/reviews/:id'
- *      GET: Find review by id
- *      PUT: update review by id
- *      DELETE: deletes review by id
+/**
+ * Get single review by id
+ *
+ * @section reviews
+ * @type get
+ * @url /reviews/:id
  */
-
 router.get('/reviews/:id', (req, res) => {
     connection((db) => {
         db.collection('Reviews')
@@ -869,6 +1047,17 @@ router.get('/reviews/:id', (req, res) => {
     });
 });
 
+/**
+ * Update a review
+ *
+ * @section reviews
+ * @type put
+ * @url /reviews/:id
+ * @param {string} student_id
+ * @param {string} teacher_id
+ * @param {string} course_id
+ * @param {string =} review_content
+ */
 router.put('/reviews/:id', (req, res) => {
     var updateDoc = req.body;
     delete updateDoc._id;
@@ -886,6 +1075,13 @@ router.put('/reviews/:id', (req, res) => {
     });
 });
 
+/**
+ * Delete a review
+ *
+ * @section reviews
+ * @type delete
+ * @url /reviews/:id
+ */
 router.delete('/reviews/:id', (req, res) => {
     connection((db) => {
         db.collection('Reviews')
