@@ -49,7 +49,7 @@ describe('StudentService', () => {
       imports: [HttpModule],
       providers: [
         StudentService,
-        { provide: XHRBackend, useClass: MockBackend }
+        {provide: XHRBackend, useClass: MockBackend}
       ]
     });
   });
@@ -234,4 +234,48 @@ describe('StudentService', () => {
       });
     }));
   });
+
+  describe('CompletedReviews()', () => {
+    it('should get an array of review data', inject([StudentService, XHRBackend], (studentService, mockBackend) => {
+      const mockResponse = { data: REVIEWS };
+      mockBackend.connections.subscribe(connection => {
+        connection.mockRespond(new Response(new ResponseOptions({
+          body: JSON.stringify(mockResponse)
+        })));
+        expect(connection.request.url).toBe('api/students/undefined/reviews');
+      });
+      studentService.CompletedReviews().then((res) => {
+        expect(res).toEqual(REVIEWS);
+      });
+    }));
+
+    it('should return error', inject([StudentService, XHRBackend], (studentService, mockBackend) => {
+      mockBackend.connections.subscribe((connection => {
+        connection.mockError(new Error('some error'));
+      }));
+      studentService.CompletedReviews().then((res) => {
+        expect(res).toBeDefined();
+      });
+    }));
+  });
+
+  describe('getNotCompletedReview()', () => {
+    it('should return error', inject([StudentService, XHRBackend], (studentService, mockBackend) => {
+      mockBackend.connections.subscribe((connection => {
+        connection.mockError(new Error('some error'));
+      }));
+      expect(studentService.getNotCompletedReview(1)).toBeDefined();
+
+    }));
+  });
+
+  describe('getPercentageReview()', () => {
+      it('should return error', inject([StudentService, XHRBackend], (studentService, mockBackend) => {
+        mockBackend.connections.subscribe((connection => {
+          connection.mockError(new Error('some error'));
+        }));
+        expect(studentService.getPercentageReview(1)).toBeDefined();
+      }));
+  });
+
 });
