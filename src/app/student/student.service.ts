@@ -4,8 +4,8 @@ import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { Student } from './student';
-import{Review} from '../review/review';
-import {Course} from '../course/course';
+import { Review } from '../review/review';
+import { Course } from '../course/course';
 
 @Injectable()
 export class StudentService {
@@ -14,8 +14,8 @@ export class StudentService {
     private headers = new Headers({ 'Content-Type': 'application/json' });
     private studentsUrl = 'api/students';  // URL to students api
     courses : Course[] = [];
-    Notreviewed: Course[]=[];
-    Reviews:Review[]=[];
+    Notreviewed: Course[] = [];
+    Reviews: Review[] = [];
     constructor(private http: Http) { }
 
     // get("/api/students")
@@ -130,7 +130,6 @@ export class StudentService {
       .then(Res=>this.Reviews=Res);
     let percent:number=this.Reviews.length/this.courses.length;
     return percent;
-
   }
     private handleError(error: any): Promise<any> {
         console.error('Unable to retrieve students', error);
