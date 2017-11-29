@@ -1,11 +1,10 @@
-
 export class Course {
-    _id: number;
+    _id: string;
     course_name: string;
     course_code: string;
+    teacher_id: string;
 
-    constructor(_id: number, course_name: string, course_code: string) {
-        this._id = _id;
+    constructor(course_name: string, course_code: string) {
         this.course_name = course_name;
         this.course_code = course_code;
     }

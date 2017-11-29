@@ -1,0 +1,17 @@
+<!-- <div [formGroup]="form"> -->
+<!-- <label [attr.for]="question.question">{{question.label}}</label> -->
+<mat-form-field [formGroup]="form">
+    <textarea matInput placeholder={{question.label}} [formControlName]="question.question" [id]="question.question" [type]="question.type"></textarea>
+</mat-form-field>
+<!-- <div [ngSwitch]="question.controlType">
+
+        <input matInput *ngSwitchCase="'textbox'" [formControlName]="question.question" [id]="question.question" [type]="question.type">
+
+        <select [id]="question.question" *ngSwitchCase="'dropdown'" [formControlName]="question.question">
+            <option *ngFor="let opt of question.options" [value]="opt.key">{{opt.value}}</option>
+        </select>
+
+    </div> -->
+
+<!-- <div class="errorMessage" *ngIf="!isValid">{{question.label}} is required</div> -->
+<!-- </div> -->

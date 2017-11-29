@@ -6,9 +6,9 @@ import { CourseService } from './course.service';
 import { Course } from './course';
 
 export const COURSES: Course[] = [
-    { _id: 1, course_code: 'AAA1234', course_name: 'Test Course1' },
-    { _id: 2, course_code: 'BBB5678', course_name: 'Test Course2' },
-    { _id: 3, course_code: 'CCC0910', course_name: 'Test Course3' },
+    { _id: '1', course_code: 'AAA1234', course_name: 'Test Course1', teacher_id: '1' },
+    { _id: '2', course_code: 'BBB5678', course_name: 'Test Course2', teacher_id: '3' },
+    { _id: '3', course_code: 'CCC0910', course_name: 'Test Course3', teacher_id: '2' },
 ];
 
 export const STUDENTS = [

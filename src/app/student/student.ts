@@ -1,13 +1,11 @@
-
 export class Student {
-    _id: number;
+    _id: string;
     username: string;
     fullname: string;
     course_ids: string[];
     review_ids: string[];
 
-    constructor(_id: number, username: string, fullname: string, course_ids: string[], review_ids: string[]) {
-        this._id = _id;
+    constructor(username: string, fullname: string, course_ids: string[], review_ids: string[]) {
         this.username = username;
         this.fullname = fullname;
         this.course_ids = course_ids;

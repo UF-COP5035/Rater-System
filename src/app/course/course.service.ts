@@ -11,7 +11,6 @@ export class CourseService {
     result: any;
     private headers = new Headers({ 'Content-Type': 'application/json' });
     private coursesUrl = 'api/courses';  // URL to course api
-
     constructor(private http: Http) { }
 
     // get("/api/courses")
@@ -25,6 +24,15 @@ export class CourseService {
     // get("/api/courses/:id")
     getCourse(id: string): Promise<Course> {
         const url = `${this.coursesUrl}/${id}`;
+        return this.http.get(url)
+            .toPromise()
+            .then(response => response.json().data as Course)
+            .catch(this.handleError);
+    }
+
+    // get("/api/courses/:code/code")
+    getCourseByCode(code: string): Promise<Course> {
+        const url = `${this.coursesUrl}/${code}/code`;
         return this.http.get(url)
             .toPromise()
             .then(response => response.json().data as Course)
@@ -66,7 +74,7 @@ export class CourseService {
     }
 
     private handleError(error: any): Promise<any> {
-        console.error('Unable to retrieve courses', error);
+        console.error('Unsuccessful call to courses API', error);
         return Promise.reject(error);
     }
 

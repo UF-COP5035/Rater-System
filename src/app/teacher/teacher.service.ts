@@ -11,7 +11,6 @@ export class TeacherService {
     result: any;
     private headers = new Headers({ 'Content-Type': 'application/json' });
     private teachersUrl = 'api/teachers';  // URL to teacher api
-
     constructor(private http: Http) { }
 
     // get("/api/teachers")
@@ -91,7 +90,7 @@ export class TeacherService {
     }
 
     private handleError(error: any): Promise<any> {
-        console.error('Unable to retrieve teachers', error);
+        console.error('Unsuccessful call to teachers API', error);
         return Promise.reject(error);
     }
 

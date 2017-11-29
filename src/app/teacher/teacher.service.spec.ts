@@ -6,11 +6,11 @@ import { TeacherService } from './teacher.service';
 import { Teacher } from './teacher';
 
 export const TEACHERS: Teacher[] = [
-    { _id: 1, username: 'test_teacher1', fullname: 'Test Teacher1' },
-    { _id: 2, username: 'test_teacher2', fullname: 'Test Teacher2' },
-    { _id: 3, username: 'test_teacher3', fullname: 'Test Teacher3' },
-    { _id: 4, username: 'test_teacher4', fullname: 'Test Teacher4' },
-    { _id: 5, username: 'test_teacher5', fullname: 'Test Teacher5' },
+    { _id: '1', username: 'test_teacher1', fullname: 'Test Teacher1' },
+    { _id: '2', username: 'test_teacher2', fullname: 'Test Teacher2' },
+    { _id: '3', username: 'test_teacher3', fullname: 'Test Teacher3' },
+    { _id: '4', username: 'test_teacher4', fullname: 'Test Teacher4' },
+    { _id: '5', username: 'test_teacher5', fullname: 'Test Teacher5' },
 ];
 
 export const STUDENTS = [

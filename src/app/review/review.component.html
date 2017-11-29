@@ -1,16 +1,26 @@
-<h3> Teacher Review </h3>
+<div *ngIf="user | async as user">
+    <h3>Welcome {{user.fullname}}</h3>
+</div>
 
-<div class="form">
-    <form class="teacher-review">
-        <mat-form-field class="example-full-width">
-            <input placeholder="Teacher Name" value="Mr.Jones" matInput>
-        </mat-form-field>
-        <p>
-            <mat-form-field class="example-full-width">
-                <input placeholder="Teacher Grade" value="A+" matInput>
-            </mat-form-field>
-        </p>
-    </form>
-    <button mat-raised-button color="primary" (click)="goBack()">Back</button>
-  
+<div>
+    <div>
+        <h4>Courses yet to be reviewed</h4>
+        <mat-accordion>
+            <mat-expansion-panel *ngFor="let course of coursesToBeReviewed | async">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        {{course.course_name}}
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        {{course.teacher_name}}
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <app-dynamic-form [questions]="questions" [userID]="userID" [course_code]="course.course_code" [teacher_name]="course.teacher_name"></app-dynamic-form>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+
+    <div>
+        <button mat-raised-button color="warn" (click)="goBack()">Back</button>
+    </div>
 </div>
