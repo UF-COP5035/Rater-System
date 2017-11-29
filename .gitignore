@@ -8,6 +8,7 @@ bower_components
 tools/gulp-tasks/cldr/cldr-data/
 coverage/
 docs/
+package-lock.json
 
 # Include when developing application packages.
 pubspec.lock
