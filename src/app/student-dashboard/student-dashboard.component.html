@@ -1,5 +1,25 @@
 <h1>Welcome</h1>
-<div *ngIf="student$ | async as student">
-    <h1>Student Name: {{ student.fullname }}</h1>
+<div *ngIf="currentStudent | async as student">
+    <h2> {{ student.fullname }}</h2>
+<div>
+    <h3>Your Course Schedule</h3>
+    <table>
+      <thead>
+      <tr>
+        <th>Course</th>
+        <th>Course Number</th>
+        <th>Teacher</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let course of courses | async" >
+        <td>{{course.course_name}} </td>
+        <td>{{course.course_code}}</td>
+        <td>{{course.teacher_name}}  </td>
+      </tr> 
+      </tbody> 
+    </table>
+</div>
+
     <button mat-button color="primary" (click)="goToSubmitReviews(student._id)">Submit Reviews</button>
 </div>

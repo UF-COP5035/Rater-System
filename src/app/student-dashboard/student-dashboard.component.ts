@@ -12,19 +12,21 @@ import { Observable } from 'rxjs/Observable';
     styleUrls: ['./student-dashboard.component.css']
 })
 export class StudentDashboardComponent implements OnInit {
-    student$: Observable<Student>;
+    currentStudent: Promise<Student>;
+    courses: Promise<Array<any>>;
+    studentID: string;
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         private service: StudentService
-    ) { }
+    ) {
+      this.route.params.subscribe(params => this.studentID = params._id);
+     }
 
     ngOnInit() {
-        this.student$ = this.route.paramMap
-            .switchMap((params: ParamMap) =>
-                this.service.getStudent(params.get('_id'))
-            );
+        this.currentStudent = this.service.getStudent(this.studentID);
+        this.courses = this.service.getCoursesByStudent(this.studentID);
     }
 
     goToSubmitReviews(userId: string) {
