@@ -102,16 +102,16 @@ describe('TeacherService', () => {
         }));
     });
 
-    describe('getTeacherByUsername()', () => {
+    describe('getTeacherByLoginInfo()', () => {
         it('should get teacher data', inject([TeacherService, XHRBackend], (teacherService, mockBackend) => {
             const mockResponse = { data: TEACHERS[0] };
             mockBackend.connections.subscribe(connection => {
                 connection.mockRespond(new Response(new ResponseOptions({
                     body: JSON.stringify(mockResponse)
                 })));
-                expect(connection.request.url).toBe('api/teachers/test_teacher1/user');
+                expect(connection.request.url).toBe('api/teachers/test_teacher1/password/user');
             });
-            teacherService.getTeacherByUsername('test_teacher1').then((res) => {
+            teacherService.getTeacherByLoginInfo({ username: 'test_teacher1', password: 'password' }).then((res) => {
                 expect(res).toEqual(TEACHERS[0]);
             });
         }));
@@ -120,7 +120,7 @@ describe('TeacherService', () => {
             mockBackend.connections.subscribe((connection => {
                 connection.mockError(new Error('some error'));
             }));
-            teacherService.getTeacherByUsername().then((res) => {
+            teacherService.getTeacherByLoginInfo({ username: 'test_teacher1', password: 'password' }).then((res) => {
                 expect(res).toBeDefined();
             });
         }));

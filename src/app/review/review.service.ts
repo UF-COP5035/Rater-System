@@ -65,9 +65,33 @@ export class ReviewService {
             }),
 
             new TextboxQuestion({
-                question: 'Any comments',
+                question: 'Do they present the material in an understandable manner',
                 required: true,
                 order: 2
+            }),
+
+            new TextboxQuestion({
+                question: 'Were the course goals explicitly stated (verbally or written)',
+                required: true,
+                order: 3
+            }),
+
+            new TextboxQuestion({
+                question: 'Were the specified course goals met',
+                required: true,
+                order: 4
+            }),
+
+            new TextboxQuestion({
+                question: 'Would you recommend this course to others',
+                required: true,
+                order: 5
+            }),
+
+            new TextboxQuestion({
+                question: 'Any comments',
+                required: true,
+                order: 6
             })
         ];
 

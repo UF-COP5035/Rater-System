@@ -1,37 +1,34 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterModule, Routes, Router, ParamMap, Params } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { Teacher } from '../teacher/teacher';
 import { TeacherService } from '../teacher/teacher.service';
-import 'rxjs/add/operator/switchMap';
-import { Observable } from 'rxjs/Observable';
+import { AuthenticationService, Credentials } from '../authentication/authentication.service';
 
 @Component({
-  selector: 'app-teacher-dashboard',
-  templateUrl: './teacher-dashboard.component.html',
-  styleUrls: ['./teacher-dashboard.component.css']
+    selector: 'app-teacher-dashboard',
+    templateUrl: './teacher-dashboard.component.html',
+    styleUrls: ['./teacher-dashboard.component.css']
 })
 export class TeacherDashboardComponent implements OnInit {
-  currentTeacher: Promise<Teacher>;
-  courses: Promise<Array<any>>;
-  teacherID: string;
+    currentTeacher: Promise<Teacher>;
+    courses: Promise<Array<any>>;
+    teacherInfo: Credentials;
 
-  constructor(
-      private route: ActivatedRoute,
-      private router: Router,
-      private service: TeacherService
-  ) {
-    this.route.params.subscribe(params => this.teacherID = params._id);
-   }
+    constructor(
+        private router: Router,
+        private teacherService: TeacherService,
+        private authService: AuthenticationService
+    ) {
+        this.teacherInfo = this.authService.credentials();
+    }
 
-  ngOnInit() {
-      this.currentTeacher = this.service.getTeacher(this.teacherID);
-      this.courses = this.service.getCoursesByTeacher(this.teacherID);
-  }
-  goToSubmitReviews(userId: string) {
-    this.router.navigate(['/teacher-dashboard/review/', userId]);
-}
-
-
-
+    ngOnInit() {
+        this.currentTeacher = this.teacherService.getTeacher(this.teacherInfo.user_id);
+        this.courses = this.teacherService.getCoursesByTeacher(this.teacherInfo.user_id);
+    }
+    goToSubmitReviews(userId: string) {
+        this.router.navigate(['/teacher-dashboard/review/']);
+    }
 }
 

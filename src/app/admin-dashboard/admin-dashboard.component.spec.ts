@@ -11,6 +11,9 @@ import {
 
 import { AdminDashboardComponent } from './admin-dashboard.component';
 import { AdministratorService } from '../administrator/administrator.service';
+import { AuthenticationService } from '../authentication/authentication.service';
+import { StudentService } from '../student/student.service';
+import { TeacherService } from '../teacher/teacher.service';
 
 class TestRouterComponent { }
 const config: Routes = [
@@ -21,9 +24,10 @@ describe('AdminDashboardComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [MatMenuModule, RouterModule, RouterTestingModule, HttpModule],
-            providers: [AdministratorService, provideRoutes(config), {
-                provide: XHRBackend, useClass: MockBackend
-            }],
+            providers: [AuthenticationService, AdministratorService, StudentService,
+                TeacherService, provideRoutes(config), {
+                    provide: XHRBackend, useClass: MockBackend
+                }],
             declarations: [
                 AdminDashboardComponent
             ]
@@ -34,12 +38,5 @@ describe('AdminDashboardComponent', () => {
         const fixture = TestBed.createComponent(AdminDashboardComponent);
         const app = fixture.debugElement.componentInstance;
         expect(app).toBeTruthy();
-    }));
-
-    it('should render title in a h1 tag', async(() => {
-        const fixture = TestBed.createComponent(AdminDashboardComponent);
-        fixture.detectChanges();
-        const compiled = fixture.debugElement.nativeElement;
-        expect(compiled.querySelector('h1').textContent).toContain('Welcome');
     }));
 });

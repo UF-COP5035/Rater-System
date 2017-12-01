@@ -106,16 +106,16 @@ describe('StudentService', () => {
         }));
     });
 
-    describe('getStudentByUsername()', () => {
+    describe('getStudentByLoginInfo()', () => {
         it('should get student data', inject([StudentService, XHRBackend], (studentService, mockBackend) => {
             const mockResponse = { data: STUDENTS[0] };
             mockBackend.connections.subscribe(connection => {
                 connection.mockRespond(new Response(new ResponseOptions({
                     body: JSON.stringify(mockResponse)
                 })));
-                expect(connection.request.url).toBe('api/students/test_teacher1/user');
+                expect(connection.request.url).toBe('api/students/test_student1/password/user');
             });
-            studentService.getStudentByUsername('test_teacher1').then((res) => {
+            studentService.getStudentByLoginInfo({ username: 'test_student1', password: 'password' }).then((res) => {
                 expect(res).toEqual(STUDENTS[0]);
             });
         }));
@@ -124,7 +124,7 @@ describe('StudentService', () => {
             mockBackend.connections.subscribe((connection => {
                 connection.mockError(new Error('some error'));
             }));
-            studentService.getStudentByUsername().then((res) => {
+            studentService.getStudentByLoginInfo({ username: 'test_student1', password: 'password' }).then((res) => {
                 expect(res).toBeDefined();
             });
         }));

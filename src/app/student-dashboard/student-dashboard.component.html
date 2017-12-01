@@ -1,7 +1,6 @@
 <h1>Welcome</h1>
 <div *ngIf="currentStudent | async as student">
     <h2> {{ student.fullname }}</h2>
-
     <h3>Your Course Schedule</h3>
     <table>
         <thead>
@@ -19,7 +18,5 @@
             </tr>
         </tbody>
     </table>
-
-
-    <button mat-button color="primary" (click)="goToSubmitReviews(student._id)">Submit Reviews</button>
+    <button mat-button color="primary" (click)="goToSubmitReviews(studentInfo.user_id)">Submit Reviews</button>
 </div>

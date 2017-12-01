@@ -1,10 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterModule, Routes, Router, ParamMap, Params } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { Student } from '../student/student';
 import { StudentService } from '../student/student.service';
-import 'rxjs/add/operator/switchMap';
-import { Observable } from 'rxjs/Observable';
-
+import { Credentials, AuthenticationService } from '../authentication/authentication.service';
 
 @Component({
     selector: 'app-student-dashboard',
@@ -14,24 +13,23 @@ import { Observable } from 'rxjs/Observable';
 export class StudentDashboardComponent implements OnInit {
     currentStudent: Promise<Student>;
     courses: Promise<Array<any>>;
-    studentID: string;
+    studentInfo: Credentials;
 
     constructor(
-        private route: ActivatedRoute,
         private router: Router,
-        private service: StudentService
+        private studentService: StudentService,
+        private authService: AuthenticationService
     ) {
-      this.route.params.subscribe(params => this.studentID = params._id);
-     }
+        this.studentInfo = this.authService.credentials();
+    }
 
     ngOnInit() {
-        this.currentStudent = this.service.getStudent(this.studentID);
-        this.courses = this.service.getCoursesByStudent(this.studentID);
+        this.currentStudent = this.studentService.getStudent(this.studentInfo.user_id);
+        this.courses = this.studentService.getCoursesByStudent(this.studentInfo.user_id);
     }
 
     goToSubmitReviews(userId: string) {
-        this.router.navigate(['/student-dashboard/review/', userId]);
+        this.router.navigate(['/student-dashboard/review/']);
     }
-
 }
 

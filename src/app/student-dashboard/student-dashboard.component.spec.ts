@@ -11,6 +11,9 @@ import {
 
 import { StudentDashboardComponent } from './student-dashboard.component';
 import { StudentService } from '../student/student.service';
+import { AuthenticationService } from '../authentication/authentication.service';
+import { TeacherService } from '../teacher/teacher.service';
+import { AdministratorService } from '../administrator/administrator.service';
 
 class TestRouterComponent { }
 const config: Routes = [
@@ -21,7 +24,7 @@ describe('StudentDashboardComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [MatMenuModule, RouterModule, RouterTestingModule, HttpModule],
-            providers: [StudentService, provideRoutes(config), {
+            providers: [AuthenticationService, StudentService, TeacherService, AdministratorService, provideRoutes(config), {
                 provide: XHRBackend, useClass: MockBackend
             }],
             declarations: [
@@ -34,12 +37,5 @@ describe('StudentDashboardComponent', () => {
         const fixture = TestBed.createComponent(StudentDashboardComponent);
         const app = fixture.debugElement.componentInstance;
         expect(app).toBeTruthy();
-    }));
-
-    it('should render title in a h1 tag', async(() => {
-        const fixture = TestBed.createComponent(StudentDashboardComponent);
-        fixture.detectChanges();
-        const compiled = fixture.debugElement.nativeElement;
-        expect(compiled.querySelector('h1').textContent).toContain('Welcome');
     }));
 });
