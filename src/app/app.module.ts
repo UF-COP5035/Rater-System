@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-    MatCardModule, MatMenuModule, MatToolbarModule, MatIconModule, MatInputModule,
+    MatCardModule, MatMenuModule, MatToolbarModule, MatIconModule, MatInputModule, MatDialogModule,
     MatButtonModule, MatFormFieldModule, MatSelectModule, MatTabsModule, MatExpansionModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -24,6 +24,8 @@ import { AdministratorService } from './administrator/administrator.service';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { DynamicFormQuestionComponent } from './review/dynamic-form-question/dynamic-form-question.component';
 import { DynamicFormComponent } from './review/dynamic-form/dynamic-form.component';
+import { CompletedFormComponent } from './review/completed-form/completed-form.component';
+import { DynamicFormDialogComponent } from './review/dynamic-form/dynamic-form.component';
 
 const appRoutes: Routes = [
     { path: 'student-dashboard/:_id', component: StudentDashboardComponent },
@@ -48,6 +50,8 @@ const appRoutes: Routes = [
         PageNotFoundComponent,
         DynamicFormQuestionComponent,
         DynamicFormComponent,
+        CompletedFormComponent,
+        DynamicFormDialogComponent
     ],
     imports: [
         RouterModule.forRoot(
@@ -68,7 +72,8 @@ const appRoutes: Routes = [
         MatIconModule,
         MatSelectModule,
         MatTabsModule,
-        MatExpansionModule
+        MatExpansionModule,
+        MatDialogModule
     ],
     providers: [
         ReviewService,
@@ -77,6 +82,7 @@ const appRoutes: Routes = [
         TeacherService,
         AdministratorService
     ], // <-Add Services
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
+    entryComponents: [DynamicFormDialogComponent]
 })
 export class AppModule { }

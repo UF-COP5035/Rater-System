@@ -59,15 +59,13 @@ export class ReviewService {
         const questions: ReviewQuestion<any>[] = [
 
             new TextboxQuestion({
-                label: 'Are they a good teacher',
-                question: 'goodTeacher',
+                question: 'Are they a good teacher',
                 required: true,
                 order: 1
             }),
 
             new TextboxQuestion({
-                label: 'Any comments',
-                question: 'comments',
+                question: 'Any comments',
                 required: true,
                 order: 2
             })
