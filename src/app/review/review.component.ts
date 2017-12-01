@@ -31,6 +31,7 @@ export class ReviewComponent implements OnInit {
     courses: Promise<Array<any>>;
     reviews: Promise<Array<any>>;
     coursesToBeReviewed: Promise<Array<any>>;
+    coursesReviewed: Promise<Array<any>>;
     questions: any[];
 
     constructor(
@@ -54,12 +55,19 @@ export class ReviewComponent implements OnInit {
                 const courses = data[0];
                 const reviews = data[1];
                 const coursesToBeReviewed = [];
+                const coursesReviewed = [];
                 courses.forEach(course => {
                     if (typeof (reviews.find(reviewedCourse => reviewedCourse.course_code === course.course_code)) === 'undefined') {
                         coursesToBeReviewed.push(course);
+                    } else {
+                        coursesReviewed.push({
+                            course: course,
+                            review: reviews.find(reviewedCourse => reviewedCourse.course_code === course.course_code)
+                        });
                     }
                 });
                 this.coursesToBeReviewed = Promise.resolve(coursesToBeReviewed);
+                this.coursesReviewed = Promise.resolve(coursesReviewed);
             });
             this.questions = this.reviewService.getQuestions();
         } else { // Other user types

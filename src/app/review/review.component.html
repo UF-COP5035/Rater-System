@@ -15,7 +15,21 @@
                         {{course.teacher_name}}
                     </mat-panel-description>
                 </mat-expansion-panel-header>
-                <app-dynamic-form [questions]="questions" [userID]="userID" [course_code]="course.course_code" [teacher_name]="course.teacher_name"></app-dynamic-form>
+                <app-dynamic-form [questions]="questions" [userID]="userID" [course_code]="course.course_code"></app-dynamic-form>
+            </mat-expansion-panel>
+        </mat-accordion>
+        <h4>Courses already reviewed</h4>
+        <mat-accordion>
+            <mat-expansion-panel *ngFor="let course of coursesReviewed | async">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        {{course.course.course_name}}
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        {{course.course.teacher_name}}
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <app-completed-form [questions]="course.review.review_content" [userID]="userID" [course_code]="course.course.course_code"></app-completed-form>
             </mat-expansion-panel>
         </mat-accordion>
     </div>
