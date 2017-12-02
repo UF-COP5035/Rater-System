@@ -205,11 +205,13 @@ router.get('/students/:student_id/courses', (req, res) => {
                     else {
                         var courses = [];
                         result.forEach(function (course) {
-                            courses.push({
-                                course_name: course.course_info[0].course_name,
-                                course_code: course.course_info[0].course_code,
-                                teacher_name: course.teacher_info[0].fullname
-                            });
+                            if (course.course_info[0] && course.teacher_info[0]) {
+                                courses.push({
+                                    course_name: course.course_info[0].course_name,
+                                    course_code: course.course_info[0].course_code,
+                                    teacher_name: course.teacher_info[0].fullname
+                                });
+                            }
                         });
                         response.data = courses;
                         res.json(response);
@@ -243,12 +245,14 @@ router.get('/students/:student_id/reviews', (req, res) => {
                     else {
                         var reviews = [];
                         result.forEach(function (review) {
-                            reviews.push({
-                                review_content: review.review_info.review_content,
-                                course_name: review.course_info[0].course_name,
-                                course_code: review.course_info[0].course_code,
-                                teacher_name: review.teacher_info[0].fullname
-                            });
+                            if (review.review_info && review.teacher_info[0] && review.course_info[0]) {
+                                reviews.push({
+                                    review_content: review.review_info.review_content,
+                                    course_name: review.course_info[0].course_name,
+                                    course_code: review.course_info[0].course_code,
+                                    teacher_name: review.teacher_info[0].fullname
+                                });
+                            }
                         });
                         response.data = reviews;
                         res.json(response);
@@ -280,11 +284,15 @@ router.get('/students/:student_id/teachers', (req, res) => {
                     }
                     else {
                         var teachers = [];
-                        result[0].teacher_info.forEach(function (teacher) {
-                            teachers.push({
-                                teacher_name: teacher.fullname,
+                        if (result[0]) {
+                            result[0].teacher_info.forEach(function (teacher) {
+                                if (teacher) {
+                                    teachers.push({
+                                        teacher_name: teacher.fullname,
+                                    });
+                                }
                             });
-                        });
+                        }
                         response.data = teachers;
                         res.json(response);
                     }
@@ -461,12 +469,16 @@ router.get('/teachers/:teacher_id/courses', (req, res) => {
                     }
                     else {
                         var courses = [];
-                        result[0].course_info.forEach(function (course) {
-                            courses.push({
-                                course_name: course.course_name,
-                                course_code: course.course_code,
+                        if (result[0]) {
+                            result[0].course_info.forEach(function (course) {
+                                if (course) {
+                                    courses.push({
+                                        course_name: course.course_name,
+                                        course_code: course.course_code,
+                                    });
+                                }
                             });
-                        });
+                        }
                         response.data = courses;
                         res.json(response);
                     }
@@ -498,11 +510,13 @@ router.get('/teachers/:teacher_id/reviews', (req, res) => {
                     else {
                         var reviews = [];
                         result.forEach(function (review) {
-                            reviews.push({
-                                course_name: review.course_info[0].course_name,
-                                course_code: review.course_info[0].course_code,
-                                review_content: review.review_info.review_content,
-                            });
+                            if (review.course_info[0] && review.review_info) {
+                                reviews.push({
+                                    course_name: review.course_info[0].course_name,
+                                    course_code: review.course_info[0].course_code,
+                                    review_content: review.review_info.review_content,
+                                });
+                            }
                         });
                         response.data = reviews;
                         res.json(response);
@@ -535,13 +549,17 @@ router.get('/teachers/:teacher_id/students', (req, res) => {
                     else {
                         var students = [];
                         result.forEach(function (course) {
-                            course.student_info.forEach(function (student) {
-                                students.push({
-                                    course_name: course.course_info.course_name,
-                                    course_code: course.course_info.course_code,
-                                    student_name: student.fullname,
+                            if (course.course_info && course.student_info) {
+                                course.student_info.forEach(function (student) {
+                                    if (student) {
+                                        students.push({
+                                            course_name: course.course_info.course_name,
+                                            course_code: course.course_info.course_code,
+                                            student_name: student.fullname,
+                                        });
+                                    }
                                 });
-                            });
+                            }
                         });
                         response.data = students;
                         res.json(response);
@@ -726,11 +744,13 @@ router.get('/administrators/:administrator_id/courses', (req, res) => {
                     else {
                         var courses = [];
                         result.forEach(function (course) {
-                            courses.push({
-                                course_name: course.course_info.course_name,
-                                course_code: course.course_info.course_code,
-                                teacher_name: course.teacher_info.fullname,
-                            });
+                            if (course.course_info && course.teacher_info) {
+                                courses.push({
+                                    course_name: course.course_info.course_name,
+                                    course_code: course.course_info.course_code,
+                                    teacher_name: course.teacher_info.fullname,
+                                });
+                            }
                         });
                         response.data = courses;
                         res.json(response);
@@ -765,12 +785,14 @@ router.get('/administrators/:administrator_id/reviews', (req, res) => {
                     else {
                         var reviews = [];
                         result.forEach(function (review) {
-                            reviews.push({
-                                course_name: review.course_info[0].course_name,
-                                course_code: review.course_info[0].course_code,
-                                teacher_name: review.teacher_info.fullname,
-                                review_content: review.review_info.review_content,
-                            });
+                            if (review.course_info[0] && review.teacher_info && review.review_info) {
+                                reviews.push({
+                                    course_name: review.course_info[0].course_name,
+                                    course_code: review.course_info[0].course_code,
+                                    teacher_name: review.teacher_info.fullname,
+                                    review_content: review.review_info.review_content,
+                                });
+                            }
                         });
                         response.data = reviews;
                         res.json(response);
@@ -806,11 +828,13 @@ router.get('/administrators/:administrator_id/students', (req, res) => {
                     else {
                         var students = [];
                         result.forEach(function (student) {
-                            students.push({
-                                course_name: student.course_info.course_name,
-                                course_code: student.course_info.course_code,
-                                student_name: student.student_info.fullname,
-                            });
+                            if (student.course_info && student.student_info) {
+                                students.push({
+                                    course_name: student.course_info.course_name,
+                                    course_code: student.course_info.course_code,
+                                    student_name: student.student_info.fullname,
+                                });
+                            }
                         });
                         response.data = students;
                         res.json(response);
@@ -842,9 +866,11 @@ router.get('/administrators/:administrator_id/teachers', (req, res) => {
                     else {
                         var teachers = [];
                         result.forEach(function (teacher) {
-                            teachers.push({
-                                teacher_name: teacher.teacher_info.fullname,
-                            });
+                            if (teacher.teacher_info) {
+                                teachers.push({
+                                    teacher_name: teacher.teacher_info.fullname,
+                                });
+                            }
                         });
                         response.data = teachers;
                         res.json(response);
@@ -1023,9 +1049,11 @@ router.get('/courses/:course_id/students', (req, res) => {
                     else {
                         var students = [];
                         result.forEach(function (student) {
-                            students.push({
-                                student_name: student.student_info.fullname,
-                            });
+                            if (student.student_info) {
+                                students.push({
+                                    student_name: student.student_info.fullname,
+                                });
+                            }
                         });
                         response.data = students;
                         res.json(response);
