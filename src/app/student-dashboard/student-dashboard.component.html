@@ -4,20 +4,20 @@
 
     <h3>Your Course Schedule</h3>
     <table>
-      <thead>
-      <tr>
-        <th>Course</th>
-        <th>Course Number</th>
-        <th>Teacher</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let course of courses | async" >
-        <td>{{course.course_name}} </td>
-        <td>{{course.course_code}}</td>
-        <td>{{course.teacher_name}}  </td>
-      </tr> 
-      </tbody> 
+        <thead>
+            <tr>
+                <th>Course</th>
+                <th>Course Number</th>
+                <th>Teacher</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let course of courses | async">
+                <td>{{course.course_name}} </td>
+                <td>{{course.course_code}}</td>
+                <td>{{course.teacher_name}} </td>
+            </tr>
+        </tbody>
     </table>
 
 
