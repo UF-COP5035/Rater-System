@@ -1,0 +1,20 @@
+:host-context() {
+    background-color: #eef;
+  }
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    color: #4a4a4d;
+    margin-left:auto; 
+    margin-right:auto;
+    text-align: center;
+  }
+  th,
+  td {
+    border-bottom: 1px solid #cecfd5;
+    padding: 10px 15px;
+    vertical-align: middle;
+  }
+  th {
+    font-weight: bold;
+  }

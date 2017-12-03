@@ -25,8 +25,8 @@ import 'rxjs/add/operator/toPromise';
 export class LoginComponent implements OnInit {
     hide = true;
     student: Student;
-    teachers: Teacher[] = [];
-    administrators: Administrator[] = [];
+    teacher: Teacher;
+    administrator: Administrator;
 
     constructor(private teacherService: TeacherService,
         private administratorService: AdministratorService,
@@ -48,9 +48,23 @@ export class LoginComponent implements OnInit {
                     console.error(err);
                 });
         } else if (userType === 'teacher') {
-            this.router.navigate(['/teacher-dashboard']);
+            this.teacherService.getTeacherByUsername(userName)
+            .then((teacher) => {
+                this.teacher = teacher;
+                this.router.navigate(['/teacher-dashboard/', this.teacher._id]);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
         } else if (userType === 'administrator') {
-            this.router.navigate(['/admin-dashboard']);
+            this.administratorService.getAdministratorByUsername(userName)
+            .then((administrator) => {
+                this.administrator = administrator;
+                this.router.navigate(['/admin-dashboard/', this.administrator._id]);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
         } else {
             this.router.navigate(['']);
         }

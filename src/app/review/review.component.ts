@@ -7,6 +7,8 @@ import { ActivatedRoute, RouterModule, Routes, Router, ParamMap, Params } from '
 import { MatExpansionModule, MatExpansionPanelTitle } from '@angular/material/expansion';
 
 import { StudentService } from '../student/student.service';
+import { TeacherService } from '../teacher/teacher.service';
+import { AdministratorService} from '../administrator/administrator.service';
 import { ReviewService } from './review.service';
 
 import { Observable } from 'rxjs/Observable';
@@ -24,9 +26,10 @@ export class ReviewComponent implements OnInit {
 
     // Temporarily force a student user type
     // TODO: Update to use user session
-    userType = 1;
+    userType: number;
 
     userID: string;
+    userURL: string;
     user: Promise<any>;
     courses: Promise<Array<any>>;
     reviews: Promise<Array<any>>;
@@ -36,16 +39,33 @@ export class ReviewComponent implements OnInit {
 
     constructor(
         private studentService: StudentService,
+        private teacherService: TeacherService,
+        private administratorService: AdministratorService,
         private reviewService: ReviewService,
         private route: ActivatedRoute,
         private router: Router,
     ) {
         this.route.params.subscribe(params => this.userID = params._id);
+        this.route.url.subscribe(url => this.userURL);
     }
 
     selectedValue: string;
 
     ngOnInit(): void {
+        if(this.router.url.indexOf('student') > 0){
+                     this.userType =1;
+                     this.userURL = '/student-dashboard/';
+        }else if (this.router.url.indexOf('teacher') > 0){
+            this.userType = 2;
+            this.userURL = '/teacher-dashboard/';
+        } else if (this.router.url.indexOf('admin') > 0){
+            this.userType = 3;
+            this.userURL = '/admin-dashboard/';
+        } else {
+            this.userType = 100;
+            this.userURL = '';
+        }
+
         if (this.userType === 1) { // Student user type
             this.user = this.studentService.getStudent(this.userID);
             Promise.all([
@@ -70,13 +90,63 @@ export class ReviewComponent implements OnInit {
                 this.coursesReviewed = Promise.resolve(coursesReviewed);
             });
             this.questions = this.reviewService.getQuestions();
-        } else { // Other user types
+        } else if(this.userType == 2){
+            this.user = this.teacherService.getTeacher(this.userID);
+            Promise.all([
+                this.courses = this.teacherService.getCoursesByTeacher(this.userID),
+                this.reviews = this.teacherService.getReviewsByTeacher(this.userID),
+            ]).then(data => {
+                const courses = data[0];
+                const reviews = data[1];
+                const coursesToBeReviewed = [];
+                const coursesReviewed = [];
+                courses.forEach(course => {
+                    if (typeof (reviews.find(reviewedCourse => reviewedCourse.course_code === course.course_code)) === 'undefined') {
+                        coursesToBeReviewed.push(course);
+                    } else {
+                        coursesReviewed.push({
+                            course: course,
+                            review: reviews.find(reviewedCourse => reviewedCourse.course_code === course.course_code)
+                        });
+                    }
+                });
+                this.coursesToBeReviewed = Promise.resolve(coursesToBeReviewed);
+                this.coursesReviewed = Promise.resolve(coursesReviewed);
+            });
+            this.questions = this.reviewService.getQuestions();
+
+        } else if(this.userType == 3){
+            this.user = this.administratorService.getAdministrator(this.userID);
+            Promise.all([
+                this.courses = this.administratorService.getCoursesByAdministrator(this.userID),
+                this.reviews = this.administratorService.getReviewsByAdministrator(this.userID),
+            ]).then(data => {
+                const courses = data[0];
+                const reviews = data[1];
+                const coursesToBeReviewed = [];
+                const coursesReviewed = [];
+                courses.forEach(course => {
+                    if (typeof (reviews.find(reviewedCourse => reviewedCourse.course_code === course.course_code)) === 'undefined') {
+                        coursesToBeReviewed.push(course);
+                    } else {
+                        coursesReviewed.push({
+                            course: course,
+                            review: reviews.find(reviewedCourse => reviewedCourse.course_code === course.course_code)
+                        });
+                    }
+                });
+                this.coursesToBeReviewed = Promise.resolve(coursesToBeReviewed);
+                this.coursesReviewed = Promise.resolve(coursesReviewed);
+            });
+            this.questions = this.reviewService.getQuestions();
+
+        }else { // Other user types
 
         }
     }
 
     goBack(): void {
-        this.router.navigate(['/student-dashboard/', this.userID]);
+        this.router.navigate([this.userURL, this.userID]);
     }
 
 }
