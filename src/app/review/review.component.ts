@@ -23,7 +23,6 @@ import 'rxjs/add/operator/toPromise';
 })
 export class ReviewComponent implements OnInit {
     // Gathering Review information
-
     // Temporarily force a student user type
     // TODO: Update to use user session
     userType: number;
@@ -93,24 +92,20 @@ export class ReviewComponent implements OnInit {
         } else if(this.userType == 2){
             this.user = this.teacherService.getTeacher(this.userID);
             Promise.all([
-                this.courses = this.teacherService.getCoursesByTeacher(this.userID),
                 this.reviews = this.teacherService.getReviewsByTeacher(this.userID),
             ]).then(data => {
+                
                 const courses = data[0];
-                const reviews = data[1];
                 const coursesToBeReviewed = [];
                 const coursesReviewed = [];
                 courses.forEach(course => {
-                    if (typeof (reviews.find(reviewedCourse => reviewedCourse.course_code === course.course_code)) === 'undefined') {
-                        coursesToBeReviewed.push(course);
-                    } else {
-                        coursesReviewed.push({
+                    if (typeof (courses.find(reviewedCourse => reviewedCourse.course_code === course.course_code)) != 'undefined') {
+                       coursesReviewed.push({
                             course: course,
-                            review: reviews.find(reviewedCourse => reviewedCourse.course_code === course.course_code)
+                            review: course, 
                         });
                     }
                 });
-                this.coursesToBeReviewed = Promise.resolve(coursesToBeReviewed);
                 this.coursesReviewed = Promise.resolve(coursesReviewed);
             });
             this.questions = this.reviewService.getQuestions();
@@ -118,30 +113,24 @@ export class ReviewComponent implements OnInit {
         } else if(this.userType == 3){
             this.user = this.administratorService.getAdministrator(this.userID);
             Promise.all([
-                this.courses = this.administratorService.getCoursesByAdministrator(this.userID),
                 this.reviews = this.administratorService.getReviewsByAdministrator(this.userID),
             ]).then(data => {
+                
                 const courses = data[0];
-                const reviews = data[1];
                 const coursesToBeReviewed = [];
                 const coursesReviewed = [];
                 courses.forEach(course => {
-                    if (typeof (reviews.find(reviewedCourse => reviewedCourse.course_code === course.course_code)) === 'undefined') {
-                        coursesToBeReviewed.push(course);
-                    } else {
-                        coursesReviewed.push({
+                    if (typeof (courses.find(reviewedCourse => reviewedCourse.course_code === course.course_code)) != 'undefined') {
+                       coursesReviewed.push({
                             course: course,
-                            review: reviews.find(reviewedCourse => reviewedCourse.course_code === course.course_code)
+                            review: course, 
                         });
                     }
                 });
-                this.coursesToBeReviewed = Promise.resolve(coursesToBeReviewed);
                 this.coursesReviewed = Promise.resolve(coursesReviewed);
             });
             this.questions = this.reviewService.getQuestions();
-
         }else { // Other user types
-
         }
     }
 
