@@ -52,8 +52,8 @@ export class ReviewComponent implements OnInit {
 
     ngOnInit(): void {
         if(this.router.url.indexOf('student') > 0){
-                     this.userType =1;
-                     this.userURL = '/student-dashboard/';
+            this.userType =1;
+            this.userURL = '/student-dashboard/';
         }else if (this.router.url.indexOf('teacher') > 0){
             this.userType = 2;
             this.userURL = '/teacher-dashboard/';
