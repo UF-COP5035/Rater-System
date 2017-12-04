@@ -89,7 +89,7 @@ export class ReviewComponent implements OnInit {
                 this.coursesReviewed = Promise.resolve(coursesReviewed);
             });
             this.questions = this.reviewService.getQuestions();
-        } else if(this.userType == 2){
+        } else if(this.userType === 2){
             this.user = this.teacherService.getTeacher(this.userID);
             Promise.all([
                 this.reviews = this.teacherService.getReviewsByTeacher(this.userID),
@@ -110,7 +110,7 @@ export class ReviewComponent implements OnInit {
             });
             this.questions = this.reviewService.getQuestions();
 
-        } else if(this.userType == 3){
+        } else if(this.userType === 3){
             this.user = this.administratorService.getAdministrator(this.userID);
             Promise.all([
                 this.reviews = this.administratorService.getReviewsByAdministrator(this.userID),
