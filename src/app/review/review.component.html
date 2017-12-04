@@ -4,7 +4,7 @@
 
 <div>
     <div>
-        <h4>Courses yet to be reviewed</h4>
+        <h4 *ngIf="userType === 1">Courses yet to be reviewed</h4>
         <mat-accordion>
             <mat-expansion-panel *ngFor="let course of coursesToBeReviewed | async">
                 <mat-expansion-panel-header>

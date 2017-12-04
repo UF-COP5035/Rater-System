@@ -9,6 +9,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ReviewComponent } from './review.component';
 import { TeacherService } from '../teacher/teacher.service';
 import { StudentService } from '../student/student.service';
+import { AdministratorService } from '../administrator/administrator.service';
 import { ReviewService } from './review.service';
 
 const appRoutes: Routes = [
@@ -25,7 +26,7 @@ describe('ReviewComponent', () => {
             imports: [BrowserAnimationsModule, MatFormFieldModule, MatInputModule,
                 MatTabsModule, RouterModule.forRoot(appRoutes), HttpModule],
             declarations: [ReviewComponent],
-            providers: [ReviewService, StudentService, TeacherService, { provide: APP_BASE_HREF, useValue: '/' }],
+            providers: [ReviewService, StudentService, TeacherService, AdministratorService, { provide: APP_BASE_HREF, useValue: '/' }],
             schemas: [NO_ERRORS_SCHEMA],
         })
             .compileComponents();

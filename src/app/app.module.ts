@@ -28,11 +28,13 @@ import { CompletedFormComponent } from './review/completed-form/completed-form.c
 import { DynamicFormDialogComponent } from './review/dynamic-form/dynamic-form.component';
 
 const appRoutes: Routes = [
-    { path: 'student-dashboard/:_id', component: StudentDashboardComponent },
-    { path: 'teacher-dashboard/:_id', component: TeacherDashboardComponent },
-    { path: 'admin-dashboard', component: AdminDashboardComponent },
+    { path: 'admin-dashboard/review/:_id', component: ReviewComponent },
+    { path: 'teacher-dashboard/review/:_id', component: ReviewComponent },
     { path: 'student-dashboard/review/:_id', component: ReviewComponent },
     { path: 'review/:_id', component: ReviewComponent },
+    { path: 'student-dashboard/:_id', component: StudentDashboardComponent },
+    { path: 'teacher-dashboard/:_id', component: TeacherDashboardComponent },
+    { path: 'admin-dashboard/:_id', component: AdminDashboardComponent },
     { path: 'login', component: LoginComponent },
     { path: '', redirectTo: '/login', pathMatch: 'full' },
     { path: '**', component: PageNotFoundComponent }
