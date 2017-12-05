@@ -5,22 +5,18 @@
     margin-right: auto;
     justify-content: center;
     align-items: center;
-  }
-  
-  .loginForm > * {
-    width: 20%;
-    margin: 10px auto;
-  }
-  
-  .spacer {
-    -webkit-box-flex: 1;
-    -ms-flex: 1 1 auto;
-    flex: 1 1 auto;
 }
 
+.loginForm > * {
+    width: 60%;
+    margin: 10px auto;
+}
 
+.login-full-width {
+  width: 100%;
+}
 
-  .spacer {
+.spacer {
     -webkit-box-flex: 1;
     -ms-flex: 1 1 auto;
     flex: 1 1 auto;

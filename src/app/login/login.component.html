@@ -1,20 +1,20 @@
 <div class="loginForm" layout="row" layout-align="center center">
     <mat-card class="loginCard">
         <mat-toolbar color="">
-            <h2>Login Form</h2>
+            <h2>Login</h2>
         </mat-toolbar>
         <mat-card-content>
-            <mat-form-field>
+            <mat-form-field class="login-full-width">
                 <mat-select #userType placeholder="User">
                     <mat-option value="student">Student</mat-option>
                     <mat-option value="teacher">Teacher</mat-option>
                     <mat-option value="admin">Administrator</mat-option>
                 </mat-select>
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field class="login-full-width">
                 <input matInput #username placeholder="Username">
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field class="login-full-width">
                 <input matInput #password placeholder="Enter password" [type]="hide ? 'password' : 'text'">
                 <mat-icon matSuffix (click)="hide = !hide"> {{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
             </mat-form-field>
