@@ -31,6 +31,6 @@ export class AdminDashboardComponent implements OnInit {
         this.router.navigate(['/admin-dashboard/review/']);
     }
     goToCreateUsers(userId: string){
-        this.router.navigate(['/admin-dashboard/create/', userId]);
+        this.router.navigate(['/admin-dashboard/create/']);
       }
 }
