@@ -20,6 +20,7 @@ import { AuthenticationGuard } from '../authentication/authentication.guard';
 })
 export class LoginComponent implements OnInit {
     hide = true;
+    validPass = true;
 
     constructor(private teacherService: TeacherService,
         private administratorService: AdministratorService,
@@ -33,8 +34,17 @@ export class LoginComponent implements OnInit {
     login(userType: string, userName: string, password: string) {
         this.authenticationService.login(userType, { username: userName, password: password }, false)
             .subscribe(credentials => {
-                console.log(`${credentials.username} successfully logged in`);
-                this.router.navigate(['/' + userType + '-dashboard/'], { replaceUrl: true });
+                if (this.authenticationService.isAuthenticated()) {
+                    console.log(`${credentials.username} successfully logged in`);
+                    this.router.navigate(['/' + userType + '-dashboard/'], { replaceUrl: true });
+                }
+            },
+            error => {
+                this.validPass = false;
             });
+    }
+
+    getErrorMessage() {
+        return 'Invalid username/password';
     }
 }

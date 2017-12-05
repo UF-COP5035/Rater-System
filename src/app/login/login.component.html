@@ -18,6 +18,8 @@
                 <input matInput #password placeholder="Enter password" [type]="hide ? 'password' : 'text'">
                 <mat-icon matSuffix (click)="hide = !hide"> {{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
             </mat-form-field>
+            <span class="spacer"></span>
+            <mat-error *ngIf="!validPass">{{getErrorMessage()}}</mat-error>
             <div>
                 <span class="spacer"></span>
                 <button mat-raised-button color="accent" (click)="login(userType.value, username.value, password.value)">Login</button>

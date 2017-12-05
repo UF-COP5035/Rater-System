@@ -49,7 +49,6 @@ export class AuthenticationService {
      * @return {Observable<Credentials>} The user credentials.
      */
     login(userType: string, context: LoginContext, remember: boolean): Observable<Credentials> {
-        console.log(userType, context);
         return Observable.create((observer: Observer<Credentials>) => {
             if (userType === 'student') {
                 this.studentService.getStudentByLoginInfo(context)
