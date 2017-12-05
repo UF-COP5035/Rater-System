@@ -1,0 +1,31 @@
+<div class="loginForm" layout="row" layout-align="center center">
+  <mat-card class="loginCard">
+      <mat-toolbar color="">
+          <h2>Student Creation Form</h2>
+      </mat-toolbar>
+      <mat-card-content>
+          <mat-form-field>
+              <mat-select #userType placeholder="User">
+                  <mat-option value="student">Student</mat-option>
+              </mat-select>
+          </mat-form-field>
+          <div>
+              <span class="spacer"></span>
+          </div>
+          <mat-form-field>
+              <input matInput #username placeholder="Username">
+          </mat-form-field>
+          <div>
+              <span class="spacer"></span>
+          </div>
+          <mat-form-field>
+            <input matInput #fullname placeholder="Full Name">
+          </mat-form-field>
+          <div>
+              <span class="spacer"></span>
+              <button mat-raised-button color="accent" (click)="create(userType.value, username.value, fullname.value)">Create</button>
+              <button mat-raised-button color="primary" (click)="goBack()">Back</button>
+          </div>
+      </mat-card-content>
+  </mat-card>
+</div>
