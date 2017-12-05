@@ -16,55 +16,59 @@ import { AuthenticationService, Credentials } from '../../authentication/authent
 
 
 @Component({
-  selector: 'app-admin-create',
-  templateUrl: './admin-create.component.html',
-  styleUrls: ['./admin-create.component.css']
+    selector: 'app-admin-create',
+    templateUrl: './admin-create.component.html',
+    styleUrls: ['./admin-create.component.css']
 })
 export class AdminCreateComponent implements OnInit {
 
-  currentAdministrator: Promise<Administrator>;
-  courses: Promise<Array<any>>;
-  administratorID: string;
-  theCheckbox: FormGroup;
-  newStudent: Student;
-  adminInfo: Credentials;
-  review_id: string[];
-  course_id: string[];
-  UserName: string;
-  FullName: string;
-  userURL = '/admin-dashboard';
+    currentAdministrator: Promise<Administrator>;
+    courses: Promise<Array<any>>;
+    administratorID: string;
+    theCheckbox: FormGroup;
+    newStudent: Student;
+    adminInfo: Credentials;
+    review_id: string[];
+    course_id: string[];
+    UserName: string;
+    FullName: string;
+    userURL = '/admin-dashboard';
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private adminService: AdministratorService,
-    private studentService: StudentService,
-    private dialogService: ConfirmDialogService,
-    private authService: AuthenticationService
-  ) { 
-    this.adminInfo = this.authService.credentials();
-  }
-  ngOnInit() {
-    this.currentAdministrator = this.adminService.getAdministrator(this.adminInfo.user_id);
-    this.courses = this.adminService.getCoursesByAdministrator(this.adminInfo.user_id);
-  }
-  create(userType: string, userName: string, fullname: string) {
-    if (userType === "student"){
-      this.UserName = userName;
-      this.FullName = fullname;
-      this.openDialog();
-      }
+    constructor(
+        private route: ActivatedRoute,
+        private router: Router,
+        private adminService: AdministratorService,
+        private studentService: StudentService,
+        private dialogService: ConfirmDialogService,
+        private authService: AuthenticationService
+    ) {
+        this.adminInfo = this.authService.credentials();
+    }
+    ngOnInit() {
+        this.currentAdministrator = this.adminService.getAdministrator(this.adminInfo.user_id);
+        this.courses = this.adminService.getCoursesByAdministrator(this.adminInfo.user_id);
+    }
+    create(userType: string, userName: string, fullname: string) {
+        if (userType === 'student') {
+            this.UserName = userName;
+            this.FullName = fullname;
+            this.openDialog();
+        }
     }
     public openDialog() {
-      this.dialogService
-      .confirm('Student Creation', 'Are you sure you want to add the Student?')
-      .subscribe(res => {if(res ==true){
-              const newStudent = new Student(this.UserName, this.FullName, this.course_id,this.review_id);
-              this.studentService.createStudent(newStudent);
-              }});
-  }
+        this.dialogService
+            .confirm('Student Creation', 'Are you sure you want to add the Student?')
+            .subscribe(res => {
+                if (res === true) {
+                    const newStudent = new Student(this.UserName, this.FullName, this.course_id, this.review_id);
+                    this.studentService.createStudent(newStudent);
+                    this.router.navigate([this.userURL]);
+                }
+            }
+        );
+    }
     goBack(): void {
-      this.router.navigate([this.userURL]);
-  }
-  }
- 
+        this.router.navigate([this.userURL]);
+    }
+}
+
