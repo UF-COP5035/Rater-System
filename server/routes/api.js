@@ -438,7 +438,7 @@ router.delete('/teachers/:id', (req, res) => {
 router.get('/teachers/:username/:password/user', (req, res) => {
     connection((db) => {
         db.collection('Teachers')
-            .findOne({ username: req.params.username, password: req.params.username })
+            .findOne({ username: req.params.username, password: req.params.password })
             .then((teacher) => {
                 response.data = teacher;
                 res.json(response);
