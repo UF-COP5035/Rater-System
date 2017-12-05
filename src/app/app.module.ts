@@ -37,7 +37,7 @@ const appRoutes: Routes = [
     { path: 'admin-dashboard/review', component: ReviewComponent },
     { path: 'teacher-dashboard/review', component: ReviewComponent },
     { path: 'student-dashboard/review', component: ReviewComponent },
-    { path: 'admin-dashboard/create/:_id', component: AdminCreateComponent},
+    { path: 'admin-dashboard/create/', component: AdminCreateComponent},
     { path: 'student-dashboard', component: StudentDashboardComponent },
     { path: 'teacher-dashboard', component: TeacherDashboardComponent },
     { path: 'admin-dashboard', component: AdminDashboardComponent },
