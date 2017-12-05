@@ -126,4 +126,8 @@ export class ReviewComponent implements OnInit {
         this.router.navigate([this.userURL]);
     }
 
+    reloadReviews() {
+        this.ngOnInit();
+    }
+
 }
