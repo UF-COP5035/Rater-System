@@ -2,13 +2,13 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.3.2.
 
-# Contributors
+## Contributors
 - Luis (LT) Carbonell
 - Ciara Powell
 - Bohan Liu
 - Rahul Prasad
 
-# Quick start
+## Quick start
 ``` shell
 npm install && ng build
 node server
