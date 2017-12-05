@@ -2,6 +2,7 @@ export class Student {
     _id: string;
     username: string;
     fullname: string;
+    password: string;
     course_ids: string[];
     review_ids: string[];
 

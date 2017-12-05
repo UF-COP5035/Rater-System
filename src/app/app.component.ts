@@ -1,33 +1,29 @@
-import { Component, Input, OnInit, } from '@angular/core';
+import { Component, OnInit, } from '@angular/core';
+import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
-
-
-// Import the Services
-import { Student } from './student/student';
-import { Teacher } from './teacher/teacher';
-
-
-// Would like to continue to make this into the routing component
+import { AuthenticationService } from './authentication/authentication.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-  providers: []
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css'],
+    providers: []
 })
 export class AppComponent implements OnInit {
-  teachers: Teacher[];
-  selectedTeacher: Teacher;
 
+    constructor(
+        title: Title,
+        private authService: AuthenticationService,
+        private router: Router,
+    ) {
+        title.setTitle('Gator Grader');
+    }
 
-  constructor(title: Title) {
-    title.setTitle('Gator Grader');
-  }
+    ngOnInit(): void { }
 
-  ngOnInit(): void { }
-
-  onSelect(teacher: Teacher): void {
-    this.selectedTeacher = teacher;
-  }
+    logout() {
+        this.authService.logout();
+        this.router.navigate(['/']);
+    }
 }

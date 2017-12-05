@@ -6,11 +6,11 @@ import { AdministratorService } from './administrator.service';
 import { Administrator } from './administrator';
 
 export const ADMINISTRATORS: Administrator[] = [
-    { _id: '1', username: 'test_admin1', fullname: 'Test Admin1', teacher_ids: ['1', '2', '3'] },
-    { _id: '2', username: 'test_admin2', fullname: 'Test Admin2', teacher_ids: ['1', '2', '3'] },
-    { _id: '3', username: 'test_admin3', fullname: 'Test Admin3', teacher_ids: ['1', '2', '3'] },
-    { _id: '4', username: 'test_admin4', fullname: 'Test Admin4', teacher_ids: ['1', '2', '3'] },
-    { _id: '5', username: 'test_admin5', fullname: 'Test Admin5', teacher_ids: ['1', '2', '3'] },
+    { _id: '2', username: 'test_admin2', password: 'password', fullname: 'Test Admin2', teacher_ids: ['1', '2', '3'] },
+    { _id: '1', username: 'test_admin1', password: 'password', fullname: 'Test Admin1', teacher_ids: ['1', '2', '3'] },
+    { _id: '3', username: 'test_admin3', password: 'password', fullname: 'Test Admin3', teacher_ids: ['1', '2', '3'] },
+    { _id: '4', username: 'test_admin4', password: 'password', fullname: 'Test Admin4', teacher_ids: ['1', '2', '3'] },
+    { _id: '5', username: 'test_admin5', password: 'password', fullname: 'Test Admin5', teacher_ids: ['1', '2', '3'] },
 ];
 
 export const COURSES = [
@@ -112,16 +112,16 @@ describe('AdministratorService', () => {
         }));
     });
 
-    describe('getAdministratorByUsername()', () => {
+    describe('getAdministratorByLoginInfo()', () => {
         it('should get administrator data', inject([AdministratorService, XHRBackend], (administratorService, mockBackend) => {
             const mockResponse = { data: ADMINISTRATORS[0] };
             mockBackend.connections.subscribe(connection => {
                 connection.mockRespond(new Response(new ResponseOptions({
                     body: JSON.stringify(mockResponse)
                 })));
-                expect(connection.request.url).toBe('api/administrators/test_teacher1/user');
+                expect(connection.request.url).toBe('api/administrators/test_admin1/password/user');
             });
-            administratorService.getAdministratorByUsername('test_teacher1').then((res) => {
+            administratorService.getAdministratorByLoginInfo({ username: 'test_admin1', password: 'password' }).then((res) => {
                 expect(res).toEqual(ADMINISTRATORS[0]);
             });
         }));
@@ -130,7 +130,7 @@ describe('AdministratorService', () => {
             mockBackend.connections.subscribe((connection => {
                 connection.mockError(new Error('some error'));
             }));
-            administratorService.getAdministratorByUsername().then((res) => {
+            administratorService.getAdministratorByLoginInfo({ username: 'test_admin1', password: 'password' }).then((res) => {
                 expect(res).toBeDefined();
             });
         }));

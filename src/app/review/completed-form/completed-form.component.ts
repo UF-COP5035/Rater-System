@@ -11,11 +11,8 @@ import { QuestionControlService } from '../question-control.service';
     providers: [QuestionControlService]
 })
 export class CompletedFormComponent implements OnInit {
-    @Input() userID;
-    @Input() course_code;
     @Input() questions: ReviewQuestion<any>[] = [];
     form: FormGroup;
-    userInput;
 
     constructor(
         private qcs: QuestionControlService,

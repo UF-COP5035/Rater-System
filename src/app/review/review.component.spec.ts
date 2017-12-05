@@ -11,6 +11,7 @@ import { TeacherService } from '../teacher/teacher.service';
 import { StudentService } from '../student/student.service';
 import { AdministratorService } from '../administrator/administrator.service';
 import { ReviewService } from './review.service';
+import { AuthenticationService } from '../authentication/authentication.service';
 
 const appRoutes: Routes = [
     { path: '', redirectTo: '/', pathMatch: 'full' },
@@ -26,7 +27,8 @@ describe('ReviewComponent', () => {
             imports: [BrowserAnimationsModule, MatFormFieldModule, MatInputModule,
                 MatTabsModule, RouterModule.forRoot(appRoutes), HttpModule],
             declarations: [ReviewComponent],
-            providers: [ReviewService, StudentService, TeacherService, AdministratorService, { provide: APP_BASE_HREF, useValue: '/' }],
+            providers: [AuthenticationService, ReviewService, StudentService, TeacherService,
+                AdministratorService, { provide: APP_BASE_HREF, useValue: '/' }],
             schemas: [NO_ERRORS_SCHEMA],
         })
             .compileComponents();

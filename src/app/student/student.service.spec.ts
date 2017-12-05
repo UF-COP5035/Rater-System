@@ -6,11 +6,26 @@ import { StudentService } from './student.service';
 import { Student } from './student';
 
 export const STUDENTS: Student[] = [
-    { _id: '1', username: 'test_student1', fullname: 'Test Student1', course_ids: ['1', '2', '3'], review_ids: ['1'] },
-    { _id: '2', username: 'test_student2', fullname: 'Test Student2', course_ids: ['1', '2', '3'], review_ids: ['2'] },
-    { _id: '3', username: 'test_student3', fullname: 'Test Student3', course_ids: ['1', '2', '3'], review_ids: ['3'] },
-    { _id: '4', username: 'test_student4', fullname: 'Test Student4', course_ids: ['1', '2', '3'], review_ids: ['4'] },
-    { _id: '5', username: 'test_student5', fullname: 'Test Student5', course_ids: ['1', '2', '3'], review_ids: ['5'] },
+    {
+        _id: '1', username: 'test_student1', password: 'password',
+        fullname: 'Test Student1', course_ids: ['1', '2', '3'], review_ids: ['1']
+    },
+    {
+        _id: '2', username: 'test_student2', password: 'password',
+        fullname: 'Test Student2', course_ids: ['1', '2', '3'], review_ids: ['2']
+    },
+    {
+        _id: '3', username: 'test_student3', password: 'password',
+        fullname: 'Test Student3', course_ids: ['1', '2', '3'], review_ids: ['3']
+    },
+    {
+        _id: '4', username: 'test_student4', password: 'password',
+        fullname: 'Test Student4', course_ids: ['1', '2', '3'], review_ids: ['4']
+    },
+    {
+        _id: '5', username: 'test_student5', password: 'password',
+        fullname: 'Test Student5', course_ids: ['1', '2', '3'], review_ids: ['5']
+    },
 ];
 
 export const COURSES = [
@@ -106,16 +121,16 @@ describe('StudentService', () => {
         }));
     });
 
-    describe('getStudentByUsername()', () => {
+    describe('getStudentByLoginInfo()', () => {
         it('should get student data', inject([StudentService, XHRBackend], (studentService, mockBackend) => {
             const mockResponse = { data: STUDENTS[0] };
             mockBackend.connections.subscribe(connection => {
                 connection.mockRespond(new Response(new ResponseOptions({
                     body: JSON.stringify(mockResponse)
                 })));
-                expect(connection.request.url).toBe('api/students/test_teacher1/user');
+                expect(connection.request.url).toBe('api/students/test_student1/password/user');
             });
-            studentService.getStudentByUsername('test_teacher1').then((res) => {
+            studentService.getStudentByLoginInfo({ username: 'test_student1', password: 'password' }).then((res) => {
                 expect(res).toEqual(STUDENTS[0]);
             });
         }));
@@ -124,7 +139,7 @@ describe('StudentService', () => {
             mockBackend.connections.subscribe((connection => {
                 connection.mockError(new Error('some error'));
             }));
-            studentService.getStudentByUsername().then((res) => {
+            studentService.getStudentByLoginInfo({ username: 'test_student1', password: 'password' }).then((res) => {
                 expect(res).toBeDefined();
             });
         }));

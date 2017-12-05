@@ -6,6 +6,7 @@ import 'rxjs/add/operator/toPromise';
 import { Student } from './student';
 import { Review } from '../review/review';
 import { Course } from '../course/course';
+import { LoginContext } from '../authentication/authentication.service';
 
 @Injectable()
 export class StudentService {
@@ -62,9 +63,9 @@ export class StudentService {
             .catch(this.handleError);
     }
 
-    // get("/api/students/:username/user")
-    getStudentByUsername(username: string): Promise<Student> {
-        const url = `${this.studentsUrl}/${username}/user`;
+    // get("/api/students/:username/:password/user")
+    getStudentByLoginInfo(loginContext: LoginContext): Promise<Student> {
+        const url = `${this.studentsUrl}/${loginContext.username}/${loginContext.password}/user`;
         return this.http.get(url)
             .toPromise()
             .then(response => response.json().data as Student)
@@ -132,7 +133,7 @@ export class StudentService {
             .then(course => this.courses = course);
         this.getReviewsByStudent(id)
             .then(res => this.reviews = res);
-        let percent = this.reviews.length / this.courses.length;
+        const percent = this.reviews.length / this.courses.length;
         return percent;
     }
     private handleError(error: any): Promise<any> {

@@ -6,11 +6,11 @@ import { TeacherService } from './teacher.service';
 import { Teacher } from './teacher';
 
 export const TEACHERS: Teacher[] = [
-    { _id: '1', username: 'test_teacher1', fullname: 'Test Teacher1' },
-    { _id: '2', username: 'test_teacher2', fullname: 'Test Teacher2' },
-    { _id: '3', username: 'test_teacher3', fullname: 'Test Teacher3' },
-    { _id: '4', username: 'test_teacher4', fullname: 'Test Teacher4' },
-    { _id: '5', username: 'test_teacher5', fullname: 'Test Teacher5' },
+    { _id: '1', username: 'test_teacher1', password: 'password', fullname: 'Test Teacher1' },
+    { _id: '2', username: 'test_teacher2', password: 'password', fullname: 'Test Teacher2' },
+    { _id: '3', username: 'test_teacher3', password: 'password', fullname: 'Test Teacher3' },
+    { _id: '4', username: 'test_teacher4', password: 'password', fullname: 'Test Teacher4' },
+    { _id: '5', username: 'test_teacher5', password: 'password', fullname: 'Test Teacher5' },
 ];
 
 export const STUDENTS = [
@@ -102,16 +102,16 @@ describe('TeacherService', () => {
         }));
     });
 
-    describe('getTeacherByUsername()', () => {
+    describe('getTeacherByLoginInfo()', () => {
         it('should get teacher data', inject([TeacherService, XHRBackend], (teacherService, mockBackend) => {
             const mockResponse = { data: TEACHERS[0] };
             mockBackend.connections.subscribe(connection => {
                 connection.mockRespond(new Response(new ResponseOptions({
                     body: JSON.stringify(mockResponse)
                 })));
-                expect(connection.request.url).toBe('api/teachers/test_teacher1/user');
+                expect(connection.request.url).toBe('api/teachers/test_teacher1/password/user');
             });
-            teacherService.getTeacherByUsername('test_teacher1').then((res) => {
+            teacherService.getTeacherByLoginInfo({ username: 'test_teacher1', password: 'password' }).then((res) => {
                 expect(res).toEqual(TEACHERS[0]);
             });
         }));
@@ -120,7 +120,7 @@ describe('TeacherService', () => {
             mockBackend.connections.subscribe((connection => {
                 connection.mockError(new Error('some error'));
             }));
-            teacherService.getTeacherByUsername().then((res) => {
+            teacherService.getTeacherByLoginInfo({ username: 'test_teacher1', password: 'password' }).then((res) => {
                 expect(res).toBeDefined();
             });
         }));

@@ -162,16 +162,16 @@ router.delete('/students/:id', (req, res) => {
 });
 
 /**
- * Get single student by username
+ * Get single student by username and password
  *
  * @section students
  * @type get
- * @url /students/:username/user
+ * @url /students/:username/:password/user
  */
-router.get('/students/:username/user', (req, res) => {
+router.get('/students/:username/:password/user', (req, res) => {
     connection((db) => {
         db.collection('Students')
-            .findOne({ username: req.params.username })
+            .findOne({ username: req.params.username, password: req.params.password })
             .then((student) => {
                 response.data = student;
                 res.json(response);
@@ -429,16 +429,16 @@ router.delete('/teachers/:id', (req, res) => {
 });
 
 /**
- * Get single teacher by username
+ * Get single teacher by username and password
  *
  * @section teachers
  * @type get
- * @url /teachers/:username/user
+ * @url /teachers/:username/:password/user
  */
-router.get('/teachers/:username/user', (req, res) => {
+router.get('/teachers/:username/:password/user', (req, res) => {
     connection((db) => {
         db.collection('Teachers')
-            .findOne({ username: req.params.username })
+            .findOne({ username: req.params.username, password: req.params.username })
             .then((teacher) => {
                 response.data = teacher;
                 res.json(response);
@@ -700,16 +700,16 @@ router.delete('/administrators/:id', (req, res) => {
 });
 
 /**
- * Get single administrator by username
+ * Get single administrator by username and password
  *
  * @section administrators
  * @type get
- * @url /administrators/:username/user
+ * @url /administrators/:username/:password/user
  */
-router.get('/administrators/:username/user', (req, res) => {
+router.get('/administrators/:username/:password/user', (req, res) => {
     connection((db) => {
         db.collection('Administrators')
-            .findOne({ username: req.params.username })
+            .findOne({ username: req.params.username, password: req.params.password })
             .then((administrator) => {
                 response.data = administrator;
                 res.json(response);

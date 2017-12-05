@@ -2,6 +2,7 @@ export class Administrator {
     _id: string;
     username: string;
     fullname: string;
+    password: string;
     teacher_ids: string[];
 
     constructor(fullname: string, username: string, teacher_ids: string[]) {

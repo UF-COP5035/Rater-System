@@ -4,6 +4,7 @@ import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { Teacher } from './teacher';
+import { LoginContext } from '../authentication/authentication.service';
 
 @Injectable()
 export class TeacherService {
@@ -30,9 +31,9 @@ export class TeacherService {
             .catch(this.handleError);
     }
 
-    // get("/api/teachers/:username/user")
-    getTeacherByUsername(username: string): Promise<Teacher> {
-        const url = `${this.teachersUrl}/${username}/user`;
+    // get("/api/teachers/:username/:password/user")
+    getTeacherByLoginInfo(loginContext: LoginContext): Promise<Teacher> {
+        const url = `${this.teachersUrl}/${loginContext.username}/${loginContext.password}/user`;
         return this.http.get(url)
             .toPromise()
             .then(response => response.json().data as Teacher)

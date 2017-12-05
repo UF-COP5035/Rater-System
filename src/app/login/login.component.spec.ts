@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  MatCardModule, MatMenuModule,
-  MatToolbarModule, MatIconModule,
-  MatInputModule, MatButtonModule,
-  MatFormFieldModule, MatSelectModule
+    MatCardModule, MatMenuModule,
+    MatToolbarModule, MatIconModule,
+    MatInputModule, MatButtonModule,
+    MatFormFieldModule, MatSelectModule
 } from '@angular/material';
 import { Component, OnInit, Injectable } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -19,32 +19,34 @@ import { Teacher } from '../teacher/teacher';
 import { Student } from '../student/student';
 
 import { LoginComponent } from './login.component';
+import { AuthenticationService } from '../authentication/authentication.service';
 
 const appRoutes: Routes = [
-  { path: '', redirectTo: '/', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent, data: { title: 'Login' } }
+    { path: '', redirectTo: '/', pathMatch: 'full' },
+    { path: 'login', component: LoginComponent, data: { title: 'Login' } }
 ];
 
 describe('LoginComponent', () => {
-  let component: LoginComponent;
-  let fixture: ComponentFixture<LoginComponent>;
+    let component: LoginComponent;
+    let fixture: ComponentFixture<LoginComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [MatToolbarModule, HttpModule, RouterModule.forRoot(appRoutes)],
-      declarations: [LoginComponent],
-      providers: [TeacherService, AdministratorService, StudentService, { provide: APP_BASE_HREF, useValue: '/' }]
-    })
-      .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [MatToolbarModule, HttpModule, RouterModule.forRoot(appRoutes)],
+            declarations: [LoginComponent],
+            providers: [AuthenticationService, TeacherService, AdministratorService, StudentService,
+                { provide: APP_BASE_HREF, useValue: '/' }]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(LoginComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(LoginComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should be created', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should be created', () => {
+        expect(component).toBeTruthy();
+    });
 });

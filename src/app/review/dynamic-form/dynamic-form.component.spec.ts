@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 
-import { DynamicFormComponent, DynamicFormDialogComponent } from './dynamic-form.component';
+import { DynamicFormComponent } from './dynamic-form.component';
 import { ReviewService } from '../review.service';
 import { CourseService } from '../../course/course.service';
 import { TeacherService } from '../../teacher/teacher.service';
@@ -29,8 +29,4 @@ describe('DynamicFormComponent', () => {
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
-
-    // it('should create', () => {
-    //     expect(component).toBeTruthy();
-    // });
 });

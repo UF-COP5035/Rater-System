@@ -4,6 +4,7 @@ import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { Administrator } from './administrator';
+import { LoginContext } from '../authentication/authentication.service';
 
 @Injectable()
 export class AdministratorService {
@@ -30,9 +31,9 @@ export class AdministratorService {
             .catch(this.handleError);
     }
 
-    // get("/api/administrators/user/:username")
-    getAdministratorByUsername(username: string): Promise<Administrator> {
-        const url = `${this.administratorsUrl}/${username}/user`;
+    // get("/api/administrators/:username/:password/user")
+    getAdministratorByLoginInfo(loginContext: LoginContext): Promise<Administrator> {
+        const url = `${this.administratorsUrl}/${loginContext.username}/${loginContext.password}/user`;
         return this.http.get(url)
             .toPromise()
             .then(response => response.json().data as Administrator)
