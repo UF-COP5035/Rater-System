@@ -1,25 +1,20 @@
-.example-form {
-    min-width: 150px;
-    max-width: 500px;
+.dynamic-form {
     width: 100%;
   }
 
-  .example-full-width {
+.completed-form {
     width: 100%;
   }
 
-  .example-radio-group {
-    display: inline-flex;
-    flex-direction: column;
-  }
+.mat-expansion-panel-header-title,
+.mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
 
-  .example-radio-button {
-    margin: 5px;
-  }
-
-  .example-selected-value {
-    margin: 15px 0;
-  }
+.mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
 
   :host-context() {
     background-color: #eef;

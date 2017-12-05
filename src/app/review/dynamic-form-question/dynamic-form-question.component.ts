@@ -6,7 +6,8 @@ import { ReviewQuestion } from '../review';
 
 @Component({
     selector: 'app-question',
-    templateUrl: './dynamic-form-question.component.html'
+    templateUrl: './dynamic-form-question.component.html',
+    styleUrls: ['./dynamic-form-question.component.css'],
 })
 export class DynamicFormQuestionComponent {
     @Input() question: ReviewQuestion<any>;

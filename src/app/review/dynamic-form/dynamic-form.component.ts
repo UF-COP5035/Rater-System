@@ -9,6 +9,7 @@ import { CourseService } from '../../course/course.service';
 import { TeacherService } from '../../teacher/teacher.service';
 import { QuestionControlService } from '../question-control.service';
 import { ConfirmDialogService } from '../../confirm-dialog/confirm-dialog.service';
+import { ReviewComponent } from '../review.component';
 
 @Component({
     selector: 'app-dynamic-form',
@@ -32,17 +33,16 @@ export class DynamicFormComponent implements OnInit {
         private courseService: CourseService,
         private teacherService: TeacherService,
         private router: Router,
-        private dialogService: ConfirmDialogService
+        private dialogService: ConfirmDialogService,
+        private reviewComp: ReviewComponent
     ) { }
 
     ngOnInit() {
         this.form = this.qcs.toFormGroup(this.questions);
-        console.log(this.userID);
     }
 
     onSubmit() {
         this.userInput = this.form.value;
-        console.log(this.userInput);
 
         Object.keys(this.userInput).forEach(question => {
             const reviewQuestion = new TextboxQuestion({
@@ -59,14 +59,20 @@ export class DynamicFormComponent implements OnInit {
         this.dialogService
             .confirm('Submit Review', 'Are you sure you want to submit the review?')
             .subscribe(res => {
-                this.courseService.getCourseByCode(this.course_code)
-                    .then(foundCourse => {
-                        const newReview = new Review(this.userID, foundCourse.teacher_id, foundCourse._id, this.reviewQuestions);
-                        this.reviewService.createReview(newReview);
-                    })
-                    .catch(err => {
-                        console.error(err);
-                    });
+                if (res) {
+                    this.courseService.getCourseByCode(this.course_code)
+                        .then(foundCourse => {
+                            const newReview = new Review(this.userID, foundCourse.teacher_id, foundCourse._id, this.reviewQuestions);
+                            this.reviewService.createReview(newReview);
+                            this.reviewComp.reloadReviews();
+                        })
+                        .catch(err => {
+                            console.error(err);
+                        });
+                }
+            },
+            error => {
+                console.error(error);
             });
     }
 }

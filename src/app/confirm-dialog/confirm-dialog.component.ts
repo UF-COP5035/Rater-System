@@ -11,8 +11,6 @@ export class ConfirmDialogComponent {
     public title: string;
     public message: string;
 
-    constructor(public dialogRef: MatDialogRef<ConfirmDialogComponent>) {
-
-    }
+    constructor(public dialogRef: MatDialogRef<ConfirmDialogComponent>) { }
 
 }
