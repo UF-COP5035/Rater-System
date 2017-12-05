@@ -25,6 +25,7 @@ import { TeacherDashboardComponent } from './teacher-dashboard/teacher-dashboard
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { ReviewComponent } from './review/review.component';
+import { AdminCreateComponent } from './admin-dashboard/admin-create/admin-create.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { DynamicFormQuestionComponent } from './review/dynamic-form-question/dynamic-form-question.component';
 import { DynamicFormComponent } from './review/dynamic-form/dynamic-form.component';
@@ -36,6 +37,7 @@ const appRoutes: Routes = [
     { path: 'admin-dashboard/review', component: ReviewComponent },
     { path: 'teacher-dashboard/review', component: ReviewComponent },
     { path: 'student-dashboard/review', component: ReviewComponent },
+    { path: 'admin-dashboard/create/:_id', component: AdminCreateComponent},
     { path: 'student-dashboard', component: StudentDashboardComponent },
     { path: 'teacher-dashboard', component: TeacherDashboardComponent },
     { path: 'admin-dashboard', component: AdminDashboardComponent },
@@ -57,7 +59,8 @@ const appRoutes: Routes = [
         DynamicFormQuestionComponent,
         DynamicFormComponent,
         CompletedFormComponent,
-        ConfirmDialogComponent
+        ConfirmDialogComponent,
+        AdminCreateComponent
     ],
     imports: [
         RouterModule.forRoot(
