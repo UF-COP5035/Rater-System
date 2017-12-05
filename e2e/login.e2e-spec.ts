@@ -14,7 +14,7 @@ describe('Login Page', () => {
 
     it('should display a login card title', () => {
         page.navigateTo();
-        expect(page.getLoginCardTitle()).toEqual('Login Form');
+        expect(page.getLoginCardTitle()).toEqual('Login');
     });
 
     it('should display all form options options correctly', () => {
