@@ -48,6 +48,7 @@ export class TeacherService {
             .then(response => response.json().data)
             .catch(this.handleError);
     }
+
     // get("/api/teachers/:teacher_id/reviews")
     getReviewsByTeacher(teacher_id: string) {
         const url = `${this.teachersUrl}/${teacher_id}/reviews`;
@@ -56,6 +57,7 @@ export class TeacherService {
             .then(response => response.json().data)
             .catch(this.handleError);
     }
+
     // get("/api/teachers/:teacher_id/students")
     getStudentsByTeacher(teacher_id: string) {
         const url = `${this.teachersUrl}/${teacher_id}/students`;

@@ -1,36 +1,45 @@
 <div *ngIf="user | async as user">
-    <h3>Welcome {{user.fullname}}</h3>
+    <h3>User Information</h3>
+    <BLOCKQUOTE>
+        <p>Name: {{user.fullname}}</p>
+        <p>Username: {{user.username}}</p>
+    </BLOCKQUOTE>
 </div>
 <div>
     <div>
-        <h4 *ngIf="userType === 1">Courses yet to be reviewed</h4>
-        <mat-accordion>
-            <mat-expansion-panel *ngFor="let course of coursesToBeReviewed | async">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        {{course.course_name}}
-                    </mat-panel-title>
-                    <mat-panel-description>
-                        {{course.teacher_name}}
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
-                <app-dynamic-form [questions]="questions" [userID]="userInfo.user_id" [course_code]="course.course_code"></app-dynamic-form>
-            </mat-expansion-panel>
-        </mat-accordion>
-        <h4>Courses already reviewed</h4>
-        <mat-accordion>
-            <mat-expansion-panel *ngFor="let course of coursesReviewed | async">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        {{course.course.course_name}}
-                    </mat-panel-title>
-                    <mat-panel-description>
-                        {{course.course.teacher_name}}
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
-                <app-completed-form [questions]="course.review.review_content"></app-completed-form>
-            </mat-expansion-panel>
-        </mat-accordion>
+        <div>
+            <h4 *ngIf="userType === 1">Incomplete Reviews</h4>
+            <mat-accordion>
+                <mat-expansion-panel *ngFor="let course of coursesToBeReviewed | async">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            {{course.course_name}}
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            {{course.teacher_name}}
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <app-dynamic-form [questions]="questions" [userID]="userInfo.user_id" [course_code]="course.course_code" class="dynamic-form"></app-dynamic-form>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+        <div>
+            <h4 *ngIf="userType === 1">Completed Reviews</h4>
+            <h4 *ngIf="userType !== 1">Reviews</h4>
+            <mat-accordion>
+                <mat-expansion-panel *ngFor="let course of coursesReviewed | async">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            {{course.course.course_name}}
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            {{course.course.teacher_name}}
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <app-completed-form [questions]="course.review.review_content" class="completed-form"></app-completed-form>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
     </div>
     <div>
         <button mat-raised-button color="warn" (click)="goBack()">Back</button>

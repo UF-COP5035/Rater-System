@@ -99,8 +99,6 @@ export class ReviewComponent implements OnInit {
                 });
                 this.coursesReviewed = Promise.resolve(coursesReviewed);
             });
-            this.questions = this.reviewService.getQuestions();
-
         } else if (this.userType === 3) {
             this.user = this.administratorService.getAdministrator(this.userInfo.user_id);
             Promise.all([
@@ -120,13 +118,16 @@ export class ReviewComponent implements OnInit {
                 });
                 this.coursesReviewed = Promise.resolve(coursesReviewed);
             });
-            this.questions = this.reviewService.getQuestions();
         } else { // Other user types
         }
     }
 
     goBack(): void {
         this.router.navigate([this.userURL]);
+    }
+
+    reloadReviews() {
+        this.ngOnInit();
     }
 
 }
